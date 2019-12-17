@@ -1,0 +1,9 @@
+{
+    "go.buildTags": "test",
+    "go.testTimeout": "120s",
+    "go.useLanguageServer": false,
+    "files.associations": {
+        "*Dockerfile*": "dockerfile",
+        "*.md": "markdown",
+    }
+}
