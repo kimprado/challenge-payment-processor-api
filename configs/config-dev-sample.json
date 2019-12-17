@@ -1,0 +1,19 @@
+{
+    "environment": {
+        "name": "dev"
+    },
+    "server": {
+        "port": "3000"
+    },
+    "redisDB": {
+        "host": "localhost",
+        "port": 6379
+    },
+    "logging": {
+        "level": {
+            "ROOT": "INFO",
+            "infra.redis.db": "INFO",
+            "webserver": "INFO"
+        }
+    }
+}
