@@ -1,0 +1,8 @@
+*~
+*.log
+*.bin
+*.out
+.tmp-configure
+.vscode
+__debug_bin
+configs/*
