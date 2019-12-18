@@ -97,6 +97,14 @@ infra-start:
 infra-stop:
 	@docker-compose rm -fsv redisdb nginx swagger
 
+## infra-test-start		: Inicia serviços de dependência de testes containerizados.
+infra-test-start:
+	@docker-compose up -d --build redis-test
+
+## infra-test-stop		: Interrompe serviços de dependência de testes containerizados.
+infra-test-stop:
+	@docker-compose rm -fsv redis-test
+
 ## package			: Empacota API na imagem challenge/payment-processor-api:latest - Alpine Linux.
 package: 
 	@./scripts/package.sh package
