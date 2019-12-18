@@ -1,0 +1,24 @@
+swagger: "2.0"
+info:
+  title: "Payment Processor API"
+  description: "API para processamento de transação com cartão"
+  version: "1.0.0"
+basePath: "/api"
+tags:
+- name: "Transaction"
+  description: "Permite processamento de transações"
+schemes:
+- "http"
+- "https"
+produces:
+  - application/json
+paths:
+  /transactions/:
+    post:
+      tags:
+      - "Transaction"
+      summary: "Processa transação"
+      description: "Processa transação com parâmetro informado"
+      responses:
+        default:
+          description: "Transação processada"
