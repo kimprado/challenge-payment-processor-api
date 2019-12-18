@@ -1,0 +1,94 @@
+version: '3.3'
+volumes:
+  redisdb:
+services:
+  api:
+    build:
+      context: '${PWD}'
+      dockerfile: '${PWD}/Dockerfile.package'
+    env_file: '${PWD}/configs/config.env'
+    ports: 
+      - 3000:3000
+    depends_on:
+      - redisdb
+  api-safe:
+    build:
+      context: '${PWD}'
+      dockerfile: '${PWD}/Dockerfile.package-safe'
+    env_file: '${PWD}/configs/config.env'
+    ports: 
+      - 3000:3000
+    depends_on:
+      - redisdb
+  api-load:
+    build:
+      context: '${PWD}'
+      dockerfile: '${PWD}/Dockerfile.package'
+    env_file: '${PWD}/configs/config-load-container.env'
+    ports: 
+      - 3000:3000
+    depends_on:
+      - redisdb
+  nginx:
+    image: nginx:1.15.12-alpine
+    network_mode: host
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - swagger
+  redisdb:
+    image: redis:4.0.11-alpine3.8 
+    command: redis-server --appendonly yes
+    volumes:
+      - redisdb:/data
+    ports: 
+      - 6379:6379
+  redis-test:
+    image: redis:4.0.11-alpine3.8 
+    command: redis-server
+    ports: 
+      - 6380:6379
+  test-unit:
+    build: .
+    command: make test-unit
+    volumes:
+      - .:/src
+  test-integration:
+    build: .
+    command: make test-integration
+    volumes:
+      - .:/src
+      - ./configs/config-integration-container.json:/src/configs/config-integration.json
+    depends_on:
+      - redis-test
+  test-all:
+    build: .
+    command: make test-all
+    volumes:
+      - .:/src
+      - ./configs/config-integration-container.json:/src/configs/config-integration.json
+    depends_on:
+      - redis-test
+  test-envvars:
+    build: .
+    command: make test-envvars
+    volumes:
+      - .:/src
+  test-load-ab:
+    build: 
+      context: .
+      dockerfile: '${PWD}/Dockerfile.ab'
+    command: [ "bash","/src/test/load-test.sh" ]
+    volumes:
+      - ./test/load-test-apachebench.sh:/src/test/load-test.sh
+    network_mode: host
+    depends_on:
+      - nginx
+  swagger:
+    image: swaggerapi/swagger-ui:v3.24.3
+    environment: 
+      SWAGGER_JSON: /spec/swagger.yml
+      PORT: 8080
+    network_mode: host
+    volumes:
+      - ${PWD}/api/swagger.yml:/spec/swagger.yml

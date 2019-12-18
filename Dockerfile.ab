@@ -1,0 +1,5 @@
+# Apache Bench - https://httpd.apache.org/docs/2.4/programs/ab.html
+FROM alpine:3.9
+
+ENV TERM linux
+RUN apk --no-cache add apache2-utils bash

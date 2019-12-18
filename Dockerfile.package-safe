@@ -1,0 +1,34 @@
+# compile stage
+FROM golang:1.13.4 AS build
+
+ARG workbuild=/usr/dist
+
+COPY    go.mod /src/
+COPY    go.sum /src/
+WORKDIR /src/
+RUN     go mod download
+RUN     go get github.com/google/wire/cmd/wire@v0.3.0
+
+COPY . /src
+
+RUN     wire ./cmd/processorAPI/
+RUN     make build-static path=${workbuild}
+
+# package stage
+FROM golang:1.13.4
+
+LABEL maintainer="Challenge Bravo"
+
+ARG workbuild=/usr/dist
+
+# RUN apk add --no-cache \
+#     bash \
+#     tzdata
+
+COPY --from=build ${workbuild}/payment-processor-api.bin /bin/payment-processor-api.bin
+RUN mkdir -p /etc/exchange-api/
+RUN echo "{}" >> /etc/exchange-api/config.json
+
+EXPOSE  3000
+WORKDIR /bin
+CMD     [ "/bin/payment-processor-api.bin" , "-config-location=/etc/exchange-api/config.json" ]
