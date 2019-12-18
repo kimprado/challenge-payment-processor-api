@@ -1,0 +1,177 @@
+#!/bin/bash
+
+set -e
+
+CURDIR=`pwd`
+DIR=".tmp-configure"
+DOCKER_GROUP="docker"
+GO_VERSION="go1.13.4"
+GO_PKG="$GO_VERSION.linux-amd64.tar.gz"
+GO_BASE="/usr/local"
+GO_ROOT="$GO_BASE/go"
+GO_ROOT_VERSION="$GO_BASE/$GO_VERSION"
+
+JMETER_VERSION="apache-jmeter-5.1.1"
+JMETER_PKG="$JMETER_VERSION.tgz"
+JMETER_BASE="/usr/local"
+JMETER_ROOT="$JMETER_BASE/jmeter"
+JMETER_ROOT_VERSION="$JMETER_BASE/$JMETER_VERSION"
+
+if [ "$USER" == "root" ]; then
+    echo "Aborting: can't use root"
+    exit 1
+fi
+
+if  [ ! -e "./.vscode/settings.json" ]; then
+    cp "./.vscode/settings-sample.json" "./.vscode/settings.json"
+fi
+
+if  [ ! -e "./.vscode/launch.json" ]; then
+    cp "./.vscode/launch-sample.json" "./.vscode/launch.json"
+fi
+
+if  [ ! -e "./configs/config-blank.json" ]; then
+    cp "./configs/config-blank-sample.json" "./configs/config-blank.json"
+fi
+
+if  [ ! -e "./configs/config-dev.json" ]; then
+    cp "./configs/config-dev-sample.json" "./configs/config-dev.json"
+fi
+
+if  [ ! -e "./configs/config.env" ]; then
+    cp "./configs/config-sample.env" "./configs/config.env"
+fi
+
+if  [ ! -e "./configs/config-dev.env" ]; then
+    cp "./configs/config-dev-sample.env" "./configs/config-dev.env"
+fi
+
+OS_DEBIAN="/etc/debian_version"
+
+if [ -e "$OS_DEBIAN" ]; then
+    sudo apt-get -y install \
+                    curl \
+                    git gitk git-gui \
+                    make 
+fi
+
+if [ ! -d "$PWD/$DIR" ]; then
+    echo "Creating folder $PWD/$DIR"
+    mkdir -p "$PWD/$DIR"
+fi
+
+cp ./third_party/pcurl.sh $DIR/pcurl.sh
+
+cd $DIR
+
+PATH_COMPOSER=`whereis -b docker-compose | awk -F": " '{ print $2 }'`
+if [ "$PATH_COMPOSER" == "" ] && [ ! -e "$PATH_COMPOSER" ]; then
+    echo "Donwloading docker-compose"
+    curl -L "https://github.com/docker/compose/releases/download/1.23.2/docker-compose-$(uname -s)-$(uname -m)" -o ./docker-compose
+    sudo chmod +x ./docker-compose
+    sudo cp ./docker-compose /usr/local/bin/
+else
+    echo "Existing Composer: $PATH_COMPOSER ... OK"
+fi
+
+PATH_DOCKER=`whereis -b dockerd | awk -F": " '{ print $2 }'`
+if [ "$PATH_DOCKER" == "" ] && [ ! -e "$PATH_DOCKER" ]; then
+    echo "Donwloading docker"
+    curl -L "https://download.docker.com/linux/static/stable/$(uname -m)/docker-18.09.2.tgz" -o ./docker-18.09.2.tgz
+    tar zxvf ./docker-18.09.2.tgz
+    sudo cp ./docker/* /usr/local/bin/
+else
+    echo "Existing Docker: $PATH_DOCKER ... OK"
+fi
+
+case "$(getent group $DOCKER_GROUP | awk -F' ' '{ print $1 }'  | wc -w)" in
+0)  echo "Creating $DOCKER_GROUP group ..."
+    sudo /usr/sbin/groupadd $DOCKER_GROUP
+    echo "$DOCKER_GROUP group ... OK"
+    ;;
+1)  echo "$DOCKER_GROUP group exists ... OK"
+    ;;
+esac
+
+case "$(pidof dockerd | wc -w)" in
+0)  echo "Starting Docker ..."
+    sudo dockerd &
+    echo "Docker running pid: $(pidof dockerd) ... OK"
+    ;;
+1)  echo "Docker running pid: $(pidof dockerd) ... OK"
+    ;;
+esac
+
+PATH_GO=`whereis -b go | awk -F": " '{ print $2 }'`
+if [ "$PATH_GO" == "" ] && [ ! -e "$PATH_GO" ]; then
+
+    if  [ -d "$GO_ROOT" -o -e "$GO_ROOT" ]; then
+        sudo rm -rf "$GO_ROOT""_bkp_old"
+        sudo mv "$GO_ROOT" "$GO_ROOT""_bkp_old"
+    fi
+
+    if  [ -d "$GO_ROOT_VERSION" -o -e "$GO_ROOT_VERSION" ]; then
+        sudo rm -rf "$GO_ROOT_VERSION""_bkp_old"
+        sudo mv "$GO_ROOT_VERSION" "$GO_ROOT_VERSION""_bkp_old"
+    fi
+
+    if  [ ! -d "$GO_ROOT_VERSION" ]; then
+        echo "Creating Installation dir $GO_ROOT_VERSION"
+        sudo mkdir -p "$GO_ROOT_VERSION"
+    fi
+
+    if  [ ! -d "$GO_ROOT" ]; then
+        echo "Creating GOROOT link $GO_ROOT to $GO_ROOT_VERSION"
+        sudo ln -s "$GO_ROOT_VERSION" "$GO_ROOT"
+    fi
+
+    echo "Donwloading Go"
+    curl -L "https://dl.google.com/go/$GO_PKG" -o "./$GO_PKG"
+    sudo tar zxf "./$GO_PKG" --strip-components=1 -C "$GO_ROOT"
+
+    if  [ ! -e "$HOME/.profile" ]; then
+        touch "$HOME/.profile"
+    fi
+    echo -e "\nexport GOPATH=\$HOME/go\nexport PATH=\$PATH:$GO_ROOT/bin:\$GOPATH/bin" >> "$HOME/.profile"
+
+else
+    echo "Existing `whereis -b go` ... OK"
+fi
+
+PATH_JMETER=`whereis -b jmeter | awk -F": " '{ print $2 }'`
+if [ "$PATH_JMETER" == "" ] && [ ! -e "$PATH_JMETER" ]; then
+
+    if  [ -d "$JMETER_ROOT" -o -e "$JMETER_ROOT" ]; then
+        sudo rm "$JMETER_ROOT"
+    fi
+
+    if  [ -d "$JMETER_ROOT_VERSION" -o -e "$JMETER_ROOT_VERSION" ]; then
+        sudo rm -rf "$JMETER_ROOT_VERSION""_bkp_old"
+        sudo mv "$JMETER_ROOT_VERSION" "$JMETER_ROOT_VERSION""_bkp_old"
+    fi
+
+    if  [ ! -d "$JMETER_ROOT_VERSION" ]; then
+        echo "Creating Installation dir $JMETER_ROOT_VERSION"
+        sudo mkdir -p "$JMETER_ROOT_VERSION"
+    fi
+
+    if  [ ! -d "$JMETER_ROOT" ]; then
+        echo "Creating JMETER_ROOT link $JMETER_ROOT to $JMETER_ROOT_VERSION"
+        sudo ln -s "$JMETER_ROOT_VERSION" "$JMETER_ROOT"
+    fi
+
+    sudo rm -rf /usr/local/bin/jmeter
+
+    echo "Donwloading JMeter"
+    ./pcurl.sh "https://archive.apache.org/dist/jmeter/binaries/$JMETER_PKG"
+    sudo tar -zxf "./$JMETER_PKG" --strip-components=1 -C "$JMETER_ROOT"
+    sudo ln -s "$JMETER_ROOT/bin/jmeter" /usr/local/bin/jmeter
+
+else
+    echo "Existing `whereis -b jmeter` ... OK"
+fi
+
+sudo /usr/sbin/usermod -a -G $DOCKER_GROUP $USER
+echo "user $USER added in $DOCKER_GROUP group ... OK"
+
+cd $CURDIR
