@@ -134,8 +134,12 @@ if [ "$PATH_GO" == "" ] && [ ! -e "$PATH_GO" ]; then
     fi
     echo -e "\nexport GOPATH=\$HOME/go\nexport PATH=\$PATH:$GO_ROOT/bin:\$GOPATH/bin" >> "$HOME/.profile"
 
+    echo "Donwloading wire"
+    $($GO_ROOT/bin/go get github.com/google/wire/cmd/wire@v0.3.0)
 else
     echo "Existing `whereis -b go` ... OK"
+    echo "Donwloading wire"
+    go get github.com/google/wire/cmd/wire@v0.3.0
 fi
 
 PATH_JMETER=`whereis -b jmeter | awk -F": " '{ print $2 }'`
