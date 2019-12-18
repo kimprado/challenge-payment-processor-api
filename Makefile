@@ -49,11 +49,11 @@ generate:
 	@./scripts/compile.sh generate
 	@./scripts/compile.sh generate-testes
 
-## test-unit			: Testes de unidade
+## test-unit			: Testes de unidade.
 test-unit:
 	@./scripts/test.sh unit
 
-## test-integration		: Testes de integração
+## test-integration		: Testes de integração.
 test-integration:
 	@./scripts/test.sh integration
 
@@ -79,12 +79,12 @@ test-all-container:
 test-envvars-container:
 	@docker-compose up --build test-envvars
 
-## test-load-ab		: Executa testes de carga com ApacheBench.
+## test-load-ab			: Executa testes de carga com ApacheBench.
 test-load-ab:
 	@docker-compose up -d --build redisdb test-load-ab
 	@docker-compose logs --tail="10" -f test-load-ab &
 
-## test-load-ab		: Executa testes de carga com ApacheBench e API containerizada.
+## test-load-ab-container		: Executa testes de carga com ApacheBench e API containerizada.
 test-load-ab-container:
 	@docker-compose up -d --build  api-load redisdb test-load-ab
 	@docker-compose logs --tail="10" -f test-load-ab &
@@ -97,10 +97,10 @@ infra-start:
 infra-stop:
 	@docker-compose rm -fsv redisdb nginx swagger
 
-## package			: Empacota API na imagem challenge/payment-processor-api:latest - Alpine Linux
+## package			: Empacota API na imagem challenge/payment-processor-api:latest - Alpine Linux.
 package: 
 	@./scripts/package.sh package
 
-## package-safe			: Empacota API na imagem challenge/payment-processor-api:latest - Golang Official(pesada)
+## package-safe			: Empacota API na imagem challenge/payment-processor-api:latest - Golang Official(pesada).
 package-safe: 
 	@./scripts/package.sh package-safe
