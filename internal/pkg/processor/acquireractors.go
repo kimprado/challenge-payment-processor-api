@@ -3,7 +3,7 @@ package processor
 // AcquirerActorsSender responsável por buscar ator correspondente
 // de Acquirer e enviar solicitação de processamento
 type AcquirerActorsSender interface {
-	Send(aid AcquirerID, a *AuthorizationRequest) (err error)
+	Send(aid AcquirerID, r *AuthorizationRequest) (err error)
 }
 
 // AcquirerActorsResgister responsável por registrar novos atores
@@ -26,12 +26,12 @@ func NewAcquirerActors() (a *AcquirerActors) {
 
 // Send implementa AcquirerActorsSender.
 // Envia requisição para canal do ator do Adquirente.
-func (a *AcquirerActors) Send(aid AcquirerID, ar *AuthorizationRequest) (err error) {
+func (a *AcquirerActors) Send(aid AcquirerID, r *AuthorizationRequest) (err error) {
 	actor, ok := a.actors[aid]
 	if !ok {
 		return
 	}
-	actor <- ar
+	actor <- r
 	return
 }
 
