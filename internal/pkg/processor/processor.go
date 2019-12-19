@@ -6,19 +6,19 @@ type Processor interface {
 	Process(t *TransactionDTO) (ar *AuthorizationResponse)
 }
 
-// Service implementa Processor é ponto de entrada
+// PaymentProcessorService implementa Processor e é ponto de entrada
 // para domínio da aplicação.
-type Service struct {
+type PaymentProcessorService struct {
 }
 
 // NewService cria instância de Sevice.
-func NewService() (s *Service) {
-	s = new(Service)
+func NewService() (s *PaymentProcessorService) {
+	s = new(PaymentProcessorService)
 	return
 }
 
 // Process delega processamento da transação para Acquirer.
-func (s *Service) Process(t *TransactionDTO) (ar *AuthorizationResponse) {
+func (s *PaymentProcessorService) Process(t *TransactionDTO) (ar *AuthorizationResponse) {
 	return
 }
 
