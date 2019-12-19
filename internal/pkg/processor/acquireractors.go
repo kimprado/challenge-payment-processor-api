@@ -52,6 +52,12 @@ func (a *AcquirerActors) Resgister(aid AcquirerID, chr chan *AuthorizationReques
 		err = newAcquirerActorRegisterExistsError(aid)
 		return
 	}
+
+	if chr == nil {
+		err = newAcquirerActorRegisterChannelNilError(aid)
+		return
+	}
+
 	a.actors[aid] = chr
 	return
 }

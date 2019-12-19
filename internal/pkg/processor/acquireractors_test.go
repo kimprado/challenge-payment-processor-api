@@ -124,8 +124,18 @@ func TestAcquirerActorResgister(t *testing.T) {
 	}{
 		{
 			"Rede",
+			nil,
+			&AcquirerActorRegisterChannelNilError{},
+		},
+		{
+			"Rede",
 			make(chan *AuthorizationRequest),
 			nil,
+		},
+		{
+			"",
+			nil,
+			&AcquirerActorRegisterChannelNilError{},
 		},
 		{
 			"",

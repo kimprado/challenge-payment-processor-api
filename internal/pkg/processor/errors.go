@@ -69,3 +69,35 @@ func (e *AcquirerActorRegisterExistsError) Is(target error) bool {
 		return false
 	}
 }
+
+// AcquirerActorRegisterChannelNilError representa erro channel nul no registro de ator
+type AcquirerActorRegisterChannelNilError struct {
+	*errors.GenericError
+}
+
+// newAcquirerActorRegisterChannelNilError cria instância de AcquirerActorRegisterChannelNilError
+func newAcquirerActorRegisterChannelNilError(id AcquirerID) (e *AcquirerActorRegisterChannelNilError) {
+	e = new(AcquirerActorRegisterChannelNilError)
+	e.GenericError = errors.NewGenericError(
+		"Falha ao registar ator para Adquirente",
+		fmt.Sprintf("Ator %q não pode ter Channel nulo", id),
+	)
+	return
+}
+
+func (e *AcquirerActorRegisterChannelNilError) Error() string {
+	return e.GenericError.Error()
+}
+
+// Is informa se target == e. Verifica se e é do tipo
+// AcquirerActorRegisterChannelNilError, DomainError.
+func (e *AcquirerActorRegisterChannelNilError) Is(target error) bool {
+	switch target.(type) {
+	case *AcquirerActorRegisterChannelNilError:
+		return true
+	case *errors.DomainError:
+		return true
+	default:
+		return false
+	}
+}
