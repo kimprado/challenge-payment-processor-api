@@ -14,3 +14,23 @@ type AcquirerTransactionMapper interface {
 
 // AcquirerID representa identificação de um Acquirer
 type AcquirerID string
+
+// StoneAcquirer representa Adquirente Stone
+type StoneAcquirer struct {
+	Acquirer
+}
+
+// CieloAcquirer representa Adquirente Cielo
+type CieloAcquirer struct {
+	Acquirer
+}
+
+// Acquirer implementa funcionalidades de de-para e envio
+// da transação para Adquirente.
+type Acquirer struct {
+}
+
+// AcquirerWorkers reprensenta trabalhadores que delegam
+// trabalho para Acquirers
+type AcquirerWorkers struct {
+}
