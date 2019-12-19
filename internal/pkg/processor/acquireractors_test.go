@@ -5,6 +5,8 @@ package processor
 import (
 	"errors"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestSendRequestToActor(t *testing.T) {
@@ -14,7 +16,7 @@ func TestSendRequestToActor(t *testing.T) {
 	var actors *AcquirerActors
 
 	m = NewActorsMap()
-	m["stone"] = make(chan *AuthorizationRequest, 1)
+	m["Stone"] = make(chan *AuthorizationRequest, 1)
 	actors = NewAcquirerActors(m)
 
 	testCases := []struct {
@@ -23,13 +25,43 @@ func TestSendRequestToActor(t *testing.T) {
 		errExpected error
 	}{
 		{
-			"stone",
+			"Stone",
 			nil,
 			nil,
 		},
 		{
-			"teste-inexistente",
+			"Stone",
+			&AuthorizationRequest{},
 			nil,
+		},
+		{
+			"",
+			nil,
+			&AcquirerActorSendNotFoundError{},
+		},
+		{
+			"",
+			&AuthorizationRequest{},
+			&AcquirerActorSendNotFoundError{},
+		},
+		{
+			"Cielo",
+			nil,
+			&AcquirerActorSendNotFoundError{},
+		},
+		{
+			"Cielo",
+			&AuthorizationRequest{},
+			&AcquirerActorSendNotFoundError{},
+		},
+		{
+			"Rede",
+			nil,
+			&AcquirerActorSendNotFoundError{},
+		},
+		{
+			"Rede",
+			&AuthorizationRequest{},
 			&AcquirerActorSendNotFoundError{},
 		},
 	}
@@ -52,6 +84,15 @@ func TestSendRequestToActor(t *testing.T) {
 			if !got && tc.errExpected != nil {
 				t.Errorf("Esperado erro %v, mas obtido %v", tc.errExpected, err)
 				return
+			}
+
+			var resultRequest *AuthorizationRequest
+
+			resultRequest = <-m[tc.id]
+
+			assert.Equal(t, tc.request, resultRequest)
+			if tc.request == nil {
+				assert.Nil(t, resultRequest)
 			}
 
 		})
