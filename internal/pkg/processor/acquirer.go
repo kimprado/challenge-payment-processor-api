@@ -5,3 +5,6 @@ package processor
 type AcquirerProcessor interface {
 	Process()
 }
+
+// AcquirerID representa identificação de um Acquirer
+type AcquirerID string
