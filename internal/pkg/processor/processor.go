@@ -25,7 +25,7 @@ func (s *Service) Process(t *TransactionDTO) (ar *AuthorizationResponse) {
 // AuthorizationRequest representa dados de transação.
 type AuthorizationRequest struct {
 	Transaction     *TransactionDTO
-	ResponseChannel *AuthorizationResponse
+	ResponseChannel chan *AuthorizationResponse
 }
 
 // AuthorizationResponse representa dados de transação.
