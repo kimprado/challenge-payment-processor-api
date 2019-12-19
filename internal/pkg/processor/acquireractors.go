@@ -5,3 +5,8 @@ package processor
 type AcquirerActorsSender interface {
 	Send()
 }
+
+// AcquirerActorsResgister responsável por registrar novos atores
+type AcquirerActorsResgister interface {
+	Resgister()
+}
