@@ -17,6 +17,7 @@ func TestSendRequestToActor(t *testing.T) {
 
 	m = NewActorsMap()
 	m["Stone"] = make(chan *AuthorizationRequest, 1)
+	m["Cielo"] = make(chan *AuthorizationRequest, 1)
 	actors = NewAcquirerActors(m)
 
 	testCases := []struct {
@@ -47,12 +48,12 @@ func TestSendRequestToActor(t *testing.T) {
 		{
 			"Cielo",
 			nil,
-			&AcquirerActorSendNotFoundError{},
+			nil,
 		},
 		{
 			"Cielo",
 			&AuthorizationRequest{},
-			&AcquirerActorSendNotFoundError{},
+			nil,
 		},
 		{
 			"Rede",
