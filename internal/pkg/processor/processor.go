@@ -11,8 +11,8 @@ type Processor interface {
 type PaymentProcessorService struct {
 }
 
-// NewService cria instância de Sevice.
-func NewService() (s *PaymentProcessorService) {
+// NewPaymentProcessorService cria instância de Sevice.
+func NewPaymentProcessorService() (s *PaymentProcessorService) {
 	s = new(PaymentProcessorService)
 	return
 }
