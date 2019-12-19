@@ -25,7 +25,7 @@ type PurchaseDTO struct {
 	Items        []TransactionItemDTO
 }
 
-// TransactionItemDTO representa dados de uma transação.
+// TransactionItemDTO representa dados de itens de uma transação.
 type TransactionItemDTO struct {
 	Description string
 	Price       float64
