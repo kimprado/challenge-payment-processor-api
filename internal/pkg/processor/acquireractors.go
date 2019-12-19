@@ -8,7 +8,7 @@ type AcquirerActorsSender interface {
 
 // AcquirerActorsResgister responsável por registrar novos atores
 type AcquirerActorsResgister interface {
-	Resgister()
+	Resgister(aid AcquirerID, chr chan *AuthorizationRequest) (err error)
 }
 
 // AcquirerActors representa lista de atores de adquirentes disponíveis
@@ -32,5 +32,15 @@ func (a *AcquirerActors) Send(aid AcquirerID, ar *AuthorizationRequest) (err err
 		return
 	}
 	actor <- ar
+	return
+}
+
+// Resgister implementa AcquirerActorsResgister.
+// Registra ator para Adquirente com identificação AcquirerID.
+func (a *AcquirerActors) Resgister(aid AcquirerID, chr chan *AuthorizationRequest) (err error) {
+	if _, ok := a.actors[aid]; ok {
+		return
+	}
+	a.actors[aid] = chr
 	return
 }
