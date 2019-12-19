@@ -22,15 +22,19 @@ func TestSendRequestToActor(t *testing.T) {
 			nil,
 			nil,
 		},
+		{
+			"teste-inexistente",
+			nil,
+			&AcquirerActorSendNotFoundError{},
+		},
 	}
 	for _, tc := range testCases {
 		t.Run("", func(t *testing.T) {
-			t.Parallel()
 
 			err := actors.Send(tc.id, tc.request)
 
 			if err != nil && tc.errExpected == nil {
-				t.Errorf("Erro inesperado %v", err)
+				t.Errorf("Erro inesperado: %v", err)
 				return
 			}
 

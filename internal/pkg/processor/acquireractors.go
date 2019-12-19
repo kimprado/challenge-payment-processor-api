@@ -29,6 +29,7 @@ func NewAcquirerActors() (a *AcquirerActors) {
 func (a *AcquirerActors) Send(aid AcquirerID, r *AuthorizationRequest) (err error) {
 	actor, ok := a.actors[aid]
 	if !ok {
+		err = newAcquirerActorSendNotFoundError(aid)
 		return
 	}
 	actor <- r
