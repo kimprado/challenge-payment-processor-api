@@ -36,6 +36,11 @@ func TestSendRequestToActor(t *testing.T) {
 			nil,
 		},
 		{
+			"Stone",
+			&AuthorizationRequest{Transaction: &TransactionDTO{CardDTO: CardDTO{Holder: "João"}}},
+			nil,
+		},
+		{
 			"",
 			nil,
 			&AcquirerActorSendNotFoundError{},
