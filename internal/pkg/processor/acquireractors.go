@@ -49,6 +49,7 @@ func (a *AcquirerActors) Send(aid AcquirerID, r *AuthorizationRequest) (err erro
 // Registra ator para Adquirente com identificação AcquirerID.
 func (a *AcquirerActors) Resgister(aid AcquirerID, chr chan *AuthorizationRequest) (err error) {
 	if _, ok := a.actors[aid]; ok {
+		err = newAcquirerActorRegisterExistsError(aid)
 		return
 	}
 	a.actors[aid] = chr

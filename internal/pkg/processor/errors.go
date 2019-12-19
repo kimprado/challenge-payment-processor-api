@@ -37,3 +37,35 @@ func (e *AcquirerActorSendNotFoundError) Is(target error) bool {
 		return false
 	}
 }
+
+// AcquirerActorRegisterExistsError representa erro de AcquirerActor existente
+type AcquirerActorRegisterExistsError struct {
+	*errors.GenericError
+}
+
+// newAcquirerActorRegisterExistsError cria instância de AcquirerActorRegisterExistsError
+func newAcquirerActorRegisterExistsError(id AcquirerID) (e *AcquirerActorRegisterExistsError) {
+	e = new(AcquirerActorRegisterExistsError)
+	e.GenericError = errors.NewGenericError(
+		"Falha ao registar ator para Adquirente",
+		fmt.Sprintf("Ator %q já existe", id),
+	)
+	return
+}
+
+func (e *AcquirerActorRegisterExistsError) Error() string {
+	return e.GenericError.Error()
+}
+
+// Is informa se target == e. Verifica se e é do tipo
+// AcquirerActorRegisterExistsError, DomainError.
+func (e *AcquirerActorRegisterExistsError) Is(target error) bool {
+	switch target.(type) {
+	case *AcquirerActorRegisterExistsError:
+		return true
+	case *errors.DomainError:
+		return true
+	default:
+		return false
+	}
+}
