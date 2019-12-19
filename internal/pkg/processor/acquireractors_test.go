@@ -10,7 +10,12 @@ import (
 func TestSendRequestToActor(t *testing.T) {
 	t.Parallel()
 
-	actors := NewAcquirerActors()
+	var m ActorsMap
+	var actors *AcquirerActors
+
+	m = NewActorsMap()
+	m["stone"] = make(chan *AuthorizationRequest, 1)
+	actors = NewAcquirerActors(m)
 
 	testCases := []struct {
 		id          AcquirerID

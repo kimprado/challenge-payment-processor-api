@@ -11,16 +11,25 @@ type AcquirerActorsResgister interface {
 	Resgister(aid AcquirerID, chr chan *AuthorizationRequest) (err error)
 }
 
+// ActorsMap representa mapa de atores.
+// Chave do mapa tipada com AcquirerID garante maior segurança
+type ActorsMap map[AcquirerID]chan *AuthorizationRequest
+
+// NewActorsMap cria instância de ActorsMap.
+func NewActorsMap() (m map[AcquirerID]chan *AuthorizationRequest) {
+	m = make(map[AcquirerID]chan *AuthorizationRequest)
+	return
+}
+
 // AcquirerActors representa lista de atores de adquirentes disponíveis
 type AcquirerActors struct {
-	// Chave do mapa tipada com AcquirerID garante maior segurança
-	actors map[AcquirerID]chan *AuthorizationRequest
+	actors ActorsMap
 }
 
 // NewAcquirerActors cria instância de AcquirerActors.
-func NewAcquirerActors() (a *AcquirerActors) {
+func NewAcquirerActors(m ActorsMap) (a *AcquirerActors) {
 	a = new(AcquirerActors)
-	a.actors = make(map[AcquirerID]chan *AuthorizationRequest)
+	a.actors = m
 	return
 }
 
