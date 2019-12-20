@@ -44,6 +44,41 @@ func TestCreateStoneWorker(t *testing.T) {
 
 }
 
+func TestCieloStoneWorker(t *testing.T) {
+	t.Parallel()
+
+	var w *CieloAcquirerWorkers
+	var r *AcquirerActorsMock
+	var p *AcquirerParameter
+	var s *HTTPRequestSenderMock
+	var ar *AuthorizationRequest
+
+	r = &AcquirerActorsMock{}
+
+	s = newHTTPRequestSenderMock()
+	p = &AcquirerParameter{
+		url:  "htttp://localhost/acquirer/cielo",
+		http: s,
+	}
+
+	ar = &AuthorizationRequest{Transaction: &TransactionDTO{CardDTO: CardDTO{Holder: "João"}}}
+
+	w = NewCieloAcquirerWorkers(r, p)
+	assert.NotNil(t, w)
+
+	assert.True(t, r.Resgistered)
+
+	w.chr <- ar
+
+	select {
+	case <-s.Sent:
+		t.Log("Requisição http enviada")
+	case <-time.After(10 * time.Second):
+		assert.Fail(t, "Requisição http não foi enviada")
+	}
+
+}
+
 type HTTPRequestSenderMock struct {
 	Sent chan bool
 }
