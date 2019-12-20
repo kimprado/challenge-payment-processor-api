@@ -37,45 +37,42 @@ func newAcquirer() (a *Acquirer) {
 // StoneAcquirerWorkers reprensenta trabalhadores de
 // Stone Acquirer
 type StoneAcquirerWorkers struct {
-	AcquirerWorkers
+	*AcquirerWorkers
 }
 
 // NewStoneAcquirerWorkers cria instância de StoneAcquirerWorkers.
 func NewStoneAcquirerWorkers(a AcquirerActorsResgister) (w *StoneAcquirerWorkers) {
 	w = new(StoneAcquirerWorkers)
-	w.aid = "Stone"
-	w.chr = make(chan *AuthorizationRequest)
-	w.acquirers = []AcquirerProcessor{}
-
+	w.AcquirerWorkers = newAcquirerWorkers("Stone", a)
 	for i := 0; i < 10; i++ {
-		w.acquirers = append(w.acquirers, newAcquirer())
+		w.add(newAcquirer())
 	}
-
-	a.Resgister(w.aid, w.chr)
-
-	w.consume()
-
 	return
 }
 
 // AcquirerWorkers reprensenta trabalhadores que delegam
 // trabalho para Acquirers
 type AcquirerWorkers struct {
-	aid       AcquirerID
-	chr       chan *AuthorizationRequest
-	acquirers []AcquirerProcessor
+	aid AcquirerID
+	chr chan *AuthorizationRequest
 }
 
-func (w *AcquirerWorkers) consume() {
+// newAcquirerWorkers cria instância de AcquirerWorkers.
+func newAcquirerWorkers(aid AcquirerID, a AcquirerActorsResgister) (w *AcquirerWorkers) {
+	w = new(AcquirerWorkers)
+	w.aid = aid
+	w.chr = make(chan *AuthorizationRequest)
 
+	a.Resgister(w.aid, w.chr)
+
+	return
+}
+
+func (w *AcquirerWorkers) add(acquirer AcquirerProcessor) {
 	var processTransactions = func(acquirer AcquirerProcessor) {
 		for r := range w.chr {
 			acquirer.Process(r)
 		}
 	}
-
-	for _, acquirer := range w.acquirers {
-		go processTransactions(acquirer)
-	}
-
+	go processTransactions(acquirer)
 }
