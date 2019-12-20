@@ -37,7 +37,7 @@ func TestSendRequestToActor(t *testing.T) {
 		},
 		{
 			"Stone",
-			&AuthorizationRequest{Transaction: &TransactionDTO{CardDTO: CardDTO{Holder: "João"}}},
+			&AuthorizationRequest{Transaction: &TransactionDTO{CardOpenInfoDTO: CardOpenInfoDTO{Holder: "João"}}},
 			nil,
 		},
 		{

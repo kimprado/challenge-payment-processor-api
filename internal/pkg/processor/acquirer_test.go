@@ -26,7 +26,7 @@ func TestCreateStoneWorker(t *testing.T) {
 		http: s,
 	}
 
-	ar = &AuthorizationRequest{Transaction: &TransactionDTO{CardDTO: CardDTO{Holder: "João"}}}
+	ar = &AuthorizationRequest{Transaction: &TransactionDTO{CardOpenInfoDTO: CardOpenInfoDTO{Holder: "João"}}}
 
 	w = NewStoneAcquirerWorkers(r, p)
 	assert.NotNil(t, w)
@@ -61,7 +61,7 @@ func TestCieloStoneWorker(t *testing.T) {
 		http: s,
 	}
 
-	ar = &AuthorizationRequest{Transaction: &TransactionDTO{CardDTO: CardDTO{Holder: "João"}}}
+	ar = &AuthorizationRequest{Transaction: &TransactionDTO{CardOpenInfoDTO: CardOpenInfoDTO{Holder: "João"}}}
 
 	w = NewCieloAcquirerWorkers(r, p)
 	assert.NotNil(t, w)

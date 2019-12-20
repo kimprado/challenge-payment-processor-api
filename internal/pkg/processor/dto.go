@@ -2,17 +2,36 @@ package processor
 
 import "time"
 
+// ExternalTransactionDTO representa dados de uma transação
+// vinda do ambiente externo.
+type ExternalTransactionDTO struct {
+	*TransactionDTO
+	Token string
+}
+
+// AcquirerTransactionDTO representa dados de uma transação
+// enviada para processamento pelo Adquirente.
+type AcquirerTransactionDTO struct {
+	*TransactionDTO
+	HiddenInfo CardHiddenInfoDTO
+}
+
 // TransactionDTO representa dados de uma transação
 // para processamento.
 type TransactionDTO struct {
-	CardDTO
+	CardOpenInfoDTO
 	PurchaseDTO
 	MerchantDTO
 }
 
-// CardDTO representa dados do cartão.
-type CardDTO struct {
-	Token    string
+// CardHiddenInfoDTO representa dados sensíveis do cartão.
+type CardHiddenInfoDTO struct {
+	Number string
+	CVV    string
+}
+
+// CardOpenInfoDTO representa abertos dados do cartão.
+type CardOpenInfoDTO struct {
 	Holder   string
 	Brand    string
 	Validity time.Time
