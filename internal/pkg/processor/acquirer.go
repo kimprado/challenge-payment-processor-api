@@ -50,6 +50,22 @@ func NewStoneAcquirerWorkers(a AcquirerActorsResgister) (w *StoneAcquirerWorkers
 	return
 }
 
+// CieloAcquirerWorkers reprensenta trabalhadores de
+// Cielo Acquirer
+type CieloAcquirerWorkers struct {
+	*AcquirerWorkers
+}
+
+// NewCieloAcquirerWorkers cria instância de CieloAcquirerWorkers.
+func NewCieloAcquirerWorkers(a AcquirerActorsResgister) (w *CieloAcquirerWorkers) {
+	w = new(CieloAcquirerWorkers)
+	w.AcquirerWorkers = newAcquirerWorkers("Cielo", a)
+	for i := 0; i < 10; i++ {
+		w.add(newAcquirer())
+	}
+	return
+}
+
 // AcquirerWorkers reprensenta trabalhadores que delegam
 // trabalho para Acquirers
 type AcquirerWorkers struct {
