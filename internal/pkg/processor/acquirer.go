@@ -17,15 +17,21 @@ type AcquirerTransactionMapper interface {
 // AcquirerID representa identificação de um Acquirer
 type AcquirerID string
 
-// Acquirer implementa funcionalidades de de-para e envio
-// da transação para Adquirente.
-type Acquirer struct {
+// AcquirerParameter encapsula parâmetros para criação de Acquirer
+type AcquirerParameter struct {
 	url  string
 	http http.RequestSender
 }
 
-func newAcquirer() (a *Acquirer) {
+// Acquirer implementa funcionalidades de de-para e envio
+// da transação para Adquirente.
+type Acquirer struct {
+	*AcquirerParameter
+}
 
+func newAcquirer(p *AcquirerParameter) (a *Acquirer) {
+	a = new(Acquirer)
+	a.AcquirerParameter = p
 	return
 }
 
@@ -41,11 +47,11 @@ type StoneAcquirerWorkers struct {
 }
 
 // NewStoneAcquirerWorkers cria instância de StoneAcquirerWorkers.
-func NewStoneAcquirerWorkers(a AcquirerActorsResgister) (w *StoneAcquirerWorkers) {
+func NewStoneAcquirerWorkers(a AcquirerActorsResgister, p *AcquirerParameter) (w *StoneAcquirerWorkers) {
 	w = new(StoneAcquirerWorkers)
 	w.AcquirerWorkers = newAcquirerWorkers("Stone", a)
 	for i := 0; i < 10; i++ {
-		w.add(newAcquirer())
+		w.add(newAcquirer(p))
 	}
 	return
 }
@@ -57,11 +63,11 @@ type CieloAcquirerWorkers struct {
 }
 
 // NewCieloAcquirerWorkers cria instância de CieloAcquirerWorkers.
-func NewCieloAcquirerWorkers(a AcquirerActorsResgister) (w *CieloAcquirerWorkers) {
+func NewCieloAcquirerWorkers(a AcquirerActorsResgister, p *AcquirerParameter) (w *CieloAcquirerWorkers) {
 	w = new(CieloAcquirerWorkers)
 	w.AcquirerWorkers = newAcquirerWorkers("Cielo", a)
 	for i := 0; i < 10; i++ {
-		w.add(newAcquirer())
+		w.add(newAcquirer(p))
 	}
 	return
 }
