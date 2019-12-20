@@ -15,6 +15,11 @@ type LoggerAPI struct {
 	l.Logger
 }
 
+// LoggerCardRepository para logar paymentprocessor.repository
+type LoggerCardRepository struct {
+	l.Logger
+}
+
 // LoggerRedisDB para logar infra.redis.db
 type LoggerRedisDB struct {
 	l.Logger
@@ -34,6 +39,12 @@ func NewLogger(configLevels config.LoggingLevels) (log Logger) {
 // NewLoggerAPI cria Logger "paymentprocessor.api"
 func NewLoggerAPI(configLevels config.LoggingLevels) (log LoggerAPI) {
 	log = LoggerAPI{l.NewLogger("paymentprocessor.api", configLevels)}
+	return
+}
+
+// NewLoggerCardRepository cria Logger "paymentprocessor.repository"
+func NewLoggerCardRepository(configLevels config.LoggingLevels) (log LoggerCardRepository) {
+	log = LoggerCardRepository{l.NewLogger("paymentprocessor.repository", configLevels)}
 	return
 }
 
