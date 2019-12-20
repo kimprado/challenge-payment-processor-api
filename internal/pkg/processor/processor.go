@@ -24,7 +24,7 @@ func (s *PaymentProcessorService) Process(t *TransactionDTO) (ar *AuthorizationR
 
 // AuthorizationRequest representa dados de transação.
 type AuthorizationRequest struct {
-	Transaction     *TransactionDTO
+	Transaction     *ExternalTransactionDTO
 	ResponseChannel chan *AuthorizationResponse
 }
 

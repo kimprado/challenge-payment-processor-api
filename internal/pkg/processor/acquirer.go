@@ -1,6 +1,13 @@
 package processor
 
-import "github.com/challenge/payment-processor/internal/pkg/infra/http"
+import (
+	"errors"
+
+	"github.com/challenge/payment-processor/internal/pkg/infra/http"
+)
+
+// TODO: Modelar erro
+var errCardNotFound = errors.New("Error cartão não localizado")
 
 // AcquirerProcessor representa adquirente capaz de processar
 // transação com cartão.
@@ -11,7 +18,7 @@ type AcquirerProcessor interface {
 // AcquirerTransactionMapper representa comportamento capaz de fazer de-para,
 // e transformar dados para formato que adquirente espera.
 type AcquirerTransactionMapper interface {
-	MapTransaction()
+	mapTransaction(et *ExternalTransactionDTO) (t *AcquirerTransactionDTO, err error)
 }
 
 // AcquirerID representa identificação de um Acquirer
@@ -19,8 +26,9 @@ type AcquirerID string
 
 // AcquirerParameter encapsula parâmetros para criação de Acquirer
 type AcquirerParameter struct {
-	url  string
-	http http.RequestSender
+	url        string
+	cardFinder CardRepositoryFinder
+	http       http.RequestSender
 }
 
 // Acquirer implementa funcionalidades de de-para e envio
@@ -37,7 +45,40 @@ func newAcquirer(p *AcquirerParameter) (a *Acquirer) {
 
 // Process implementa AcquirerProcessor
 func (a *Acquirer) Process(r *AuthorizationRequest) {
-	a.http.Send()
+	var err error
+	var t *AcquirerTransactionDTO
+	t, err = a.mapTransaction(r.Transaction)
+	if err != nil {
+		r.ResponseChannel <- &AuthorizationResponse{Err: err}
+	}
+
+	var response *AuthorizationMessage
+	err = a.http.Send(a.url, t, response)
+
+	if err != nil {
+		r.ResponseChannel <- &AuthorizationResponse{Err: err}
+	}
+	r.ResponseChannel <- &AuthorizationResponse{Authorized: response}
+}
+
+// mapTransaction implementa AcquirerTransactionMapper
+func (a *Acquirer) mapTransaction(et *ExternalTransactionDTO) (t *AcquirerTransactionDTO, err error) {
+	var c *Card
+	c, err = a.cardFinder.Find(et.Token)
+
+	if err != nil {
+		return
+	}
+
+	if c == nil {
+		err = errCardNotFound
+		return
+	}
+
+	t = new(AcquirerTransactionDTO)
+	t.TransactionDTO = et.TransactionDTO
+	t.CardHiddenInfoDTO = &CardHiddenInfoDTO{Number: c.Number, CVV: c.CVV}
+	return
 }
 
 // StoneAcquirerWorkers reprensenta trabalhadores de

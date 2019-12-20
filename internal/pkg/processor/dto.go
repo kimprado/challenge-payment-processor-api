@@ -13,15 +13,15 @@ type ExternalTransactionDTO struct {
 // enviada para processamento pelo Adquirente.
 type AcquirerTransactionDTO struct {
 	*TransactionDTO
-	HiddenInfo CardHiddenInfoDTO
+	*CardHiddenInfoDTO
 }
 
 // TransactionDTO representa dados de uma transação
 // para processamento.
 type TransactionDTO struct {
-	CardOpenInfoDTO
-	PurchaseDTO
-	MerchantDTO
+	*CardOpenInfoDTO
+	*PurchaseDTO
+	*MerchantDTO
 }
 
 // CardHiddenInfoDTO representa dados sensíveis do cartão.
