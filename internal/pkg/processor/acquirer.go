@@ -24,14 +24,14 @@ type Acquirer struct {
 	http http.RequestSender
 }
 
-// Process implementa AcquirerProcessor
-func (a *Acquirer) Process(r *AuthorizationRequest) {
-	a.http.Send()
-}
-
 func newAcquirer() (a *Acquirer) {
 
 	return
+}
+
+// Process implementa AcquirerProcessor
+func (a *Acquirer) Process(r *AuthorizationRequest) {
+	a.http.Send()
 }
 
 // StoneAcquirerWorkers reprensenta trabalhadores de
