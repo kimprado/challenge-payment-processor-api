@@ -1,6 +1,9 @@
 package processor
 
 import (
+	"errors"
+
+	commomerros "github.com/challenge/payment-processor/internal/pkg/commom/errors"
 	"github.com/challenge/payment-processor/internal/pkg/infra/http"
 )
 
@@ -51,8 +54,19 @@ func (a *Acquirer) Process(r *AuthorizationRequest) {
 	var response AuthorizationMessage
 	err = a.httpSender.Send(a.url, t, &response)
 
+	var httpError *http.Error
+	if errors.Is(err, &http.StatusBadRequestError{}) && errors.As(err, &httpError) {
+		r.ResponseChannel <- &AuthorizationResponse{Err: newAcquirerValidationError(httpError.Message, httpError.URL)}
+		return
+	}
+
+	if errors.Is(err, &http.ServerError{}) && errors.As(err, &httpError) {
+		r.ResponseChannel <- &AuthorizationResponse{Err: &commomerros.GenericError{Title: "Falha no Adquirente ao Processar Transação"}}
+		return
+	}
+
 	if err != nil {
-		r.ResponseChannel <- &AuthorizationResponse{Err: err}
+		r.ResponseChannel <- &AuthorizationResponse{Err: &commomerros.GenericError{Title: "Falha no Adquirente ao Processar Transação"}}
 		return
 	}
 

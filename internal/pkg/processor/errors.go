@@ -133,3 +133,35 @@ func (e *CardNotFoundError) Is(target error) bool {
 		return false
 	}
 }
+
+// AcquirerValidationError representa erro de validação no adquirente
+type AcquirerValidationError struct {
+	*errors.ParametersError
+}
+
+// newAcquirerValidationError cria instância de AcquirerValidationError
+func newAcquirerValidationError(message, url string) (e *AcquirerValidationError) {
+	e = new(AcquirerValidationError)
+	e.ParametersError = errors.NewParametersError()
+	e.ParametersError.Title = "Falha no Adquirente ao Processar Transação"
+	e.ParametersError.Detail = message
+	e.ParametersError.Instance = url
+	return
+}
+
+func (e *AcquirerValidationError) Error() string {
+	return e.ParametersError.Error()
+}
+
+// Is informa se target == e. Verifica se e é do tipo
+// AcquirerValidationError, DomainError.
+func (e *AcquirerValidationError) Is(target error) bool {
+	switch target.(type) {
+	case *AcquirerValidationError:
+		return true
+	case *errors.DomainError:
+		return true
+	default:
+		return false
+	}
+}

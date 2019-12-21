@@ -7,6 +7,8 @@ import (
 	"testing"
 	"time"
 
+	commomerros "github.com/challenge/payment-processor/internal/pkg/commom/errors"
+	"github.com/challenge/payment-processor/internal/pkg/infra/http"
 	"github.com/gomodule/redigo/redis"
 	"github.com/stretchr/testify/assert"
 )
@@ -118,6 +120,66 @@ func TestProcessAuthorizationRequestCases(t *testing.T) {
 			nil,
 			cvvblank,
 			&CardNotFoundError{},
+		},
+		{
+			"Transação negada pelo Adquirente",
+			"htttp://localhost/acquirer/stone",
+			newAuthorizationRequest("xpto121a", "João", 1000, 1),
+			newCardRepositoryFinderCaseMock(func(token string, chp chan string) (c *Card, err error) {
+				chp <- token
+				c = &Card{CVV: cvva}
+				return
+			}),
+			newHTTPRequestSenderCaseMock(func(p *requestParam, chp chan *requestParam) (err error) {
+				chp <- p
+				err = &http.StatusBadRequestError{
+					Message: "HTTP Bad Request",
+					Err:     &http.Error{URL: "htttp://localhost/acquirer/stone", Message: "Valor muito alto", Code: 400},
+				}
+				return
+			}),
+			cvva,
+			&AcquirerValidationError{},
+		},
+		{
+			"Transação com erro interno no Adquirente",
+			"htttp://localhost/acquirer/stone",
+			newAuthorizationRequest("xpto121a", "João", 1000, 1),
+			newCardRepositoryFinderCaseMock(func(token string, chp chan string) (c *Card, err error) {
+				chp <- token
+				c = &Card{CVV: cvva}
+				return
+			}),
+			newHTTPRequestSenderCaseMock(func(p *requestParam, chp chan *requestParam) (err error) {
+				chp <- p
+				err = &http.ServerError{
+					Message: "Server Error",
+					Err:     &http.Error{URL: "htttp://localhost/acquirer/stone", Message: "Conexão DB", Code: 503},
+				}
+				return
+			}),
+			cvva,
+			&commomerros.GenericError{},
+		},
+		{
+			"Requisição com erro HTTP não mapeado",
+			"htttp://localhost/acquirer/stone",
+			newAuthorizationRequest("xpto121a", "João", 1000, 1),
+			newCardRepositoryFinderCaseMock(func(token string, chp chan string) (c *Card, err error) {
+				chp <- token
+				c = &Card{CVV: cvva}
+				return
+			}),
+			newHTTPRequestSenderCaseMock(func(p *requestParam, chp chan *requestParam) (err error) {
+				chp <- p
+				err = &http.Error{
+					Message: "Redirect",
+					Err:     &http.Error{URL: "htttp://localhost/acquirer/stone", Message: "Novo servidor", Code: 300},
+				}
+				return
+			}),
+			cvva,
+			&commomerros.GenericError{},
 		},
 	}
 	for _, tc := range testCases {

@@ -23,6 +23,17 @@ func (e *GenericError) Error() string {
 	return fmt.Sprintf("%s[%s]", e.Title, e.Detail)
 }
 
+// Is informa se target == e. Verifica se e é do tipo
+// GenericError.
+func (e *GenericError) Is(target error) bool {
+	switch target.(type) {
+	case *GenericError:
+		return true
+	default:
+		return false
+	}
+}
+
 // DomainError representa erros do domínio da aplicação
 type DomainError struct {
 	GenericError
