@@ -29,7 +29,7 @@ func TestCreateStoneWorker(t *testing.T) {
 		cardFinder: repo,
 	}
 
-	ar = &AuthorizationRequest{Transaction: &ExternalTransactionDTO{TransactionDTO: &TransactionDTO{CardOpenInfoDTO: &CardOpenInfoDTO{Holder: "João"}}}}
+	ar = &AuthorizationRequest{ResponseChannel: make(chan *AuthorizationResponse), Transaction: &ExternalTransactionDTO{TransactionDTO: &TransactionDTO{CardOpenInfoDTO: &CardOpenInfoDTO{Holder: "João"}}}}
 
 	w = NewStoneAcquirerWorkers(r, p)
 	assert.NotNil(t, w)
@@ -50,6 +50,13 @@ func TestCreateStoneWorker(t *testing.T) {
 		t.Log("Requisição http enviada")
 	case <-time.After(10 * time.Second):
 		assert.Fail(t, "Requisição http não foi enviada")
+	}
+
+	select {
+	case <-ar.ResponseChannel:
+		t.Log("Resposta de processamento enviada")
+	case <-time.After(10 * time.Second):
+		assert.Fail(t, "Resposta de processamento não foi enviada")
 	}
 
 }
@@ -74,7 +81,7 @@ func TestCieloStoneWorker(t *testing.T) {
 		cardFinder: repo,
 	}
 
-	ar = &AuthorizationRequest{Transaction: &ExternalTransactionDTO{TransactionDTO: &TransactionDTO{CardOpenInfoDTO: &CardOpenInfoDTO{Holder: "João"}}}}
+	ar = &AuthorizationRequest{ResponseChannel: make(chan *AuthorizationResponse), Transaction: &ExternalTransactionDTO{TransactionDTO: &TransactionDTO{CardOpenInfoDTO: &CardOpenInfoDTO{Holder: "João"}}}}
 
 	w = NewCieloAcquirerWorkers(r, p)
 	assert.NotNil(t, w)
@@ -97,6 +104,13 @@ func TestCieloStoneWorker(t *testing.T) {
 		assert.Fail(t, "Requisição http não foi enviada")
 	}
 
+	select {
+	case <-ar.ResponseChannel:
+		t.Log("Resposta de processamento enviada")
+	case <-time.After(10 * time.Second):
+		assert.Fail(t, "Resposta de processamento não foi enviada")
+	}
+
 }
 
 type HTTPRequestSenderMock struct {
@@ -105,7 +119,7 @@ type HTTPRequestSenderMock struct {
 
 func newHTTPRequestSenderMock() (s *HTTPRequestSenderMock) {
 	s = new(HTTPRequestSenderMock)
-	s.Sent = make(chan bool)
+	s.Sent = make(chan bool, 1)
 	return
 }
 
@@ -133,13 +147,15 @@ type CardRepositoryFinderMock struct {
 
 func newCardRepositoryFinderMock() (r *CardRepositoryFinderMock) {
 	r = new(CardRepositoryFinderMock)
-	r.Found = make(chan bool)
+	r.Found = make(chan bool, 1)
 	return
 }
 
 func (r *CardRepositoryFinderMock) Find(token string) (c *Card, err error) {
 
 	r.Found <- true
+
+	c = &Card{}
 
 	return
 }
