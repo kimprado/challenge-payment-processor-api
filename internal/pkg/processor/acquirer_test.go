@@ -65,6 +65,8 @@ func TestProcessAuthorizationRequestCases(t *testing.T) {
 	var cvva = "cvva"
 
 	testCases := []struct {
+		//label indica título do Test Case
+		label       string
 		url         string
 		ar          *AuthorizationRequest
 		repo        *CardRepositoryFinderCaseMock
@@ -73,6 +75,7 @@ func TestProcessAuthorizationRequestCases(t *testing.T) {
 		errExpected error
 	}{
 		{
+			"Requisição Válida",
 			"htttp://localhost/acquirer/stone",
 			newAuthorizationRequest("xpto121a", "João", 1000, 1),
 			newCardRepositoryFinderCaseMock(func(token string, chp chan string) (c *Card, err error) {
@@ -89,7 +92,7 @@ func TestProcessAuthorizationRequestCases(t *testing.T) {
 		},
 	}
 	for _, tc := range testCases {
-		t.Run("", func(t *testing.T) {
+		t.Run(tc.label, func(t *testing.T) {
 
 			p = &AcquirerParameter{
 				url:        tc.url,
