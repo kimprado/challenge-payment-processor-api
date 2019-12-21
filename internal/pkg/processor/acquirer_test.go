@@ -56,6 +56,71 @@ func TestProcessAuthorizationRequest(t *testing.T) {
 
 }
 
+func TestProcessAuthorizationRequestCases(t *testing.T) {
+	t.Parallel()
+
+	var a *Acquirer
+	var p *AcquirerParameter
+	var repo *CardRepositoryFinderMock
+
+	testCases := []struct {
+		ar          *AuthorizationRequest
+		s           *HTTPRequestSenderCaseMock
+		errExpected error
+	}{
+		{
+			newAuthorizationRequest("João", 1000, 1),
+			newHTTPRequestSenderCaseMock(func(p *requestParam, chp chan *requestParam) (err error) {
+				chp <- p
+				return
+			}),
+			nil,
+		},
+	}
+	for _, tc := range testCases {
+		t.Run("", func(t *testing.T) {
+
+			repo = newCardRepositoryFinderMock()
+			p = &AcquirerParameter{
+				url:        "htttp://localhost/acquirer/stone",
+				httpSender: tc.s,
+				cardFinder: repo,
+			}
+
+			a = newAcquirer(p)
+			assert.NotNil(t, a)
+
+			a.Process(tc.ar)
+
+			select {
+			case <-repo.Found:
+				t.Log("Consulta de cartão no BD realizada")
+			case <-time.After(1 * time.Second):
+				assert.Fail(t, "Consulta de cartão no BD não foi realizada")
+			}
+
+			select {
+			case httpReq := <-tc.s.chParam:
+				t.Log("Requisição http enviada")
+				assert.Equal(t, tc.ar.Transaction.Holder, httpReq.body.Holder)
+				assert.Equal(t, tc.ar.Transaction.Total, httpReq.body.Total)
+				assert.Equal(t, tc.ar.Transaction.Installments, httpReq.body.Installments)
+			case <-time.After(1 * time.Second):
+				assert.Fail(t, "Requisição http não foi enviada")
+			}
+
+			select {
+			case <-tc.ar.ResponseChannel:
+				t.Log("Resposta de processamento enviada")
+			case <-time.After(1 * time.Second):
+				assert.Fail(t, "Resposta de processamento não foi enviada")
+			}
+
+		})
+	}
+
+}
+
 func TestCreateStoneWorker(t *testing.T) {
 	t.Parallel()
 
@@ -177,6 +242,27 @@ func (s *HTTPRequestSenderMock) Send(url string, body interface{}, response inte
 	return
 }
 
+type requestParam struct {
+	url  string
+	body *AcquirerTransactionDTO
+}
+
+type HTTPRequestSenderCaseMock struct {
+	chParam chan *requestParam
+	f       func(p *requestParam, chp chan *requestParam) (err error)
+}
+
+func newHTTPRequestSenderCaseMock(f func(p *requestParam, chp chan *requestParam) (err error)) (s *HTTPRequestSenderCaseMock) {
+	s = new(HTTPRequestSenderCaseMock)
+	s.chParam = make(chan *requestParam, 1)
+	s.f = f
+	return
+}
+
+func (s *HTTPRequestSenderCaseMock) Send(url string, body interface{}, response interface{}) (err error) {
+	return s.f(&requestParam{url, body.(*AcquirerTransactionDTO)}, s.chParam)
+}
+
 type AcquirerActorsMock struct {
 	Resgistered bool
 	chr         chan *AuthorizationRequest
@@ -204,5 +290,17 @@ func (r *CardRepositoryFinderMock) Find(token string) (c *Card, err error) {
 
 	c = &Card{}
 
+	return
+}
+
+func newAuthorizationRequest(holder string, total float64, installments int) (ar *AuthorizationRequest) {
+	ar = new(AuthorizationRequest)
+	ar.ResponseChannel = make(chan *AuthorizationResponse, 1)
+	ar.Transaction = &ExternalTransactionDTO{
+		TransactionDTO: &TransactionDTO{
+			CardOpenInfoDTO: &CardOpenInfoDTO{Holder: holder},
+			PurchaseDTO:     &PurchaseDTO{Total: total, Installments: installments},
+		},
+	}
 	return
 }
