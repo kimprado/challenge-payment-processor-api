@@ -25,7 +25,7 @@ func TestCreateStoneWorker(t *testing.T) {
 	repo = newCardRepositoryFinderMock()
 	p = &AcquirerParameter{
 		url:        "htttp://localhost/acquirer/stone",
-		http:       s,
+		httpSender: s,
 		cardFinder: repo,
 	}
 
@@ -77,7 +77,7 @@ func TestCieloStoneWorker(t *testing.T) {
 	repo = newCardRepositoryFinderMock()
 	p = &AcquirerParameter{
 		url:        "htttp://localhost/acquirer/cielo",
-		http:       s,
+		httpSender: s,
 		cardFinder: repo,
 	}
 

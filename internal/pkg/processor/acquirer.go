@@ -28,7 +28,7 @@ type AcquirerID string
 type AcquirerParameter struct {
 	url        string
 	cardFinder CardRepositoryFinder
-	http       http.RequestSender
+	httpSender http.RequestSender
 }
 
 // Acquirer implementa funcionalidades de de-para e envio
@@ -53,7 +53,7 @@ func (a *Acquirer) Process(r *AuthorizationRequest) {
 	}
 
 	var response *AuthorizationMessage
-	err = a.http.Send(a.url, t, response)
+	err = a.httpSender.Send(a.url, t, response)
 
 	if err != nil {
 		r.ResponseChannel <- &AuthorizationResponse{Err: err}
