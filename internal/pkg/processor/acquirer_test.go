@@ -9,6 +9,53 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func TestProcessAuthorizationRequest(t *testing.T) {
+	t.Parallel()
+
+	var a *Acquirer
+	var p *AcquirerParameter
+	var s *HTTPRequestSenderMock
+	var repo *CardRepositoryFinderMock
+	var ar *AuthorizationRequest
+
+	s = newHTTPRequestSenderMock()
+	repo = newCardRepositoryFinderMock()
+	p = &AcquirerParameter{
+		url:        "htttp://localhost/acquirer/stone",
+		httpSender: s,
+		cardFinder: repo,
+	}
+
+	ar = &AuthorizationRequest{ResponseChannel: make(chan *AuthorizationResponse, 1), Transaction: &ExternalTransactionDTO{TransactionDTO: &TransactionDTO{CardOpenInfoDTO: &CardOpenInfoDTO{Holder: "João"}}}}
+
+	a = newAcquirer(p)
+	assert.NotNil(t, a)
+
+	a.Process(ar)
+
+	select {
+	case <-repo.Found:
+		t.Log("Consulta de cartão no BD realizada")
+	case <-time.After(1 * time.Second):
+		assert.Fail(t, "Consulta de cartão no BD não foi realizada")
+	}
+
+	select {
+	case <-s.Sent:
+		t.Log("Requisição http enviada")
+	case <-time.After(1 * time.Second):
+		assert.Fail(t, "Requisição http não foi enviada")
+	}
+
+	select {
+	case <-ar.ResponseChannel:
+		t.Log("Resposta de processamento enviada")
+	case <-time.After(1 * time.Second):
+		assert.Fail(t, "Resposta de processamento não foi enviada")
+	}
+
+}
+
 func TestCreateStoneWorker(t *testing.T) {
 	t.Parallel()
 

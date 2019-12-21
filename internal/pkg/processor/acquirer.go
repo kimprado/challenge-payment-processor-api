@@ -50,6 +50,7 @@ func (a *Acquirer) Process(r *AuthorizationRequest) {
 	t, err = a.mapTransaction(r.Transaction)
 	if err != nil {
 		r.ResponseChannel <- &AuthorizationResponse{Err: err}
+		return
 	}
 
 	var response *AuthorizationMessage
@@ -57,7 +58,9 @@ func (a *Acquirer) Process(r *AuthorizationRequest) {
 
 	if err != nil {
 		r.ResponseChannel <- &AuthorizationResponse{Err: err}
+		return
 	}
+
 	r.ResponseChannel <- &AuthorizationResponse{Authorized: response}
 }
 
