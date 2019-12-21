@@ -61,30 +61,40 @@ func TestProcessAuthorizationRequestCases(t *testing.T) {
 
 	var a *Acquirer
 	var p *AcquirerParameter
-	var repo *CardRepositoryFinderMock
+
+	var cvva = "cvva"
 
 	testCases := []struct {
+		url         string
 		ar          *AuthorizationRequest
+		repo        *CardRepositoryFinderCaseMock
 		s           *HTTPRequestSenderCaseMock
+		cvvExpected string
 		errExpected error
 	}{
 		{
-			newAuthorizationRequest("João", 1000, 1),
+			"htttp://localhost/acquirer/stone",
+			newAuthorizationRequest("xpto121a", "João", 1000, 1),
+			newCardRepositoryFinderCaseMock(func(token string, chp chan string) (c *Card, err error) {
+				chp <- token
+				c = &Card{CVV: cvva}
+				return
+			}),
 			newHTTPRequestSenderCaseMock(func(p *requestParam, chp chan *requestParam) (err error) {
 				chp <- p
 				return
 			}),
+			cvva,
 			nil,
 		},
 	}
 	for _, tc := range testCases {
 		t.Run("", func(t *testing.T) {
 
-			repo = newCardRepositoryFinderMock()
 			p = &AcquirerParameter{
-				url:        "htttp://localhost/acquirer/stone",
+				url:        tc.url,
 				httpSender: tc.s,
-				cardFinder: repo,
+				cardFinder: tc.repo,
 			}
 
 			a = newAcquirer(p)
@@ -93,8 +103,9 @@ func TestProcessAuthorizationRequestCases(t *testing.T) {
 			a.Process(tc.ar)
 
 			select {
-			case <-repo.Found:
+			case token := <-tc.repo.chParam:
 				t.Log("Consulta de cartão no BD realizada")
+				assert.Equal(t, tc.ar.Transaction.Token, token)
 			case <-time.After(1 * time.Second):
 				assert.Fail(t, "Consulta de cartão no BD não foi realizada")
 			}
@@ -102,6 +113,9 @@ func TestProcessAuthorizationRequestCases(t *testing.T) {
 			select {
 			case httpReq := <-tc.s.chParam:
 				t.Log("Requisição http enviada")
+				//Validar informação CVV sensível
+				assert.Equal(t, tc.cvvExpected, httpReq.body.CVV)
+
 				assert.Equal(t, tc.ar.Transaction.Holder, httpReq.body.Holder)
 				assert.Equal(t, tc.ar.Transaction.Total, httpReq.body.Total)
 				assert.Equal(t, tc.ar.Transaction.Installments, httpReq.body.Installments)
@@ -274,6 +288,23 @@ func (a *AcquirerActorsMock) Resgister(aid AcquirerID, chr chan *AuthorizationRe
 	return
 }
 
+type CardRepositoryFinderCaseMock struct {
+	chParam chan string
+	f       func(token string, chParam chan string) (c *Card, err error)
+}
+
+func newCardRepositoryFinderCaseMock(f func(token string, chParam chan string) (c *Card, err error)) (r *CardRepositoryFinderCaseMock) {
+	r = new(CardRepositoryFinderCaseMock)
+	r.chParam = make(chan string, 1)
+	r.f = f
+	return
+}
+
+func (r *CardRepositoryFinderCaseMock) Find(token string) (c *Card, err error) {
+
+	return r.f(token, r.chParam)
+}
+
 type CardRepositoryFinderMock struct {
 	Found chan bool
 }
@@ -293,10 +324,11 @@ func (r *CardRepositoryFinderMock) Find(token string) (c *Card, err error) {
 	return
 }
 
-func newAuthorizationRequest(holder string, total float64, installments int) (ar *AuthorizationRequest) {
+func newAuthorizationRequest(token, holder string, total float64, installments int) (ar *AuthorizationRequest) {
 	ar = new(AuthorizationRequest)
 	ar.ResponseChannel = make(chan *AuthorizationResponse, 1)
 	ar.Transaction = &ExternalTransactionDTO{
+		Token: token,
 		TransactionDTO: &TransactionDTO{
 			CardOpenInfoDTO: &CardOpenInfoDTO{Holder: holder},
 			PurchaseDTO:     &PurchaseDTO{Total: total, Installments: installments},
