@@ -6,6 +6,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/gomodule/redigo/redis"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -63,6 +64,7 @@ func TestProcessAuthorizationRequestCases(t *testing.T) {
 	var p *AcquirerParameter
 
 	var cvva = "cvva"
+	var cvvblank = ""
 
 	testCases := []struct {
 		//label indica título do Test Case
@@ -90,6 +92,19 @@ func TestProcessAuthorizationRequestCases(t *testing.T) {
 			cvva,
 			nil,
 		},
+		{
+			"Erro Infra Repositório",
+			"htttp://localhost/acquirer/stone",
+			newAuthorizationRequest("xpto121a", "João", 1000, 1),
+			newCardRepositoryFinderCaseMock(func(token string, chp chan string) (c *Card, err error) {
+				chp <- token
+				err = redis.ErrPoolExhausted
+				return
+			}),
+			nil,
+			cvvblank,
+			redis.ErrPoolExhausted,
+		},
 	}
 	for _, tc := range testCases {
 		t.Run(tc.label, func(t *testing.T) {
@@ -113,24 +128,32 @@ func TestProcessAuthorizationRequestCases(t *testing.T) {
 				assert.Fail(t, "Consulta de cartão no BD não foi realizada")
 			}
 
-			select {
-			case httpReq := <-tc.s.chParam:
-				t.Log("Requisição http enviada")
-				assert.Equal(t, tc.url, httpReq.url)
+			if tc.s != nil {
+				select {
+				case httpReq := <-tc.s.chParam:
+					t.Log("Requisição http enviada")
+					assert.Equal(t, tc.url, httpReq.url)
 
-				//Validar informação CVV sensível
-				assert.Equal(t, tc.cvv, httpReq.body.CVV)
+					//Validar informação CVV sensível
+					assert.Equal(t, tc.cvv, httpReq.body.CVV)
 
-				assert.Equal(t, tc.ar.Transaction.Holder, httpReq.body.Holder)
-				assert.Equal(t, tc.ar.Transaction.Total, httpReq.body.Total)
-				assert.Equal(t, tc.ar.Transaction.Installments, httpReq.body.Installments)
-			case <-time.After(1 * time.Second):
-				assert.Fail(t, "Requisição http não foi enviada")
+					assert.Equal(t, tc.ar.Transaction.Holder, httpReq.body.Holder)
+					assert.Equal(t, tc.ar.Transaction.Total, httpReq.body.Total)
+					assert.Equal(t, tc.ar.Transaction.Installments, httpReq.body.Installments)
+				case <-time.After(1 * time.Second):
+					assert.Fail(t, "Requisição http não foi enviada")
+				}
 			}
 
 			select {
 			case resp := <-tc.ar.ResponseChannel:
 				t.Log("Resposta de processamento enviada")
+
+				if tc.err != nil {
+					assert.Equal(t, tc.err, resp.Err)
+					return
+				}
+
 				assert.NotNil(t, resp.Authorized)
 			case <-time.After(1 * time.Second):
 				assert.Fail(t, "Resposta de processamento não foi enviada")
