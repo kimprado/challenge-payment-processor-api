@@ -101,3 +101,35 @@ func (e *AcquirerActorRegisterChannelNilError) Is(target error) bool {
 		return false
 	}
 }
+
+// CardNotFoundError representa erro de cartão não encontrado
+type CardNotFoundError struct {
+	*errors.GenericError
+}
+
+// newCardNotFoundError cria instância de CardNotFoundError
+func newCardNotFoundError() (e *CardNotFoundError) {
+	e = new(CardNotFoundError)
+	e.GenericError = errors.NewGenericError(
+		"Falha ao consultar Cartão",
+		"Cartão inexistente",
+	)
+	return
+}
+
+func (e *CardNotFoundError) Error() string {
+	return e.GenericError.Error()
+}
+
+// Is informa se target == e. Verifica se e é do tipo
+// CardNotFoundError, DomainError.
+func (e *CardNotFoundError) Is(target error) bool {
+	switch target.(type) {
+	case *CardNotFoundError:
+		return true
+	case *errors.DomainError:
+		return true
+	default:
+		return false
+	}
+}

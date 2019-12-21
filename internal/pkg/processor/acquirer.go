@@ -1,13 +1,8 @@
 package processor
 
 import (
-	"errors"
-
 	"github.com/challenge/payment-processor/internal/pkg/infra/http"
 )
-
-// TODO: Modelar erro
-var errCardNotFound = errors.New("Error cartão não localizado")
 
 // AcquirerProcessor representa adquirente capaz de processar
 // transação com cartão.
@@ -74,7 +69,7 @@ func (a *Acquirer) mapTransaction(et *ExternalTransactionDTO) (t *AcquirerTransa
 	}
 
 	if c == nil {
-		err = errCardNotFound
+		err = newCardNotFoundError()
 		return
 	}
 

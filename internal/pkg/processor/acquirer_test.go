@@ -3,6 +3,7 @@
 package processor
 
 import (
+	"errors"
 	"testing"
 	"time"
 
@@ -105,6 +106,19 @@ func TestProcessAuthorizationRequestCases(t *testing.T) {
 			cvvblank,
 			redis.ErrPoolExhausted,
 		},
+		{
+			"Erro Cartão não encontrado",
+			"htttp://localhost/acquirer/stone",
+			newAuthorizationRequest("xpto121a", "João", 1000, 1),
+			newCardRepositoryFinderCaseMock(func(token string, chp chan string) (c *Card, err error) {
+				chp <- token
+				c = nil
+				return
+			}),
+			nil,
+			cvvblank,
+			&CardNotFoundError{},
+		},
 	}
 	for _, tc := range testCases {
 		t.Run(tc.label, func(t *testing.T) {
@@ -150,7 +164,7 @@ func TestProcessAuthorizationRequestCases(t *testing.T) {
 				t.Log("Resposta de processamento enviada")
 
 				if tc.err != nil {
-					assert.Equal(t, tc.err, resp.Err)
+					assert.True(t, errors.Is(tc.err, resp.Err))
 					return
 				}
 
