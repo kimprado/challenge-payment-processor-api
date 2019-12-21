@@ -129,8 +129,9 @@ func TestProcessAuthorizationRequestCases(t *testing.T) {
 			}
 
 			select {
-			case <-tc.ar.ResponseChannel:
+			case resp := <-tc.ar.ResponseChannel:
 				t.Log("Resposta de processamento enviada")
+				assert.NotNil(t, resp.Authorized)
 			case <-time.After(1 * time.Second):
 				assert.Fail(t, "Resposta de processamento não foi enviada")
 			}

@@ -53,15 +53,15 @@ func (a *Acquirer) Process(r *AuthorizationRequest) {
 		return
 	}
 
-	var response *AuthorizationMessage
-	err = a.httpSender.Send(a.url, t, response)
+	var response AuthorizationMessage
+	err = a.httpSender.Send(a.url, t, &response)
 
 	if err != nil {
 		r.ResponseChannel <- &AuthorizationResponse{Err: err}
 		return
 	}
 
-	r.ResponseChannel <- &AuthorizationResponse{Authorized: response}
+	r.ResponseChannel <- &AuthorizationResponse{Authorized: &response}
 }
 
 // mapTransaction implementa AcquirerTransactionMapper
