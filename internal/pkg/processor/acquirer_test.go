@@ -113,6 +113,8 @@ func TestProcessAuthorizationRequestCases(t *testing.T) {
 			select {
 			case httpReq := <-tc.s.chParam:
 				t.Log("Requisição http enviada")
+				assert.Equal(t, tc.url, httpReq.url)
+
 				//Validar informação CVV sensível
 				assert.Equal(t, tc.cvvExpected, httpReq.body.CVV)
 
