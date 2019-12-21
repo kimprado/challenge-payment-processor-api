@@ -66,13 +66,13 @@ func TestProcessAuthorizationRequestCases(t *testing.T) {
 
 	testCases := []struct {
 		//label indica título do Test Case
-		label       string
-		url         string
-		ar          *AuthorizationRequest
-		repo        *CardRepositoryFinderCaseMock
-		s           *HTTPRequestSenderCaseMock
-		cvvExpected string
-		errExpected error
+		label string
+		url   string
+		ar    *AuthorizationRequest
+		repo  *CardRepositoryFinderCaseMock
+		s     *HTTPRequestSenderCaseMock
+		cvv   string
+		err   error
 	}{
 		{
 			"Requisição Válida",
@@ -119,7 +119,7 @@ func TestProcessAuthorizationRequestCases(t *testing.T) {
 				assert.Equal(t, tc.url, httpReq.url)
 
 				//Validar informação CVV sensível
-				assert.Equal(t, tc.cvvExpected, httpReq.body.CVV)
+				assert.Equal(t, tc.cvv, httpReq.body.CVV)
 
 				assert.Equal(t, tc.ar.Transaction.Holder, httpReq.body.Holder)
 				assert.Equal(t, tc.ar.Transaction.Total, httpReq.body.Total)
