@@ -3,22 +3,30 @@ package processor
 // Processor representa ponto de entrada para comportamento
 // da aplicação. O controlador do domínio.
 type Processor interface {
-	Process(t *TransactionDTO) (ar *AuthorizationResponse)
+	Process(a AcquirerID, t *ExternalTransactionDTO) (ar *AuthorizationResponse)
 }
 
 // PaymentProcessorService implementa Processor e é ponto de entrada
 // para domínio da aplicação.
 type PaymentProcessorService struct {
+	actors AcquirerActorsSender
 }
 
 // NewPaymentProcessorService cria instância de Sevice.
-func NewPaymentProcessorService() (s *PaymentProcessorService) {
-	s = new(PaymentProcessorService)
+func NewPaymentProcessorService(a AcquirerActorsSender) (p *PaymentProcessorService) {
+	p = new(PaymentProcessorService)
+	p.actors = a
 	return
 }
 
 // Process delega processamento da transação para Acquirer.
-func (s *PaymentProcessorService) Process(t *TransactionDTO) (ar *AuthorizationResponse) {
+func (p *PaymentProcessorService) Process(a AcquirerID, t *ExternalTransactionDTO) (ar *AuthorizationResponse) {
+	r := &AuthorizationRequest{
+		Transaction:     t,
+		ResponseChannel: make(chan *AuthorizationResponse, 1),
+	}
+	p.actors.Send(a, r)
+	ar = <-r.ResponseChannel
 	return
 }
 
