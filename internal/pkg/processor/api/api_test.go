@@ -46,6 +46,32 @@ func TestProcessTransaction(t *testing.T) {
 `,
 			nil,
 		},
+		{
+			"AcquirerID Header nulo",
+			nil,
+			newExternalTransactionDTO("xpto121a", "João", 1000, 1),
+			newProcessorCaseMock(func(a processor.AcquirerID, t *processor.ExternalTransactionDTO) (ar *processor.AuthorizationResponse) {
+				ar = &processor.AuthorizationResponse{Authorized: &processor.AuthorizationMessage{Message: "Autorizada"}}
+				return
+			}),
+			400,
+			`{"title":"Um ou Mais parâmetros não são válidos","invalid-parameters":[{"name":"X-ACQUIRER-ID","value":"","reason":"'X-ACQUIRER-ID' não pode ser vazio"}]}
+`,
+			nil,
+		},
+		{
+			"AcquirerID Header Vazio",
+			newAcquirerID(""),
+			newExternalTransactionDTO("xpto121a", "João", 1000, 1),
+			newProcessorCaseMock(func(a processor.AcquirerID, t *processor.ExternalTransactionDTO) (ar *processor.AuthorizationResponse) {
+				ar = &processor.AuthorizationResponse{Authorized: &processor.AuthorizationMessage{Message: "Autorizada"}}
+				return
+			}),
+			400,
+			`{"title":"Um ou Mais parâmetros não são válidos","invalid-parameters":[{"name":"X-ACQUIRER-ID","value":"","reason":"'X-ACQUIRER-ID' não pode ser vazio"}]}
+`,
+			nil,
+		},
 	}
 	for _, tc := range testCases {
 		t.Run(tc.label, func(t *testing.T) {
