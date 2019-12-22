@@ -22,6 +22,10 @@ type AcquirerTransactionMapper interface {
 // AcquirerID representa identificação de um Acquirer
 type AcquirerID string
 
+func (a AcquirerID) String() string {
+	return (string)(a)
+}
+
 // AcquirerParameter encapsula parâmetros para criação de Acquirer
 type AcquirerParameter struct {
 	url        string
