@@ -1,12 +1,30 @@
-// +build testenvvars
+// +build test integration
 
 package config
 
 import (
+	"os"
 	"testing"
 )
 
 func TestNewConfigEnvVars(t *testing.T) {
+
+	setUp := func() {
+		os.Setenv("PROCESSOR_ENVIRONMENT_NAME", "test_ENV-VARS")
+		os.Setenv("PROCESSOR_SERVER_PORT", "4033")
+		os.Setenv("PROCESSOR_REDISDB_HOST", "host-env-test")
+		os.Setenv("PROCESSOR_REDISDB_PORT", "6523")
+		os.Setenv("PROCESSOR_LOGGING_LEVEL", "ROOT: WARN-teste")
+	}
+	tearDown := func() {
+		os.Setenv("PROCESSOR_ENVIRONMENT_NAME", "")
+		os.Setenv("PROCESSOR_SERVER_PORT", "")
+		os.Setenv("PROCESSOR_REDISDB_HOST", "")
+		os.Setenv("PROCESSOR_REDISDB_PORT", "")
+		os.Setenv("PROCESSOR_LOGGING_LEVEL", "")
+	}
+	setUp()
+	defer tearDown()
 
 	expect := struct {
 		environment string

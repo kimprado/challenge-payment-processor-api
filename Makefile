@@ -61,9 +61,6 @@ test-integration:
 test-all:
 	@./scripts/test.sh all
 
-test-envvars:
-	@./scripts/test.sh envvars
-
 ## test-unit-container		: Executa testes de unidade em ambiente containerizado.
 test-unit-container:
 	@docker-compose up --build test-unit
@@ -75,9 +72,6 @@ test-integration-container:
 ## test-all-container		: Executa testes de unidade e integração em ambiente containerizado.
 test-all-container:
 	@docker-compose up --build test-all
-
-test-envvars-container:
-	@docker-compose up --build test-envvars
 
 ## test-load-ab			: Executa testes de carga com ApacheBench.
 test-load-ab:
