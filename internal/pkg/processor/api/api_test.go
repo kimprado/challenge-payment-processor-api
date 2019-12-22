@@ -50,10 +50,7 @@ func TestProcessTransaction(t *testing.T) {
 			"AcquirerID Header nulo",
 			nil,
 			newExternalTransactionDTO("xpto121a", "João", 1000, 1),
-			newProcessorCaseMock(func(a processor.AcquirerID, t *processor.ExternalTransactionDTO) (ar *processor.AuthorizationResponse) {
-				ar = &processor.AuthorizationResponse{Authorized: &processor.AuthorizationMessage{Message: "Autorizada"}}
-				return
-			}),
+			nil,
 			400,
 			`{"title":"Um ou Mais parâmetros não são válidos","invalid-parameters":[{"name":"X-ACQUIRER-ID","value":"","reason":"'X-ACQUIRER-ID' não pode ser vazio"}]}
 `,
@@ -63,12 +60,19 @@ func TestProcessTransaction(t *testing.T) {
 			"AcquirerID Header Vazio",
 			newAcquirerID(""),
 			newExternalTransactionDTO("xpto121a", "João", 1000, 1),
-			newProcessorCaseMock(func(a processor.AcquirerID, t *processor.ExternalTransactionDTO) (ar *processor.AuthorizationResponse) {
-				ar = &processor.AuthorizationResponse{Authorized: &processor.AuthorizationMessage{Message: "Autorizada"}}
-				return
-			}),
+			nil,
 			400,
 			`{"title":"Um ou Mais parâmetros não são válidos","invalid-parameters":[{"name":"X-ACQUIRER-ID","value":"","reason":"'X-ACQUIRER-ID' não pode ser vazio"}]}
+`,
+			nil,
+		},
+		{
+			"AcquirerID Body Vazio",
+			newAcquirerID("Stone"),
+			nil,
+			nil,
+			400,
+			`{"title":"Um ou Mais parâmetros não são válidos","invalid-parameters":[{"name":"body","value":"","reason":"'body' não pode ser vazio"}]}
 `,
 			nil,
 		},
