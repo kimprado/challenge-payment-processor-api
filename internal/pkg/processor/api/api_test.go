@@ -13,12 +13,18 @@ import (
 )
 
 func TestProcessTransaction(t *testing.T) {
+	var err error
+
 	l := logging.NewLoggerAPI(nil)
 	handler := NewController(nil, l)
 	router := httprouter.New()
 	router.POST("/transactions/", handler.Process)
 
-	req, _ := http.NewRequest("POST", "/transactions/", nil)
+	req, err := http.NewRequest("POST", "/transactions/", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+
 	rr := httptest.NewRecorder()
 
 	router.ServeHTTP(rr, req)
