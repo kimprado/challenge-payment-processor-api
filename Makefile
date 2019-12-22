@@ -93,11 +93,11 @@ infra-stop:
 
 ## infra-test-start		: Inicia serviços de dependência de testes containerizados.
 infra-test-start:
-	@docker-compose up -d --build redis-test
+	@docker-compose up -d --build redis-test acquirers
 
 ## infra-test-stop		: Interrompe serviços de dependência de testes containerizados.
 infra-test-stop:
-	@docker-compose rm -fsv redis-test
+	@docker-compose rm -fsv redis-test acquirers
 
 ## package			: Empacota API na imagem challenge/payment-processor-api:latest - Alpine Linux.
 package: 

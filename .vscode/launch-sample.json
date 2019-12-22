@@ -30,6 +30,22 @@
             "env": {},
             "args": ["-config-location=${workspaceRoot}/configs/config-dev.json"],
             "showLog": true
+        },
+        {
+            "name": "Launch-Acquirers",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "remotePath": "",
+            "port": 2345,
+            "host": "127.0.0.1",
+            "program": "${workspaceRoot}/test/_acquirers_server_mock/main.go",
+            "env": {
+                "ACQUIRERS_PORT": 8092,
+                "ACQUIRERS_DELAY": 100,
+            },
+            "args": [],
+            "showLog": true
         }
     ]
 }

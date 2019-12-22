@@ -84,6 +84,16 @@ services:
     network_mode: host
     depends_on:
       - nginx
+  acquirers:
+    build: 
+      context: ./test/_acquirers_server_mock
+    environment: 
+      ACQUIRERS_PORT: 8092
+      ACQUIRERS_DELAY: 100
+    volumes:
+      - ./test/_acquirers_server_mock/:/src/
+    ports: 
+      - 8092:8092
   swagger:
     image: swaggerapi/swagger-ui:v3.24.3
     environment: 
