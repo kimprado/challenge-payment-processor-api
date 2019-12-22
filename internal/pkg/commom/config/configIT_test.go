@@ -54,13 +54,10 @@ func TestLoadConfig(t *testing.T) {
 		entrytimeout      time.Duration
 		logging           map[string]string
 	}{
-		environment:       "test-" + dateTime,
-		serverPort:        "3080",
-		redisDbHost:       "host-IT-test",
-		redisDbPort:       6379,
-		basecurrency:      "USD",
-		defaultcurrencies: []string{"USD", "BRL", "EUR", "BTC", "ETH"},
-		entrytimeout:      60,
+		environment: "test-" + dateTime,
+		serverPort:  "3080",
+		redisDbHost: "host-IT-test",
+		redisDbPort: 6379,
 		logging: map[string]string{
 			"ROOT": "INFO",
 		},
