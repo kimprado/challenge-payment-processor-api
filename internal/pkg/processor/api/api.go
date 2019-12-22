@@ -19,33 +19,44 @@ type Controller struct {
 }
 
 // NewController é responsável por instanciar Controller
-func NewController(p processor.Processor, l logging.LoggerAPI) (ctrl *Controller) {
-	ctrl = new(Controller)
-	ctrl.processor = p
-	ctrl.logger = l
+func NewController(p processor.Processor, l logging.LoggerAPI) (c *Controller) {
+	c = new(Controller)
+	c.processor = p
+	c.logger = l
 	return
 }
 
-// Exchange calcula câmbio
-func (c *Controller) Exchange(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
+// Process realiza processamento da transação
+func (c *Controller) Process(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
 	var err error
+
+	var ar *processor.AuthorizationResponse
+	var a processor.AcquirerID
+	var dto processor.ExternalTransactionDTO
 
 	paramErr := errors.NewParametersError()
 
-	var dto processor.ExternalTransactionDTO
-	err = json.NewDecoder(r.Body).Decode(&dto)
-	if err != nil {
-		c.logger.Errorf("Erro ao converter transação %v\n", err)
-		w.WriteHeader(http.StatusInternalServerError)
+	a = (processor.AcquirerID)(r.Header.Get("X-ACQUIRER-ID"))
+	errDecode := json.NewDecoder(r.Body).Decode(&dto)
 
+	if a == "" {
+		paramErr.Add(
+			errors.ParameterError{
+				Name:   "X-ACQUIRER-ID",
+				Value:  "",
+				Reason: "'X-ACQUIRER-ID' não pode ser vazio",
+			},
+		)
+	}
+
+	if errDecode != nil {
 		paramErr.Add(
 			errors.ParameterError{
 				Name:   "body",
 				Value:  "",
-				Reason: fmt.Sprintf("Não foi possivel converter paraâmetro JSON"),
+				Reason: fmt.Sprintf("Não foi possivel converter parâmetro JSON"),
 			},
 		)
-		return
 	}
 
 	if paramErr.ContainsError() {
@@ -61,18 +72,14 @@ func (c *Controller) Exchange(w http.ResponseWriter, r *http.Request, params htt
 		return
 	}
 
-	var a processor.AcquirerID
-	var ar *processor.AuthorizationResponse
-	a = (processor.AcquirerID)(r.Header.Get("X-ACQUIRER-ID"))
-
 	ar = c.processor.Process(a, &dto)
 
-	if err != nil {
+	if ar.Err != nil {
 		c.logger.Warnf("Erro ao realizar transação: %v\n", err)
 
 		web.NewHTTPResponse(
 			w,
-			statusCode(err),
+			statusCode(ar.Err),
 			nil,
 			ar.Err,
 		).WriteJSON()
