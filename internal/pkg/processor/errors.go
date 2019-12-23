@@ -213,8 +213,8 @@ type AcquirerConnectivityError struct {
 	*errors.GenericError
 }
 
-// newAcquirerConnectivityError cria instância de AcquirerConnectivityError
-func newAcquirerConnectivityError(message string, err error) (e *AcquirerConnectivityError) {
+// NewAcquirerConnectivityError cria instância de AcquirerConnectivityError
+func NewAcquirerConnectivityError(message string, err error) (e *AcquirerConnectivityError) {
 	e = new(AcquirerConnectivityError)
 	e.GenericError = &errors.GenericError{}
 	e.GenericError.Title = "Falha no Adquirente ao Processar Transação"

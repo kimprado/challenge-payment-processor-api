@@ -79,7 +79,7 @@ func (a *Acquirer) Process(r *AuthorizationRequest) {
 	}
 
 	if err != nil {
-		r.ResponseChannel <- &AuthorizationResponse{Err: newAcquirerConnectivityError("Erro de conexão com Adquirente. Tente novamente mais tarde.", err)}
+		r.ResponseChannel <- &AuthorizationResponse{Err: NewAcquirerConnectivityError("Erro de conexão com Adquirente. Tente novamente mais tarde.", err)}
 		return
 	}
 

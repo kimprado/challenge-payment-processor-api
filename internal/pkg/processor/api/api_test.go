@@ -115,6 +115,19 @@ func TestProcessTransaction(t *testing.T) {
 			nil,
 		},
 		{
+			"Resposta com AcquirerConnectivityError",
+			newAcquirerID("Stone"),
+			newExternalTransactionDTO("xpto121a", "João", 1000, 1),
+			nil,
+			newProcessorCaseMock(func(a processor.AcquirerID, t *processor.ExternalTransactionDTO) (ar *processor.AuthorizationResponse) {
+				ar = &processor.AuthorizationResponse{Err: processor.NewAcquirerConnectivityError("", nil)}
+				return
+			}),
+			http.StatusServiceUnavailable,
+			`{"title":"Falha no Adquirente ao Processar Transação"}`,
+			nil,
+		},
+		{
 			"Resposta com falha genérica",
 			newAcquirerID("Stone"),
 			newExternalTransactionDTO("xpto121a", "João", 1000, 1),
