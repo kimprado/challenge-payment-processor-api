@@ -13,6 +13,8 @@ func statusCode(e error) (s int) {
 	switch e.(type) {
 	case *processor.CardNotFoundError:
 		s = http.StatusNotFound // 404
+	case *processor.AcquirerValidationError:
+		s = http.StatusBadRequest // 400
 	case *processor.AcquirerProcessingError:
 		s = http.StatusServiceUnavailable // 503
 	case *processor.AcquirerConnectivityError:

@@ -102,6 +102,19 @@ func TestProcessTransaction(t *testing.T) {
 			nil,
 		},
 		{
+			"Resposta com AcquirerValidationError",
+			newAcquirerID("Stone"),
+			newExternalTransactionDTO("xpto121a", "João", 1000, 1),
+			nil,
+			newProcessorCaseMock(func(a processor.AcquirerID, t *processor.ExternalTransactionDTO) (ar *processor.AuthorizationResponse) {
+				ar = &processor.AuthorizationResponse{Err: processor.NewAcquirerValidationError("", "")}
+				return
+			}),
+			http.StatusBadRequest,
+			`{"title":"Falha no Adquirente ao Processar Transação"}`,
+			nil,
+		},
+		{
 			"Resposta com AcquirerProcessingError",
 			newAcquirerID("Stone"),
 			newExternalTransactionDTO("xpto121a", "João", 1000, 1),

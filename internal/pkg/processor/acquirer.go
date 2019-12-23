@@ -69,7 +69,7 @@ func (a *Acquirer) Process(r *AuthorizationRequest) {
 
 	var httpError *http.Error
 	if errors.Is(err, &http.StatusBadRequestError{}) && errors.As(err, &httpError) {
-		r.ResponseChannel <- &AuthorizationResponse{Err: newAcquirerValidationError(httpError.Message, httpError.URL)}
+		r.ResponseChannel <- &AuthorizationResponse{Err: NewAcquirerValidationError(httpError.Message, httpError.URL)}
 		return
 	}
 
