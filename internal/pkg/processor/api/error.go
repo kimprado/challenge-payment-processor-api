@@ -12,7 +12,7 @@ func statusCode(e error) (s int) {
 
 	switch e.(type) {
 	case *processor.CardNotFoundError:
-		s = http.StatusBadRequest // 404
+		s = http.StatusNotFound // 404
 	case *errors.ParametersError:
 		s = http.StatusBadRequest // 400
 	default:

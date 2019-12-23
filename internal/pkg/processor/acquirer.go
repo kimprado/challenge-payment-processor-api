@@ -87,7 +87,7 @@ func (a *Acquirer) mapTransaction(et *ExternalTransactionDTO) (t *AcquirerTransa
 	}
 
 	if c == nil {
-		err = newCardNotFoundError()
+		err = NewCardNotFoundError()
 		return
 	}
 

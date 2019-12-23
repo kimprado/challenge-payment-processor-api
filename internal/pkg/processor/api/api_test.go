@@ -87,6 +87,19 @@ func TestProcessTransaction(t *testing.T) {
 			`{"title":"Um ou Mais parâmetros não são válidos","invalid-parameters":[{"name":"body","value":"","reason":"Não foi possivel converter parâmetro JSON"}]}`,
 			nil,
 		},
+		{
+			"Resposta com CardNotFoundError",
+			newAcquirerID("Stone"),
+			newExternalTransactionDTO("zzz", "João", 1000, 1),
+			nil,
+			newProcessorCaseMock(func(a processor.AcquirerID, t *processor.ExternalTransactionDTO) (ar *processor.AuthorizationResponse) {
+				ar = &processor.AuthorizationResponse{Err: processor.NewCardNotFoundError()}
+				return
+			}),
+			http.StatusNotFound,
+			`{"title":"Falha ao consultar Cartão","detail":"Cartão inexistente"}`,
+			nil,
+		},
 	}
 	for _, tc := range testCases {
 		t.Run(tc.label, func(t *testing.T) {

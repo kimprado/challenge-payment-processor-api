@@ -107,8 +107,8 @@ type CardNotFoundError struct {
 	*errors.GenericError
 }
 
-// newCardNotFoundError cria instância de CardNotFoundError
-func newCardNotFoundError() (e *CardNotFoundError) {
+// NewCardNotFoundError cria instância de CardNotFoundError
+func NewCardNotFoundError() (e *CardNotFoundError) {
 	e = new(CardNotFoundError)
 	e.GenericError = errors.NewGenericError(
 		"Falha ao consultar Cartão",
