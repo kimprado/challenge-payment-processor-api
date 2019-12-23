@@ -181,8 +181,8 @@ type AcquirerProcessingError struct {
 	*errors.GenericError
 }
 
-// newAcquirerProcessingError cria instância de AcquirerProcessingError
-func newAcquirerProcessingError() (e *AcquirerProcessingError) {
+// NewAcquirerProcessingError cria instância de AcquirerProcessingError
+func NewAcquirerProcessingError() (e *AcquirerProcessingError) {
 	e = new(AcquirerProcessingError)
 	e.GenericError = &errors.GenericError{}
 	e.GenericError.Title = "Falha no Adquirente ao Processar Transação"
