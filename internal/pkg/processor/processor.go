@@ -1,5 +1,12 @@
 package processor
 
+import (
+	"errors"
+
+	commomerrors "github.com/challenge/payment-processor/internal/pkg/commom/errors"
+	"github.com/challenge/payment-processor/internal/pkg/commom/logging"
+)
+
 // Processor representa ponto de entrada para comportamento
 // da aplicação. O controlador do domínio.
 type Processor interface {
@@ -10,12 +17,14 @@ type Processor interface {
 // para domínio da aplicação.
 type PaymentProcessorService struct {
 	actors AcquirerActorsSender
+	logger logging.LoggerProcessor
 }
 
 // NewPaymentProcessorService cria instância de Sevice.
-func NewPaymentProcessorService(a AcquirerActorsSender) (p *PaymentProcessorService) {
+func NewPaymentProcessorService(a AcquirerActorsSender, l logging.LoggerProcessor) (p *PaymentProcessorService) {
 	p = new(PaymentProcessorService)
 	p.actors = a
+	p.logger = l
 	return
 }
 
@@ -27,6 +36,16 @@ func (p *PaymentProcessorService) Process(a AcquirerID, t *ExternalTransactionDT
 	}
 	p.actors.Send(a, r)
 	ar = <-r.ResponseChannel
+	if ar.Err != nil {
+		if errors.Is(ar.Err, &commomerrors.DomainError{}) {
+			p.logger.Warnf("Erro ao realizar transação: %v\n", ar.Err)
+		} else {
+			p.logger.Errorf("Erro ao realizar transação: %v\n", ar.Err)
+		}
+
+		// Garante que erro retornado seja tratado, amigável
+		_, ar.Err = commomerrors.GetFriendlyErrorOr(ar.Err, newPaymentProcessError())
+	}
 	return
 }
 

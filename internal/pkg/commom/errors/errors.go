@@ -9,6 +9,7 @@ import (
 type GenericError struct {
 	Title  string `json:"title"`
 	Detail string `json:"detail,omitempty"`
+	Err    error  `json:"-"`
 }
 
 // NewGenericError cria instância de GenericError
@@ -20,7 +21,15 @@ func NewGenericError(title, detail string) (e *GenericError) {
 }
 
 func (e *GenericError) Error() string {
-	return fmt.Sprintf("%s[%s]", e.Title, e.Detail)
+	var detail string
+	if e.Detail != "" {
+		detail = fmt.Sprintf(" [%s]", e.Detail)
+	}
+	var err string
+	if e.Err != nil {
+		err = fmt.Sprintf(": %v", e.Err)
+	}
+	return fmt.Sprintf("%s%s%s", e.Title, detail, err)
 }
 
 // Is informa se target == e. Verifica se e é do tipo
@@ -48,6 +57,32 @@ func NewDomainError(title, detail string) (e *DomainError) {
 }
 
 func (e *DomainError) Error() string {
+	return fmt.Sprintf("%s", e)
+}
+
+// ComponentError representa erros do domínio da aplicação
+type ComponentError struct {
+	GenericError
+}
+
+// NewComponentError cria instância de ComponentError
+func NewComponentError(title, detail string) (e *ComponentError) {
+	e = new(ComponentError)
+	e.Title = title
+	e.Detail = detail
+	return
+}
+
+func (e *ComponentError) Error() string {
+	return fmt.Sprintf("%s", e)
+}
+
+// FriendlyError representa erro da aplicação tratado
+type FriendlyError struct {
+	GenericError
+}
+
+func (e *FriendlyError) Error() string {
 	return fmt.Sprintf("%s", e)
 }
 
@@ -93,13 +128,15 @@ type ParameterError struct {
 	Reason string `json:"reason"`
 }
 
-// GetDomainErrorOr retorna fromErr caso seja do tipo DomainError,
+// GetFriendlyErrorOr retorna fromErr caso seja do tipo FriendlyError,
 // caso contrário defaultErr.
-func GetDomainErrorOr(fromErr error, defaultErr error) (e error) {
-	if got := errors.Is(fromErr, &DomainError{}); got {
+func GetFriendlyErrorOr(fromErr error, defaultErr error) (isFriendly bool, e error) {
+	if got := errors.Is(fromErr, &FriendlyError{}); got {
+		isFriendly = true
 		e = fromErr
 		return
 	}
+	isFriendly = false
 	e = defaultErr
 	return
 }

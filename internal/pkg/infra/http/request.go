@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"net/http"
 	"time"
 )
@@ -115,8 +114,6 @@ func (h *Service) Send(url string, body interface{}, response interface{}) (err 
 
 	resp, err := h.client.Do(req)
 	if err != nil {
-		//TODO: logar erros em outra camada
-		fmt.Printf("%v\n", err)
 		return err
 	}
 

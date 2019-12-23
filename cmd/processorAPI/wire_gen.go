@@ -38,12 +38,13 @@ func initializeAppender(path string) (logging.FileAppender, error) {
 func initializeApp(path string) (*app.PaymentProcessorApp, error) {
 	actorsMap := processor.NewActorsMap()
 	acquirerActors := processor.NewAcquirerActors(actorsMap)
-	paymentProcessorService := processor.NewPaymentProcessorService(acquirerActors)
 	configuration, err := config.NewConfig(path)
 	if err != nil {
 		return nil, err
 	}
 	loggingLevels := config.NewLoggingLevels(configuration)
+	loggerProcessor := logging.NewLoggerProcessor(loggingLevels)
+	paymentProcessorService := processor.NewPaymentProcessorService(acquirerActors, loggerProcessor)
 	loggerAPI := logging.NewLoggerAPI(loggingLevels)
 	controller := api.NewController(paymentProcessorService, loggerAPI)
 	loggerWebServer := logging.NewWebServer(loggingLevels)

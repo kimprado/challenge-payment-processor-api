@@ -4,7 +4,6 @@ import (
 	"errors"
 
 	"github.com/challenge/payment-processor/internal/pkg/commom/config"
-	commomerros "github.com/challenge/payment-processor/internal/pkg/commom/errors"
 	"github.com/challenge/payment-processor/internal/pkg/infra/http"
 )
 
@@ -74,12 +73,12 @@ func (a *Acquirer) Process(r *AuthorizationRequest) {
 	}
 
 	if errors.Is(err, &http.ServerError{}) && errors.As(err, &httpError) {
-		r.ResponseChannel <- &AuthorizationResponse{Err: &commomerros.GenericError{Title: "Falha no Adquirente ao Processar Transação"}}
+		r.ResponseChannel <- &AuthorizationResponse{Err: newAcquirerProcessingError()}
 		return
 	}
 
 	if err != nil {
-		r.ResponseChannel <- &AuthorizationResponse{Err: &commomerros.GenericError{Title: "Falha no Adquirente ao Processar Transação"}}
+		r.ResponseChannel <- &AuthorizationResponse{Err: newAcquirerConnectivityError("Erro de conexão com Adquirente. Tente novamente mais tarde.", err)}
 		return
 	}
 

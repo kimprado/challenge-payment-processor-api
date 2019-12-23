@@ -5,6 +5,7 @@ package processor
 import (
 	"testing"
 
+	"github.com/challenge/payment-processor/internal/pkg/commom/logging"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -14,8 +15,12 @@ func TestProcessTransaction(t *testing.T) {
 	var p Processor
 	var a AcquirerActorsSender
 
+	l := logging.NewLoggerProcessor(map[string]string{
+		"ROOT": "INFO",
+	})
+
 	a = &AcquirerActorsSenderMock{}
-	p = NewPaymentProcessorService(a)
+	p = NewPaymentProcessorService(a, l)
 
 	assert.NotNil(t, p)
 

@@ -10,6 +10,11 @@ type Logger struct {
 	l.Logger
 }
 
+// LoggerProcessor para logar paymentprocessor.processor
+type LoggerProcessor struct {
+	l.Logger
+}
+
 // LoggerAPI para logar paymentprocessor.api
 type LoggerAPI struct {
 	l.Logger
@@ -33,6 +38,12 @@ type LoggerWebServer struct {
 // NewLogger cria Logger ""(ROOT)
 func NewLogger(configLevels config.LoggingLevels) (log Logger) {
 	log = Logger{l.NewLogger("", configLevels)}
+	return
+}
+
+// NewLoggerProcessor cria Logger "paymentprocessor.processor"
+func NewLoggerProcessor(configLevels config.LoggingLevels) (log LoggerProcessor) {
+	log = LoggerProcessor{l.NewLogger("paymentprocessor.processor", configLevels)}
 	return
 }
 

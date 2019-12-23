@@ -71,7 +71,7 @@ func (c *Controller) Process(w http.ResponseWriter, r *http.Request, params http
 	}
 
 	if paramErr.ContainsError() {
-		c.logger.Warnf("Consulta Exchange : %v\n", paramErr)
+		c.logger.Warnf("Processar transação: %v\n", paramErr)
 
 		web.NewHTTPResponse(
 			w,
@@ -86,7 +86,6 @@ func (c *Controller) Process(w http.ResponseWriter, r *http.Request, params http
 	ar = c.processor.Process(a, &dto)
 
 	if ar.Err != nil {
-		c.logger.Warnf("Erro ao realizar transação: %v\n", ar.Err)
 
 		web.NewHTTPResponse(
 			w,

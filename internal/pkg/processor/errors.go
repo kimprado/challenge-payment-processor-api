@@ -33,6 +33,8 @@ func (e *AcquirerActorSendNotFoundError) Is(target error) bool {
 		return true
 	case *errors.DomainError:
 		return true
+	case *errors.FriendlyError:
+		return true
 	default:
 		return false
 	}
@@ -64,6 +66,8 @@ func (e *AcquirerActorRegisterExistsError) Is(target error) bool {
 	case *AcquirerActorRegisterExistsError:
 		return true
 	case *errors.DomainError:
+		return true
+	case *errors.FriendlyError:
 		return true
 	default:
 		return false
@@ -97,6 +101,8 @@ func (e *AcquirerActorRegisterChannelNilError) Is(target error) bool {
 		return true
 	case *errors.DomainError:
 		return true
+	case *errors.FriendlyError:
+		return true
 	default:
 		return false
 	}
@@ -128,6 +134,8 @@ func (e *CardNotFoundError) Is(target error) bool {
 	case *CardNotFoundError:
 		return true
 	case *errors.DomainError:
+		return true
+	case *errors.FriendlyError:
 		return true
 	default:
 		return false
@@ -161,7 +169,94 @@ func (e *AcquirerValidationError) Is(target error) bool {
 		return true
 	case *errors.DomainError:
 		return true
+	case *errors.FriendlyError:
+		return true
 	default:
 		return false
 	}
+}
+
+// AcquirerProcessingError representa erro no processamento do adquirente
+type AcquirerProcessingError struct {
+	*errors.GenericError
+}
+
+// newAcquirerProcessingError cria instância de AcquirerProcessingError
+func newAcquirerProcessingError() (e *AcquirerProcessingError) {
+	e = new(AcquirerProcessingError)
+	e.GenericError = &errors.GenericError{}
+	e.GenericError.Title = "Falha no Adquirente ao Processar Transação"
+	return
+}
+
+func (e *AcquirerProcessingError) Error() string {
+	return e.GenericError.Error()
+}
+
+// Is informa se target == e. Verifica se e é do tipo
+// AcquirerProcessingError, ComponentError.
+func (e *AcquirerProcessingError) Is(target error) bool {
+	switch target.(type) {
+	case *AcquirerProcessingError:
+		return true
+	case *errors.ComponentError:
+		return true
+	case *errors.FriendlyError:
+		return true
+	default:
+		return false
+	}
+}
+
+// AcquirerConnectivityError representa erro de conectividade com adquirente
+type AcquirerConnectivityError struct {
+	*errors.GenericError
+}
+
+// newAcquirerConnectivityError cria instância de AcquirerConnectivityError
+func newAcquirerConnectivityError(message string, err error) (e *AcquirerConnectivityError) {
+	e = new(AcquirerConnectivityError)
+	e.GenericError = &errors.GenericError{}
+	e.GenericError.Title = "Falha no Adquirente ao Processar Transação"
+	e.GenericError.Detail = message
+	e.GenericError.Err = err
+	return
+}
+
+func (e *AcquirerConnectivityError) Error() string {
+	return e.GenericError.Error()
+}
+
+// Is informa se target == e. Verifica se e é do tipo
+// AcquirerConnectivityError, ComponentError.
+func (e *AcquirerConnectivityError) Is(target error) bool {
+	switch target.(type) {
+	case *AcquirerConnectivityError:
+		return true
+	case *errors.ComponentError:
+		return true
+	case *errors.FriendlyError:
+		return true
+	default:
+		return false
+	}
+}
+
+// PaymentProcessError representa erro no Processamento da Transação
+type PaymentProcessError struct {
+	*errors.GenericError
+}
+
+// newPaymentProcessError cria instância de PaymentProcessError
+func newPaymentProcessError() (e *PaymentProcessError) {
+	e = new(PaymentProcessError)
+	e.GenericError = errors.NewGenericError(
+		"Falha no processamento da transação",
+		fmt.Sprintf("Não foi possível Processar a Transação"),
+	)
+	return
+}
+
+func (e *PaymentProcessError) Error() string {
+	return e.GenericError.Error()
 }

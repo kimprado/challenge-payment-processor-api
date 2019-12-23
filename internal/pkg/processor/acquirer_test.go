@@ -3,12 +3,10 @@
 package processor
 
 import (
-	"errors"
 	"testing"
 	"time"
 
 	"github.com/challenge/payment-processor/internal/pkg/commom/config"
-	commomerros "github.com/challenge/payment-processor/internal/pkg/commom/errors"
 	"github.com/challenge/payment-processor/internal/pkg/infra/http"
 	"github.com/gomodule/redigo/redis"
 	"github.com/stretchr/testify/assert"
@@ -160,7 +158,7 @@ func TestProcessAuthorizationRequestCases(t *testing.T) {
 				return
 			}),
 			cvva,
-			&commomerros.GenericError{},
+			&AcquirerProcessingError{},
 		},
 		{
 			"Requisição com erro HTTP não mapeado",
@@ -180,7 +178,7 @@ func TestProcessAuthorizationRequestCases(t *testing.T) {
 				return
 			}),
 			cvva,
-			&commomerros.GenericError{},
+			&AcquirerConnectivityError{},
 		},
 	}
 	for _, tc := range testCases {
@@ -227,7 +225,7 @@ func TestProcessAuthorizationRequestCases(t *testing.T) {
 				t.Log("Resposta de processamento enviada")
 
 				if tc.err != nil {
-					assert.True(t, errors.Is(tc.err, resp.Err))
+					assert.IsType(t, tc.err, resp.Err)
 					return
 				}
 
