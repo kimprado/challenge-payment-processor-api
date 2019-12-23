@@ -28,7 +28,6 @@ func NewController(p processor.Processor, l logging.LoggerAPI) (c *Controller) {
 
 // Process realiza processamento da transação
 func (c *Controller) Process(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
-	var err error
 	var errDecode error
 
 	var ar *processor.AuthorizationResponse
@@ -44,7 +43,7 @@ func (c *Controller) Process(w http.ResponseWriter, r *http.Request, params http
 			errors.ParameterError{
 				Name:   "X-ACQUIRER-ID",
 				Value:  "",
-				Reason: "'X-ACQUIRER-ID' não pode ser vazio",
+				Reason: "Header 'X-ACQUIRER-ID' não pode ser vazio",
 			},
 		)
 	}
@@ -87,7 +86,7 @@ func (c *Controller) Process(w http.ResponseWriter, r *http.Request, params http
 	ar = c.processor.Process(a, &dto)
 
 	if ar.Err != nil {
-		c.logger.Warnf("Erro ao realizar transação: %v\n", err)
+		c.logger.Warnf("Erro ao realizar transação: %v\n", ar.Err)
 
 		web.NewHTTPResponse(
 			w,
