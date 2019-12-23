@@ -10,6 +10,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
+	commomerros "github.com/challenge/payment-processor/internal/pkg/commom/errors"
 	"github.com/challenge/payment-processor/internal/pkg/commom/logging"
 	"github.com/challenge/payment-processor/internal/pkg/processor"
 	"github.com/julienschmidt/httprouter"
@@ -98,6 +99,19 @@ func TestProcessTransaction(t *testing.T) {
 			}),
 			http.StatusNotFound,
 			`{"title":"Falha ao consultar Cartão","detail":"Cartão inexistente"}`,
+			nil,
+		},
+		{
+			"Resposta com falha genérica",
+			newAcquirerID("Stone"),
+			newExternalTransactionDTO("xpto121a", "João", 1000, 1),
+			nil,
+			newProcessorCaseMock(func(a processor.AcquirerID, t *processor.ExternalTransactionDTO) (ar *processor.AuthorizationResponse) {
+				ar = &processor.AuthorizationResponse{Err: &commomerros.GenericError{Title: "Erro genérico não mapeado"}}
+				return
+			}),
+			http.StatusInternalServerError,
+			`{"title":"Erro genérico não mapeado"}`,
 			nil,
 		},
 	}
