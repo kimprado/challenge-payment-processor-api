@@ -25,18 +25,20 @@ func TestProcessTransaction(t *testing.T) {
 
 	testCases := []struct {
 		//label indica título do Test Case
-		label        string
-		a            *processor.AcquirerID
-		t            *processor.ExternalTransactionDTO
-		p            processor.Processor
-		statusCode   int
-		responseBody string
-		err          error
+		label              string
+		a                  *processor.AcquirerID
+		t                  *processor.ExternalTransactionDTO
+		invalidTransaction *string
+		p                  processor.Processor
+		statusCode         int
+		responseBody       string
+		err                error
 	}{
 		{
 			"Transação Válida",
 			newAcquirerID("Stone"),
 			newExternalTransactionDTO("xpto121a", "João", 1000, 1),
+			nil,
 			newProcessorCaseMock(func(a processor.AcquirerID, t *processor.ExternalTransactionDTO) (ar *processor.AuthorizationResponse) {
 				ar = &processor.AuthorizationResponse{Authorized: &processor.AuthorizationMessage{Message: "Autorizada"}}
 				return
@@ -51,6 +53,7 @@ func TestProcessTransaction(t *testing.T) {
 			nil,
 			newExternalTransactionDTO("xpto121a", "João", 1000, 1),
 			nil,
+			nil,
 			400,
 			`{"title":"Um ou Mais parâmetros não são válidos","invalid-parameters":[{"name":"X-ACQUIRER-ID","value":"","reason":"'X-ACQUIRER-ID' não pode ser vazio"}]}
 `,
@@ -61,18 +64,31 @@ func TestProcessTransaction(t *testing.T) {
 			newAcquirerID(""),
 			newExternalTransactionDTO("xpto121a", "João", 1000, 1),
 			nil,
+			nil,
 			400,
 			`{"title":"Um ou Mais parâmetros não são válidos","invalid-parameters":[{"name":"X-ACQUIRER-ID","value":"","reason":"'X-ACQUIRER-ID' não pode ser vazio"}]}
 `,
 			nil,
 		},
 		{
-			"AcquirerID Body Vazio",
+			"Body vazio",
 			newAcquirerID("Stone"),
+			nil,
 			nil,
 			nil,
 			400,
 			`{"title":"Um ou Mais parâmetros não são válidos","invalid-parameters":[{"name":"body","value":"","reason":"'body' não pode ser vazio"}]}
+`,
+			nil,
+		},
+		{
+			"Body JSON inválido",
+			newAcquirerID("Stone"),
+			nil,
+			newInvalidTransaction(`{"token": "abc":]}}`),
+			nil,
+			400,
+			`{"title":"Um ou Mais parâmetros não são válidos","invalid-parameters":[{"name":"body","value":"","reason":"Não foi possivel converter parâmetro JSON"}]}
 `,
 			nil,
 		},
@@ -92,6 +108,10 @@ func TestProcessTransaction(t *testing.T) {
 			if tc.t != nil {
 				bb, _ := json.Marshal(tc.t)
 				body = bytes.NewReader(bb)
+			}
+
+			if tc.invalidTransaction != nil {
+				body = bytes.NewReader([]byte(*tc.invalidTransaction))
 			}
 
 			req, err := http.NewRequest("POST", "/transactions/", body)
@@ -146,4 +166,8 @@ func newProcessorCaseMock(f func(a processor.AcquirerID, t *processor.ExternalTr
 func (r *ProcessorCaseMock) Process(a processor.AcquirerID, t *processor.ExternalTransactionDTO) (ar *processor.AuthorizationResponse) {
 
 	return r.f(a, t)
+}
+
+func newInvalidTransaction(t string) *string {
+	return &t
 }
