@@ -11,12 +11,12 @@ type AcquirerActorSendNotFoundError struct {
 	*errors.GenericError
 }
 
-// newAcquirerActorSendNotFoundError cria instância de AcquirerActorSendNotFoundError
-func newAcquirerActorSendNotFoundError(id AcquirerID) (e *AcquirerActorSendNotFoundError) {
+// NewAcquirerActorSendNotFoundError cria instância de AcquirerActorSendNotFoundError
+func NewAcquirerActorSendNotFoundError(id AcquirerID) (e *AcquirerActorSendNotFoundError) {
 	e = new(AcquirerActorSendNotFoundError)
 	e.GenericError = errors.NewGenericError(
-		"Falha ao enviar requisição para ator",
-		fmt.Sprintf("Ator %q inexistente", id),
+		"Falha ao enviar requisição para Adquirente",
+		fmt.Sprintf("Adquirente %q inexistente", id),
 	)
 	return
 }

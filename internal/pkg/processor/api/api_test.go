@@ -89,6 +89,19 @@ func TestProcessTransaction(t *testing.T) {
 			nil,
 		},
 		{
+			"Resposta com AcquirerActorSendNotFoundError",
+			newAcquirerID("Stone"),
+			newExternalTransactionDTO("xpto121a", "João", 1000, 1),
+			nil,
+			newProcessorCaseMock(func(a processor.AcquirerID, t *processor.ExternalTransactionDTO) (ar *processor.AuthorizationResponse) {
+				ar = &processor.AuthorizationResponse{Err: processor.NewAcquirerActorSendNotFoundError("Rede")}
+				return
+			}),
+			http.StatusBadRequest,
+			`{"title":"Falha ao enviar requisição para Adquirente","detail":"Adquirente \"Rede\" inexistente"}`,
+			nil,
+		},
+		{
 			"Resposta com CardNotFoundError",
 			newAcquirerID("Stone"),
 			newExternalTransactionDTO("zzz", "João", 1000, 1),
