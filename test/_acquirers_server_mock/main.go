@@ -36,5 +36,6 @@ func init() {
 func main() {
 
 	http.HandleFunc("/stone", stoneHandler)
+	http.HandleFunc("/cielo", cieloHandler)
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%v", port), nil))
 }

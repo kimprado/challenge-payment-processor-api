@@ -7,6 +7,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/challenge/payment-processor/internal/pkg/commom/config"
 	commomerros "github.com/challenge/payment-processor/internal/pkg/commom/errors"
 	"github.com/challenge/payment-processor/internal/pkg/infra/http"
 	"github.com/gomodule/redigo/redis"
@@ -246,6 +247,7 @@ func TestCreateStoneWorker(t *testing.T) {
 	var w *StoneAcquirerWorkers
 	var r *AcquirerActorsMock
 	var p *AcquirerParameter
+	var c config.Configuration
 	var s *HTTPRequestSenderMock
 	var ar *AuthorizationRequest
 	var repo *CardRepositoryFinderMock
@@ -262,7 +264,7 @@ func TestCreateStoneWorker(t *testing.T) {
 
 	ar = &AuthorizationRequest{ResponseChannel: make(chan *AuthorizationResponse), Transaction: &ExternalTransactionDTO{TransactionDTO: &TransactionDTO{CardOpenInfoDTO: &CardOpenInfoDTO{Holder: "João"}}}}
 
-	w = NewStoneAcquirerWorkers(r, p)
+	w = NewStoneAcquirerWorkers(r, p, c)
 	assert.NotNil(t, w)
 
 	assert.True(t, r.Resgistered)
@@ -298,6 +300,7 @@ func TestCieloStoneWorker(t *testing.T) {
 	var w *CieloAcquirerWorkers
 	var r *AcquirerActorsMock
 	var p *AcquirerParameter
+	var c config.Configuration
 	var s *HTTPRequestSenderMock
 	var ar *AuthorizationRequest
 	var repo *CardRepositoryFinderMock
@@ -314,7 +317,7 @@ func TestCieloStoneWorker(t *testing.T) {
 
 	ar = &AuthorizationRequest{ResponseChannel: make(chan *AuthorizationResponse), Transaction: &ExternalTransactionDTO{TransactionDTO: &TransactionDTO{CardOpenInfoDTO: &CardOpenInfoDTO{Holder: "João"}}}}
 
-	w = NewCieloAcquirerWorkers(r, p)
+	w = NewCieloAcquirerWorkers(r, p, c)
 	assert.NotNil(t, w)
 
 	assert.True(t, r.Resgistered)

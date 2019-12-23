@@ -55,7 +55,7 @@ func TestProcessTransaction(t *testing.T) {
 			nil,
 			nil,
 			http.StatusBadRequest,
-			`{"title":"Um ou Mais parâmetros não são válidos","invalid-parameters":[{"name":"X-ACQUIRER-ID","value":"","reason":"'X-ACQUIRER-ID' não pode ser vazio"}]}`,
+			`{"title":"Um ou Mais parâmetros não são válidos","invalid-parameters":[{"name":"X-ACQUIRER-ID","value":"","reason":"Header 'X-ACQUIRER-ID' não pode ser vazio"}]}`,
 			nil,
 		},
 		{
@@ -65,7 +65,7 @@ func TestProcessTransaction(t *testing.T) {
 			nil,
 			nil,
 			http.StatusBadRequest,
-			`{"title":"Um ou Mais parâmetros não são válidos","invalid-parameters":[{"name":"X-ACQUIRER-ID","value":"","reason":"'X-ACQUIRER-ID' não pode ser vazio"}]}`,
+			`{"title":"Um ou Mais parâmetros não são válidos","invalid-parameters":[{"name":"X-ACQUIRER-ID","value":"","reason":"Header 'X-ACQUIRER-ID' não pode ser vazio"}]}`,
 			nil,
 		},
 		{

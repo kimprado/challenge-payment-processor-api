@@ -22,6 +22,14 @@ type Configuration struct {
 
 	RedisDB RedisDB
 
+	StoneAcquirer struct {
+		URL string `default:"http://localhost:8092/stone"`
+	}
+
+	CieloAcquirer struct {
+		URL string `default:"http://localhost:8092/cielo"`
+	}
+
 	Logging struct {
 		File  string `required:"false"`
 		Level LoggingLevels

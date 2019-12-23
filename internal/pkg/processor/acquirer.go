@@ -3,6 +3,7 @@ package processor
 import (
 	"errors"
 
+	"github.com/challenge/payment-processor/internal/pkg/commom/config"
 	commomerros "github.com/challenge/payment-processor/internal/pkg/commom/errors"
 	"github.com/challenge/payment-processor/internal/pkg/infra/http"
 )
@@ -112,9 +113,10 @@ type StoneAcquirerWorkers struct {
 }
 
 // NewStoneAcquirerWorkers cria instância de StoneAcquirerWorkers.
-func NewStoneAcquirerWorkers(a AcquirerActorsResgister, p *AcquirerParameter) (w *StoneAcquirerWorkers) {
+func NewStoneAcquirerWorkers(a AcquirerActorsResgister, p *AcquirerParameter, c config.Configuration) (w *StoneAcquirerWorkers) {
 	w = new(StoneAcquirerWorkers)
 	w.AcquirerWorkers = newAcquirerWorkers("Stone", a)
+	p.url = c.StoneAcquirer.URL
 	for i := 0; i < 10; i++ {
 		w.add(newAcquirer(p))
 	}
@@ -128,9 +130,10 @@ type CieloAcquirerWorkers struct {
 }
 
 // NewCieloAcquirerWorkers cria instância de CieloAcquirerWorkers.
-func NewCieloAcquirerWorkers(a AcquirerActorsResgister, p *AcquirerParameter) (w *CieloAcquirerWorkers) {
+func NewCieloAcquirerWorkers(a AcquirerActorsResgister, p *AcquirerParameter, c config.Configuration) (w *CieloAcquirerWorkers) {
 	w = new(CieloAcquirerWorkers)
 	w.AcquirerWorkers = newAcquirerWorkers("Cielo", a)
+	p.url = c.CieloAcquirer.URL
 	for i := 0; i < 10; i++ {
 		w.add(newAcquirer(p))
 	}
