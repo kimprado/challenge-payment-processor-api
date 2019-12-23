@@ -9,6 +9,10 @@ import (
 	"github.com/challenge/payment-processor/internal/app"
 	"github.com/challenge/payment-processor/internal/pkg/commom/config"
 	"github.com/challenge/payment-processor/internal/pkg/commom/logging"
+	"github.com/challenge/payment-processor/internal/pkg/infra/http"
+	"github.com/challenge/payment-processor/internal/pkg/infra/redis"
+	"github.com/challenge/payment-processor/internal/pkg/processor"
+	"github.com/challenge/payment-processor/internal/pkg/processor/api"
 	"github.com/challenge/payment-processor/internal/pkg/webserver"
 )
 
@@ -32,15 +36,32 @@ func initializeAppender(path string) (logging.FileAppender, error) {
 }
 
 func initializeApp(path string) (*app.PaymentProcessorApp, error) {
+	actorsMap := processor.NewActorsMap()
+	acquirerActors := processor.NewAcquirerActors(actorsMap)
+	paymentProcessorService := processor.NewPaymentProcessorService(acquirerActors)
 	configuration, err := config.NewConfig(path)
 	if err != nil {
 		return nil, err
 	}
 	loggingLevels := config.NewLoggingLevels(configuration)
+	loggerAPI := logging.NewLoggerAPI(loggingLevels)
+	controller := api.NewController(paymentProcessorService, loggerAPI)
 	loggerWebServer := logging.NewWebServer(loggingLevels)
-	paramWebServer := webserver.NewParamWebServer(configuration, loggerWebServer)
+	paramWebServer := webserver.NewParamWebServer(controller, configuration, loggerWebServer)
 	webServer := webserver.NewWebServer(paramWebServer)
+	redisDB := config.NewRedisDB(configuration)
+	loggerRedisDB := logging.NewRedisDB(loggingLevels)
+	dbConnection, err := redis.NewDBConnection(redisDB, loggerRedisDB)
+	if err != nil {
+		return nil, err
+	}
+	loggerCardRepository := logging.NewLoggerCardRepository(loggingLevels)
+	cardRepositoryRedis := processor.NewCardRepositoryRedis(dbConnection, redisDB, configuration, loggerCardRepository)
+	service := http.NewHTTPService()
+	acquirerParameter := processor.NewAcquirerParameter(cardRepositoryRedis, service)
+	stoneAcquirerWorkers := processor.NewStoneAcquirerWorkers(acquirerActors, acquirerParameter)
+	cieloAcquirerWorkers := processor.NewCieloAcquirerWorkers(acquirerActors, acquirerParameter)
 	logger := logging.NewLogger(loggingLevels)
-	paymentProcessorApp := app.NewPaymentProcessorApp(webServer, logger)
+	paymentProcessorApp := app.NewPaymentProcessorApp(webServer, stoneAcquirerWorkers, cieloAcquirerWorkers, logger)
 	return paymentProcessorApp, nil
 }

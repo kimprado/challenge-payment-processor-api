@@ -2,6 +2,7 @@ package app
 
 import (
 	"github.com/challenge/payment-processor/internal/pkg/commom/logging"
+	"github.com/challenge/payment-processor/internal/pkg/processor"
 	"github.com/challenge/payment-processor/internal/pkg/webserver"
 )
 
@@ -12,7 +13,7 @@ type PaymentProcessorApp struct {
 }
 
 // NewPaymentProcessorApp cria app
-func NewPaymentProcessorApp(ws *webserver.WebServer, l logging.Logger) (a *PaymentProcessorApp) {
+func NewPaymentProcessorApp(ws *webserver.WebServer, sw *processor.StoneAcquirerWorkers, cw *processor.CieloAcquirerWorkers, l logging.Logger) (a *PaymentProcessorApp) {
 	a = new(PaymentProcessorApp)
 	a.webServer = ws
 	a.logger = l

@@ -33,6 +33,14 @@ type AcquirerParameter struct {
 	httpSender http.RequestSender
 }
 
+// NewAcquirerParameter cria instância de AcquirerParameter
+func NewAcquirerParameter(r CardRepositoryFinder, rs http.RequestSender) (c *AcquirerParameter) {
+	c = new(AcquirerParameter)
+	c.cardFinder = r
+	c.httpSender = rs
+	return
+}
+
 // Acquirer implementa funcionalidades de de-para e envio
 // da transação para Adquirente.
 type Acquirer struct {

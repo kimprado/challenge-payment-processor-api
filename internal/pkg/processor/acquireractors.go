@@ -16,7 +16,7 @@ type AcquirerActorsResgister interface {
 type ActorsMap map[AcquirerID]chan *AuthorizationRequest
 
 // NewActorsMap cria instância de ActorsMap.
-func NewActorsMap() (m map[AcquirerID]chan *AuthorizationRequest) {
+func NewActorsMap() (m ActorsMap) {
 	m = make(map[AcquirerID]chan *AuthorizationRequest)
 	return
 }

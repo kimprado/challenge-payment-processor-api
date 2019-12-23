@@ -13,6 +13,7 @@ import (
 
 	cfg "github.com/challenge/payment-processor/internal/pkg/commom/config"
 	"github.com/challenge/payment-processor/internal/pkg/commom/logging"
+	"github.com/challenge/payment-processor/internal/pkg/processor/api"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
@@ -28,13 +29,15 @@ type WebServer struct {
 
 // ParamWebServer encapsula parâmetros de WebServer
 type ParamWebServer struct {
+	ctrl   *api.Controller
 	config cfg.Configuration
 	logger logging.LoggerWebServer
 }
 
 // NewParamWebServer cria referência ParamWebServer
-func NewParamWebServer(config cfg.Configuration, l logging.LoggerWebServer) (p *ParamWebServer) {
+func NewParamWebServer(c *api.Controller, config cfg.Configuration, l logging.LoggerWebServer) (p *ParamWebServer) {
 	p = new(ParamWebServer)
+	p.ctrl = c
 	p.config = config
 	p.logger = l
 	return
@@ -62,6 +65,7 @@ func (ws *WebServer) Start() {
 	router = httprouter.New()
 
 	router.GET("/", ws.home.Serve)
+	router.POST("/transactions", ws.ctrl.Process)
 
 	var defaultHandler http.Handler
 
