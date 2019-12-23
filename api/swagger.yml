@@ -13,7 +13,7 @@ schemes:
 produces:
   - application/json
 paths:
-  /transactions/:
+  /transactions:
     post:
       tags:
       - "Transaction"
