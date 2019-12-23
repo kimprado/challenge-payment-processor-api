@@ -44,8 +44,7 @@ func TestProcessTransaction(t *testing.T) {
 				return
 			}),
 			200,
-			`{"message":"Autorizada"}
-`,
+			`{"message":"Autorizada"}`,
 			nil,
 		},
 		{
@@ -55,8 +54,7 @@ func TestProcessTransaction(t *testing.T) {
 			nil,
 			nil,
 			400,
-			`{"title":"Um ou Mais parâmetros não são válidos","invalid-parameters":[{"name":"X-ACQUIRER-ID","value":"","reason":"'X-ACQUIRER-ID' não pode ser vazio"}]}
-`,
+			`{"title":"Um ou Mais parâmetros não são válidos","invalid-parameters":[{"name":"X-ACQUIRER-ID","value":"","reason":"'X-ACQUIRER-ID' não pode ser vazio"}]}`,
 			nil,
 		},
 		{
@@ -66,8 +64,7 @@ func TestProcessTransaction(t *testing.T) {
 			nil,
 			nil,
 			400,
-			`{"title":"Um ou Mais parâmetros não são válidos","invalid-parameters":[{"name":"X-ACQUIRER-ID","value":"","reason":"'X-ACQUIRER-ID' não pode ser vazio"}]}
-`,
+			`{"title":"Um ou Mais parâmetros não são válidos","invalid-parameters":[{"name":"X-ACQUIRER-ID","value":"","reason":"'X-ACQUIRER-ID' não pode ser vazio"}]}`,
 			nil,
 		},
 		{
@@ -77,8 +74,7 @@ func TestProcessTransaction(t *testing.T) {
 			nil,
 			nil,
 			400,
-			`{"title":"Um ou Mais parâmetros não são válidos","invalid-parameters":[{"name":"body","value":"","reason":"'body' não pode ser vazio"}]}
-`,
+			`{"title":"Um ou Mais parâmetros não são válidos","invalid-parameters":[{"name":"body","value":"","reason":"'body' não pode ser vazio"}]}`,
 			nil,
 		},
 		{
@@ -88,8 +84,7 @@ func TestProcessTransaction(t *testing.T) {
 			newInvalidTransaction(`{"token": "abc":]}}`),
 			nil,
 			400,
-			`{"title":"Um ou Mais parâmetros não são válidos","invalid-parameters":[{"name":"body","value":"","reason":"Não foi possivel converter parâmetro JSON"}]}
-`,
+			`{"title":"Um ou Mais parâmetros não são válidos","invalid-parameters":[{"name":"body","value":"","reason":"Não foi possivel converter parâmetro JSON"}]}`,
 			nil,
 		},
 	}
@@ -128,9 +123,10 @@ func TestProcessTransaction(t *testing.T) {
 			router.ServeHTTP(rr, req)
 
 			assert.Equal(t, tc.statusCode, rr.Code)
-			assert.NotNil(t, rr.Body)
-			assert.Equal(t, tc.responseBody, rr.Body.String())
-
+			if notNil := assert.NotNil(t, rr.Body); !notNil {
+				return
+			}
+			assert.Equal(t, tc.responseBody, rr.Body.String()[:len(rr.Body.String())-1])
 		})
 	}
 
