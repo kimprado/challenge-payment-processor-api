@@ -72,7 +72,7 @@ func (a *Acquirer) Process(r *AuthorizationRequest) {
 		return
 	}
 
-	if errors.Is(err, &http.ServerError{}) && errors.As(err, &httpError) {
+	if errors.Is(err, &http.ServerError{}) {
 		r.ResponseChannel <- &AuthorizationResponse{Err: newAcquirerProcessingError()}
 		return
 	}
