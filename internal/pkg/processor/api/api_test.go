@@ -134,6 +134,9 @@ func TestProcessTransaction(t *testing.T) {
 
 			if tc.invalidTransaction != nil {
 				body = bytes.NewReader([]byte(*tc.invalidTransaction))
+				if !assert.False(t, json.Valid([]byte(*tc.invalidTransaction))) {
+					return
+				}
 			}
 
 			req, err := http.NewRequest("POST", "/transactions/", body)
