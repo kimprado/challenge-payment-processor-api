@@ -21,17 +21,17 @@ func TestProcessAuthorizationRequest(t *testing.T) {
 	var repo *CardRepositoryFinderMock
 	var ar *AuthorizationRequest
 
+	url := "htttp://localhost/acquirer/stone"
 	s = newHTTPRequestSenderMock()
 	repo = newCardRepositoryFinderMock()
 	p = &AcquirerParameter{
-		url:        "htttp://localhost/acquirer/stone",
 		httpSender: s,
 		cardFinder: repo,
 	}
 
 	ar = &AuthorizationRequest{ResponseChannel: make(chan *AuthorizationResponse, 1), Transaction: &ExternalTransactionDTO{TransactionDTO: &TransactionDTO{CardOpenInfoDTO: &CardOpenInfoDTO{Holder: "João"}}}}
 
-	a = newAcquirer(p)
+	a = newAcquirer(url, p)
 	assert.NotNil(t, a)
 
 	a.Process(ar)
@@ -185,12 +185,11 @@ func TestProcessAuthorizationRequestCases(t *testing.T) {
 		t.Run(tc.label, func(t *testing.T) {
 
 			p = &AcquirerParameter{
-				url:        tc.url,
 				httpSender: tc.s,
 				cardFinder: tc.repo,
 			}
 
-			a = newAcquirer(p)
+			a = newAcquirer(tc.url, p)
 			assert.NotNil(t, a)
 
 			a.Process(tc.ar)
@@ -252,10 +251,10 @@ func TestCreateStoneWorker(t *testing.T) {
 
 	r = &AcquirerActorsMock{}
 
+	c.StoneAcquirer.URL = "htttp://localhost/acquirer/stone"
 	s = newHTTPRequestSenderMock()
 	repo = newCardRepositoryFinderMock()
 	p = &AcquirerParameter{
-		url:        "htttp://localhost/acquirer/stone",
 		httpSender: s,
 		cardFinder: repo,
 	}
@@ -305,10 +304,10 @@ func TestCieloStoneWorker(t *testing.T) {
 
 	r = &AcquirerActorsMock{}
 
+	c.CieloAcquirer.URL = "htttp://localhost/acquirer/stone"
 	s = newHTTPRequestSenderMock()
 	repo = newCardRepositoryFinderMock()
 	p = &AcquirerParameter{
-		url:        "htttp://localhost/acquirer/cielo",
 		httpSender: s,
 		cardFinder: repo,
 	}

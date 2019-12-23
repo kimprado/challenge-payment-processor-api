@@ -28,7 +28,6 @@ func (a AcquirerID) String() string {
 
 // AcquirerParameter encapsula parâmetros para criação de Acquirer
 type AcquirerParameter struct {
-	url        string
 	cardFinder CardRepositoryFinder
 	httpSender http.RequestSender
 }
@@ -44,11 +43,13 @@ func NewAcquirerParameter(r CardRepositoryFinder, rs http.RequestSender) (c *Acq
 // Acquirer implementa funcionalidades de de-para e envio
 // da transação para Adquirente.
 type Acquirer struct {
+	url string
 	*AcquirerParameter
 }
 
-func newAcquirer(p *AcquirerParameter) (a *Acquirer) {
+func newAcquirer(url string, p *AcquirerParameter) (a *Acquirer) {
 	a = new(Acquirer)
+	a.url = url
 	a.AcquirerParameter = p
 	return
 }
@@ -115,9 +116,8 @@ type StoneAcquirerWorkers struct {
 func NewStoneAcquirerWorkers(a AcquirerActorsResgister, p *AcquirerParameter, c config.Configuration) (w *StoneAcquirerWorkers) {
 	w = new(StoneAcquirerWorkers)
 	w.AcquirerWorkers = newAcquirerWorkers("Stone", a)
-	p.url = c.StoneAcquirer.URL
 	for i := 0; i < 10; i++ {
-		w.add(newAcquirer(p))
+		w.add(newAcquirer(c.StoneAcquirer.URL, p))
 	}
 	return
 }
@@ -132,9 +132,8 @@ type CieloAcquirerWorkers struct {
 func NewCieloAcquirerWorkers(a AcquirerActorsResgister, p *AcquirerParameter, c config.Configuration) (w *CieloAcquirerWorkers) {
 	w = new(CieloAcquirerWorkers)
 	w.AcquirerWorkers = newAcquirerWorkers("Cielo", a)
-	p.url = c.CieloAcquirer.URL
 	for i := 0; i < 10; i++ {
-		w.add(newAcquirer(p))
+		w.add(newAcquirer(c.CieloAcquirer.URL, p))
 	}
 	return
 }
