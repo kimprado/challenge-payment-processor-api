@@ -85,11 +85,11 @@ test-load-ab-container:
 
 ## infra-start			: Inicia serviços de dependência containerizados.
 infra-start:
-	@docker-compose up -d --build redisdb nginx
+	@docker-compose up -d --build redisdb nginx acquirers
 
 ## infra-stop			: Interrompe serviços de dependência containerizados.
 infra-stop:
-	@docker-compose rm -fsv redisdb nginx swagger
+	@docker-compose rm -fsv redisdb nginx swagger acquirers
 
 ## infra-test-start		: Inicia serviços de dependência de testes containerizados.
 infra-test-start:

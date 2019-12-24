@@ -25,6 +25,12 @@ const configTemplate = `
         "host": "host-IT-test",
         "port": 6379
 	},
+    "StoneAcquirer": {
+        "URL": "http://host-IT-test:8092/stone"
+    },
+    "CieloAcquirer": {
+        "URL": "http://host-IT-test:8092/cielo"
+    },
     "logging": {
         "level": {
             "ROOT": "INFO"
@@ -45,19 +51,21 @@ func TestLoadConfig(t *testing.T) {
 	writeFile(f, fmt.Sprintf(configTemplate, dateTime))
 
 	expect := struct {
-		environment       string
-		serverPort        string
-		redisDbHost       string
-		redisDbPort       int
-		basecurrency      string
-		defaultcurrencies []string
-		entrytimeout      time.Duration
-		logging           map[string]string
+		environment      string
+		serverPort       string
+		redisDbHost      string
+		redisDbPort      int
+		stoneAcquirerURL string
+		cieloAcquirerURL string
+		entrytimeout     time.Duration
+		logging          map[string]string
 	}{
-		environment: "test-" + dateTime,
-		serverPort:  "3080",
-		redisDbHost: "host-IT-test",
-		redisDbPort: 6379,
+		environment:      "test-" + dateTime,
+		serverPort:       "3080",
+		redisDbHost:      "host-IT-test",
+		redisDbPort:      6379,
+		stoneAcquirerURL: "http://host-IT-test:8092/stone",
+		cieloAcquirerURL: "http://host-IT-test:8092/cielo",
 		logging: map[string]string{
 			"ROOT": "INFO",
 		},

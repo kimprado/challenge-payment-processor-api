@@ -23,11 +23,13 @@ type Configuration struct {
 	RedisDB RedisDB
 
 	StoneAcquirer struct {
-		URL string `default:"http://localhost:8092/stone"`
+		// URL string `default:"http://localhost:8092/stone"`
+		URL string `required:"true"`
 	}
 
 	CieloAcquirer struct {
-		URL string `default:"http://localhost:8092/cielo"`
+		// URL string `default:"http://localhost:8092/cielo"`
+		URL string `required:"true"`
 	}
 
 	Logging struct {

@@ -9,6 +9,12 @@
         "host": "localhost",
         "port": 6379
     },
+    "StoneAcquirer": {
+        "URL": "http://localhost:8092/stone"
+    },
+    "CieloAcquirer": {
+        "URL": "http://localhost:8092/cielo"
+    },
     "logging": {
         "level": {
             "ROOT": "INFO",

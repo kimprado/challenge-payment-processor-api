@@ -14,6 +14,8 @@ func TestNewConfigEnvVars(t *testing.T) {
 		os.Setenv("PROCESSOR_SERVER_PORT", "4033")
 		os.Setenv("PROCESSOR_REDISDB_HOST", "host-env-test")
 		os.Setenv("PROCESSOR_REDISDB_PORT", "6523")
+		os.Setenv("PROCESSOR_STONEACQUIRER_URL", "http://local-test:8092/stone")
+		os.Setenv("PROCESSOR_CIELOACQUIRER_URL", "http://local-test:8092/cielo")
 		os.Setenv("PROCESSOR_LOGGING_LEVEL", "ROOT: WARN-teste")
 	}
 	tearDown := func() {
@@ -21,22 +23,28 @@ func TestNewConfigEnvVars(t *testing.T) {
 		os.Setenv("PROCESSOR_SERVER_PORT", "")
 		os.Setenv("PROCESSOR_REDISDB_HOST", "")
 		os.Setenv("PROCESSOR_REDISDB_PORT", "")
+		os.Setenv("PROCESSOR_STONEACQUIRER_URL", "")
+		os.Setenv("PROCESSOR_CIELOACQUIRER_URL", "")
 		os.Setenv("PROCESSOR_LOGGING_LEVEL", "")
 	}
 	setUp()
 	defer tearDown()
 
 	expect := struct {
-		environment string
-		serverPort  string
-		redisDbHost string
-		redisDbPort int
-		logging     map[string]string
+		environment      string
+		serverPort       string
+		redisDbHost      string
+		redisDbPort      int
+		stoneAcquirerURL string
+		cieloAcquirerURL string
+		logging          map[string]string
 	}{
-		environment: "test_ENV-VARS",
-		serverPort:  "4033",
-		redisDbHost: "host-env-test",
-		redisDbPort: 6523,
+		environment:      "test_ENV-VARS",
+		serverPort:       "4033",
+		redisDbHost:      "host-env-test",
+		redisDbPort:      6523,
+		stoneAcquirerURL: "http://local-test:8092/stone",
+		cieloAcquirerURL: "http://local-test:8092/cielo",
 		logging: map[string]string{
 			"ROOT": "WARN-teste",
 		},
@@ -63,6 +71,12 @@ func TestNewConfigEnvVars(t *testing.T) {
 	}
 	if expect.redisDbPort != c.RedisDB.Port {
 		t.Errorf("redisDbPort esperado %v é diferente de %v\n", expect.redisDbPort, c.RedisDB.Port)
+	}
+	if expect.stoneAcquirerURL != c.StoneAcquirer.URL {
+		t.Errorf("stoneAcquirerURL esperado %v é diferente de %v\n", expect.stoneAcquirerURL, c.StoneAcquirer.URL)
+	}
+	if expect.cieloAcquirerURL != c.CieloAcquirer.URL {
+		t.Errorf("cieloAcquirerURL esperado %v é diferente de %v\n", expect.cieloAcquirerURL, c.CieloAcquirer.URL)
 	}
 
 	for k, v := range expect.logging {

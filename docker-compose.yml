@@ -61,6 +61,7 @@ services:
       - ./configs/config-integration-container.json:/src/configs/config-integration.json
     depends_on:
       - redis-test
+      - acquirers
   test-all:
     build: .
     command: make test-all
@@ -69,6 +70,7 @@ services:
       - ./configs/config-integration-container.json:/src/configs/config-integration.json
     depends_on:
       - redis-test
+      - acquirers
   test-envvars:
     build: .
     command: make test-envvars

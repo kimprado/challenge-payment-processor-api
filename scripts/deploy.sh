@@ -5,16 +5,19 @@ set -e
 case "$1" in
     start)
         docker-compose up -d --build \
+        acquirers \
         nginx \
         api
         ;;
     start-safe)
         docker-compose up -d --build \
+        acquirers \
         nginx \
         api-safe
         ;;
     stop)
         docker-compose rm -fsv \
+        acquirers \
         swagger \
         nginx \
         api \
