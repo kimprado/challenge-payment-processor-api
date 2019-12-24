@@ -32,6 +32,10 @@ func (l *DefaultCardsLoader) load() (err error) {
 		{"xpto121a", processor.Card{Number: "121", CVV: "a"}},
 		{"xpto122b", processor.Card{Number: "122", CVV: "b"}},
 		{"xpto123c", processor.Card{Number: "123", CVV: "c"}},
+
+		{"NDQzNiA5ODQxIDM4MTIgNzQ2MCAtIDU4Mg==", processor.Card{Number: "4436 9841 3812 7460", CVV: "582"}}, // Visa
+		{"NTIxMSA0MjkxIDUzNDUgNDYxMSAtIDIwMA==", processor.Card{Number: "5211 4291 5345 4611", CVV: "200"}}, // Master
+		{"MzcwOCAzMDMwIDI3ODkgMjc4IC0gOTIz", processor.Card{Number: "3708 3030 2789 278", CVV: "923"}},      // AE
 	}
 
 	con := l.redisClient.Get()
