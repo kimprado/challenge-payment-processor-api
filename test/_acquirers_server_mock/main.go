@@ -14,6 +14,7 @@ import (
 var port = os.Getenv("ACQUIRERS_PORT")
 var strDelay = os.Getenv("ACQUIRERS_DELAY")
 var delay time.Duration
+var env = os.Getenv("ACQUIRERS_ENV")
 
 func init() {
 
@@ -43,13 +44,15 @@ func main() {
 }
 
 func logRequest(w http.ResponseWriter, r *http.Request) {
-	buf, bodyErr := ioutil.ReadAll(r.Body)
-	if bodyErr != nil {
-		http.Error(w, "Falha ao recuperar Request.Body", http.StatusInternalServerError)
-	} else {
-		rdr1 := ioutil.NopCloser(bytes.NewBuffer(buf))
-		log.Printf("\n%s\n", rdr1)
-		rdr2 := ioutil.NopCloser(bytes.NewBuffer(buf))
-		r.Body = rdr2
+	if env == "DEVELOPMENT" {
+		buf, bodyErr := ioutil.ReadAll(r.Body)
+		if bodyErr != nil {
+			http.Error(w, "Falha ao recuperar Request.Body", http.StatusInternalServerError)
+		} else {
+			rdr1 := ioutil.NopCloser(bytes.NewBuffer(buf))
+			log.Printf("\n%s\n", rdr1)
+			rdr2 := ioutil.NopCloser(bytes.NewBuffer(buf))
+			r.Body = rdr2
+		}
 	}
 }

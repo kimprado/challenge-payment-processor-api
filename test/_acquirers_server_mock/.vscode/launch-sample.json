@@ -13,6 +13,7 @@
             "env": {
                 "ACQUIRERS_PORT": 8092,
                 "ACQUIRERS_DELAY": 0,
+                "ACQUIRERS_ENV": "DEVELOPMENT",
             },
             "args": []
         }
