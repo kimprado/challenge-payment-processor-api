@@ -154,6 +154,19 @@ func TestProcessTransaction(t *testing.T) {
 			nil,
 		},
 		{
+			"Resposta com falha genérica PaymentProcessError",
+			newAcquirerID("Stone"),
+			newExternalTransactionDTO("xpto121a", "João", 1000, 1),
+			nil,
+			newProcessorCaseMock(func(a processor.AcquirerID, t *processor.ExternalTransactionDTO) (ar *processor.AuthorizationResponse) {
+				ar = &processor.AuthorizationResponse{Err: processor.NewPaymentProcessError()}
+				return
+			}),
+			http.StatusInternalServerError,
+			`{"title":"Falha no processamento da transação","detail":"Não foi possível Processar a Transação"}`,
+			nil,
+		},
+		{
 			"Resposta com falha genérica",
 			newAcquirerID("Stone"),
 			newExternalTransactionDTO("xpto121a", "João", 1000, 1),

@@ -242,13 +242,13 @@ func (e *AcquirerConnectivityError) Is(target error) bool {
 	}
 }
 
-// PaymentProcessError representa erro no Processamento da Transação
+// PaymentProcessError representa erro Genérico no Processamento da Transação
 type PaymentProcessError struct {
 	*errors.GenericError
 }
 
-// newPaymentProcessError cria instância de PaymentProcessError
-func newPaymentProcessError() (e *PaymentProcessError) {
+// NewPaymentProcessError cria instância de PaymentProcessError
+func NewPaymentProcessError() (e *PaymentProcessError) {
 	e = new(PaymentProcessError)
 	e.GenericError = errors.NewGenericError(
 		"Falha no processamento da transação",

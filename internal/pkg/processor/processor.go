@@ -44,7 +44,7 @@ func (p *PaymentProcessorService) Process(a AcquirerID, t *ExternalTransactionDT
 		}
 
 		// Garante que erro retornado seja tratado, amigável
-		_, ar.Err = commomerrors.GetFriendlyErrorOr(ar.Err, newPaymentProcessError())
+		_, ar.Err = commomerrors.GetFriendlyErrorOr(ar.Err, NewPaymentProcessError())
 	}
 	return
 }

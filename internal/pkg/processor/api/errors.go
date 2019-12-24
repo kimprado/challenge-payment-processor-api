@@ -21,6 +21,8 @@ func statusCode(e error) (s int) {
 		s = http.StatusServiceUnavailable // 503
 	case *processor.AcquirerConnectivityError:
 		s = http.StatusServiceUnavailable // 503
+	case *processor.PaymentProcessError:
+		s = http.StatusInternalServerError // 500
 	case *errors.ParametersError:
 		s = http.StatusBadRequest // 400
 	default:
