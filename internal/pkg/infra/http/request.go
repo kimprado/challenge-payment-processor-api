@@ -120,6 +120,7 @@ func (h *Service) Send(url string, body interface{}, response interface{}) (err 
 	if err != nil {
 		return err
 	}
+	defer resp.Body.Close()
 
 	errMessage := struct {
 		Message string `json:"message"`
