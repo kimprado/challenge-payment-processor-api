@@ -1,7 +1,5 @@
 package main
 
-import "time"
-
 // ExternalTransactionDTO representa dados de uma transação
 // vinda do ambiente externo.
 type ExternalTransactionDTO struct {
@@ -32,9 +30,9 @@ type CardHiddenInfoDTO struct {
 
 // CardOpenInfoDTO representa abertos dados do cartão.
 type CardOpenInfoDTO struct {
-	Holder   string    `json:"holder"`
-	Brand    string    `json:"brand"`
-	Validity time.Time `json:"validity"`
+	Holder   string `json:"holder"`
+	Brand    string `json:"brand"`
+	Validity string `json:"validity"`
 }
 
 // PurchaseDTO representa dados da compra.
