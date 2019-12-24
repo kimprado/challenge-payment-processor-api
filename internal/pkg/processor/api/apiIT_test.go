@@ -66,7 +66,7 @@ func TestIntegrationProcessTransaction(t *testing.T) {
 			var err error
 
 			router := httprouter.New()
-			router.POST("/transactions/", ctrl.Process)
+			router.POST("/transactions", ctrl.Process)
 
 			var body io.Reader
 
@@ -75,7 +75,7 @@ func TestIntegrationProcessTransaction(t *testing.T) {
 				body = bytes.NewReader(bb)
 			}
 
-			req, err := http.NewRequest("POST", "/transactions/", body)
+			req, err := http.NewRequest("POST", "/transactions", body)
 			if err != nil {
 				t.Fatal(err)
 			}
