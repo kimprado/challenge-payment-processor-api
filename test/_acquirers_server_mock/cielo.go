@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 	"time"
 )
@@ -18,6 +19,7 @@ func cieloHandler(w http.ResponseWriter, r *http.Request) {
 	err = json.NewDecoder(r.Body).Decode(&dto)
 
 	if err != nil {
+		log.Printf("%v\n", err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
