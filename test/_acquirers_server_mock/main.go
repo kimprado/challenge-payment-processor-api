@@ -40,6 +40,7 @@ func main() {
 
 	http.HandleFunc("/stone", stoneHandler)
 	http.HandleFunc("/cielo", cieloHandler)
+	log.Printf("Servidor rodando na porta :%v", port)
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%v", port), nil))
 }
 
