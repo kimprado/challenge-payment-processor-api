@@ -5,8 +5,6 @@ import (
 	"fmt"
 	"net/http"
 	"time"
-
-	"github.com/challenge/payment-processor/internal/pkg/processor"
 )
 
 func stoneHandler(w http.ResponseWriter, r *http.Request) {
@@ -14,7 +12,7 @@ func stoneHandler(w http.ResponseWriter, r *http.Request) {
 
 	var err error
 
-	var dto processor.AcquirerTransactionDTO
+	var dto AcquirerTransactionDTO
 	err = json.NewDecoder(r.Body).Decode(&dto)
 
 	if err != nil {
