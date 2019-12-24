@@ -36,13 +36,20 @@ func initializeAppender(path string) (logging.FileAppender, error) {
 }
 
 func initializeApp(path string) (*app.PaymentProcessorApp, error) {
-	actorsMap := processor.NewActorsMap()
-	acquirerActors := processor.NewAcquirerActors(actorsMap)
 	configuration, err := config.NewConfig(path)
 	if err != nil {
 		return nil, err
 	}
+	redisDB := config.NewRedisDB(configuration)
 	loggingLevels := config.NewLoggingLevels(configuration)
+	loggerRedisDB := logging.NewRedisDB(loggingLevels)
+	dbConnection, err := redis.NewDBConnection(redisDB, loggerRedisDB)
+	if err != nil {
+		return nil, err
+	}
+	defaultCardsLoader := app.NewDefaultCardsLoader(dbConnection, redisDB)
+	actorsMap := processor.NewActorsMap()
+	acquirerActors := processor.NewAcquirerActors(actorsMap)
 	loggerProcessor := logging.NewLoggerProcessor(loggingLevels)
 	paymentProcessorService := processor.NewPaymentProcessorService(acquirerActors, loggerProcessor)
 	loggerAPI := logging.NewLoggerAPI(loggingLevels)
@@ -50,12 +57,6 @@ func initializeApp(path string) (*app.PaymentProcessorApp, error) {
 	loggerWebServer := logging.NewWebServer(loggingLevels)
 	paramWebServer := webserver.NewParamWebServer(controller, configuration, loggerWebServer)
 	webServer := webserver.NewWebServer(paramWebServer)
-	redisDB := config.NewRedisDB(configuration)
-	loggerRedisDB := logging.NewRedisDB(loggingLevels)
-	dbConnection, err := redis.NewDBConnection(redisDB, loggerRedisDB)
-	if err != nil {
-		return nil, err
-	}
 	loggerCardRepository := logging.NewLoggerCardRepository(loggingLevels)
 	cardRepositoryRedis := processor.NewCardRepositoryRedis(dbConnection, redisDB, configuration, loggerCardRepository)
 	loggerHTTP := logging.NewLoggerHTTP(loggingLevels)
@@ -64,6 +65,6 @@ func initializeApp(path string) (*app.PaymentProcessorApp, error) {
 	stoneAcquirerWorkers := processor.NewStoneAcquirerWorkers(acquirerActors, acquirerParameter, configuration)
 	cieloAcquirerWorkers := processor.NewCieloAcquirerWorkers(acquirerActors, acquirerParameter, configuration)
 	logger := logging.NewLogger(loggingLevels)
-	paymentProcessorApp := app.NewPaymentProcessorApp(webServer, stoneAcquirerWorkers, cieloAcquirerWorkers, logger)
+	paymentProcessorApp := app.NewPaymentProcessorApp(defaultCardsLoader, webServer, stoneAcquirerWorkers, cieloAcquirerWorkers, logger)
 	return paymentProcessorApp, nil
 }

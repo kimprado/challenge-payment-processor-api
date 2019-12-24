@@ -21,4 +21,6 @@ var AppSet = wire.NewSet(
 	api.PkgSet,
 	webserver.PkgSet,
 	NewPaymentProcessorApp,
+
+	NewDefaultCardsLoader,
 )
