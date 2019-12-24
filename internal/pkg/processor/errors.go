@@ -148,12 +148,11 @@ type AcquirerValidationError struct {
 }
 
 // NewAcquirerValidationError cria instância de AcquirerValidationError
-func NewAcquirerValidationError(message, url string) (e *AcquirerValidationError) {
+func NewAcquirerValidationError(message string) (e *AcquirerValidationError) {
 	e = new(AcquirerValidationError)
 	e.ParametersError = errors.NewParametersError()
 	e.ParametersError.Title = "Falha no Adquirente ao Processar Transação"
 	e.ParametersError.Detail = message
-	e.ParametersError.Instance = url
 	return
 }
 
