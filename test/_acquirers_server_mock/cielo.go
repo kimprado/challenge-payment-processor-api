@@ -12,6 +12,8 @@ func cieloHandler(w http.ResponseWriter, r *http.Request) {
 
 	var err error
 
+	logRequest(w, r)
+
 	var dto AcquirerTransactionDTO
 	err = json.NewDecoder(r.Body).Decode(&dto)
 

@@ -1,7 +1,9 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
@@ -38,4 +40,16 @@ func main() {
 	http.HandleFunc("/stone", stoneHandler)
 	http.HandleFunc("/cielo", cieloHandler)
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%v", port), nil))
+}
+
+func logRequest(w http.ResponseWriter, r *http.Request) {
+	buf, bodyErr := ioutil.ReadAll(r.Body)
+	if bodyErr != nil {
+		http.Error(w, "Falha ao recuperar Request.Body", http.StatusInternalServerError)
+	} else {
+		rdr1 := ioutil.NopCloser(bytes.NewBuffer(buf))
+		log.Printf("\n%s\n", rdr1)
+		rdr2 := ioutil.NopCloser(bytes.NewBuffer(buf))
+		r.Body = rdr2
+	}
 }
