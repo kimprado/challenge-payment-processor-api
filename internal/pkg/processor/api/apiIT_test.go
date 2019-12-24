@@ -80,6 +80,20 @@ func TestIntegrationProcessTransaction(t *testing.T) {
 			http.StatusBadRequest,
 			`{"title":"Validação do Adquirente ao Processar Transação","detail":"Valor inválido"}`,
 		},
+		{
+			"Stone - Transação Inválida - Portador = João Antônio",
+			newAcquirerID_IT("Stone"),
+			newExternalTransactionDTO_IT("xpto121a", "João Antônio", 1000, 1),
+			http.StatusBadRequest,
+			`{"title":"Validação do Adquirente ao Processar Transação","detail":"Transação não permitida para o portador"}`,
+		},
+		{
+			"Cielo - Transação Inválida - Portador = João Antônio",
+			newAcquirerID_IT("Cielo"),
+			newExternalTransactionDTO_IT("xpto121a", "João Antônio", 500, 1),
+			http.StatusBadRequest,
+			`{"title":"Validação do Adquirente ao Processar Transação","detail":"Transação não permitida para o portador"}`,
+		},
 	}
 	for _, tc := range testCases {
 		t.Run(tc.label, func(t *testing.T) {

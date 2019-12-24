@@ -23,6 +23,13 @@ func cieloHandler(w http.ResponseWriter, r *http.Request) {
 	if dto.Total > 500 {
 		w.WriteHeader(http.StatusBadRequest)
 		fmt.Fprintf(w, `{"message":"Valor inválido"}`)
+		return
+	}
+
+	if dto.Holder == "João Antônio" {
+		w.WriteHeader(http.StatusBadRequest)
+		fmt.Fprintf(w, `{"message":"Transação não permitida para o portador"}`)
+		return
 	}
 
 	fmt.Fprintf(w, `{"message":"Transação autorizada"}`)
