@@ -25,6 +25,11 @@ type LoggerCardRepository struct {
 	l.Logger
 }
 
+// LoggerHTTP para logar infra.http
+type LoggerHTTP struct {
+	l.Logger
+}
+
 // LoggerRedisDB para logar infra.redis.db
 type LoggerRedisDB struct {
 	l.Logger
@@ -56,6 +61,12 @@ func NewLoggerAPI(configLevels config.LoggingLevels) (log LoggerAPI) {
 // NewLoggerCardRepository cria Logger "paymentprocessor.repository"
 func NewLoggerCardRepository(configLevels config.LoggingLevels) (log LoggerCardRepository) {
 	log = LoggerCardRepository{l.NewLogger("paymentprocessor.repository", configLevels)}
+	return
+}
+
+// NewLoggerHTTP cria Logger "infra.http"
+func NewLoggerHTTP(configLevels config.LoggingLevels) (log LoggerHTTP) {
+	log = LoggerHTTP{l.NewLogger("infra.http", configLevels)}
 	return
 }
 

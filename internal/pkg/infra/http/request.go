@@ -6,6 +6,8 @@ import (
 	"errors"
 	"net/http"
 	"time"
+
+	"github.com/challenge/payment-processor/internal/pkg/commom/logging"
 )
 
 // StatusBadRequestError representa erro 400
@@ -92,14 +94,16 @@ type RequestSender interface {
 // Service implementa utilitário para fazer requisições HTTP.
 type Service struct {
 	client *http.Client
+	logger logging.LoggerHTTP
 }
 
 // NewHTTPService cria instância de HTTPService
-func NewHTTPService() (h *Service) {
+func NewHTTPService(l logging.LoggerHTTP) (h *Service) {
 	h = new(Service)
 	h.client = &http.Client{
 		Timeout: time.Second * 30,
 	}
+	h.logger = l
 	return
 }
 
@@ -139,7 +143,10 @@ func (h *Service) Send(url string, body interface{}, response interface{}) (err 
 	}
 
 	decoder := json.NewDecoder(resp.Body)
-	err = decoder.Decode(&response)
+	errDecode := decoder.Decode(&response)
+	if errDecode != nil {
+		h.logger.Errorf("Decode: %v\n", errDecode)
+	}
 
 	return
 }

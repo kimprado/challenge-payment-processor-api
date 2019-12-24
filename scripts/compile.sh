@@ -31,6 +31,7 @@ case "$1" in
         ./internal/pkg/commom/config \
         ./internal/pkg/infra/redis \
         ./internal/pkg/processor \
+        ./internal/pkg/processor/api \
         ;;
     generate)
         go generate ./cmd/processorAPI/
@@ -40,6 +41,7 @@ case "$1" in
         ./internal/pkg/commom/config \
         ./internal/pkg/infra/redis \
         ./internal/pkg/processor \
+        ./internal/pkg/processor/api \
         ;;
     *)
         echo "Usage: {build|wire}" >&2

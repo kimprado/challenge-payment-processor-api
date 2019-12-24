@@ -58,7 +58,8 @@ func initializeApp(path string) (*app.PaymentProcessorApp, error) {
 	}
 	loggerCardRepository := logging.NewLoggerCardRepository(loggingLevels)
 	cardRepositoryRedis := processor.NewCardRepositoryRedis(dbConnection, redisDB, configuration, loggerCardRepository)
-	service := http.NewHTTPService()
+	loggerHTTP := logging.NewLoggerHTTP(loggingLevels)
+	service := http.NewHTTPService(loggerHTTP)
 	acquirerParameter := processor.NewAcquirerParameter(cardRepositoryRedis, service)
 	stoneAcquirerWorkers := processor.NewStoneAcquirerWorkers(acquirerActors, acquirerParameter, configuration)
 	cieloAcquirerWorkers := processor.NewCieloAcquirerWorkers(acquirerActors, acquirerParameter, configuration)

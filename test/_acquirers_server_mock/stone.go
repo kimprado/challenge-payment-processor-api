@@ -8,5 +8,5 @@ import (
 
 func stoneHandler(w http.ResponseWriter, r *http.Request) {
 	time.Sleep(delay)
-	fmt.Fprintf(w, "stone acquirer ")
+	fmt.Fprintf(w, `{"message":"Transação autorizada"}`)
 }

@@ -30,11 +30,17 @@ func NewPaymentProcessorService(a AcquirerActorsSender, l logging.LoggerProcesso
 
 // Process delega processamento da transação para Acquirer.
 func (p *PaymentProcessorService) Process(a AcquirerID, t *ExternalTransactionDTO) (ar *AuthorizationResponse) {
+	var err error
 	r := &AuthorizationRequest{
 		Transaction:     t,
 		ResponseChannel: make(chan *AuthorizationResponse, 1),
 	}
-	p.actors.Send(a, r)
+	err = p.actors.Send(a, r)
+	if err != nil {
+		_, err = commomerrors.GetFriendlyErrorOr(err, NewPaymentProcessError())
+		ar = &AuthorizationResponse{Err: err}
+		return
+	}
 	ar = <-r.ResponseChannel
 	if ar.Err != nil {
 		if errors.Is(ar.Err, &commomerrors.DomainError{}) {
