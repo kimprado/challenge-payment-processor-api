@@ -124,7 +124,7 @@ func TestProcessTransaction(t *testing.T) {
 				return
 			}),
 			http.StatusBadRequest,
-			`{"title":"Falha no Adquirente ao Processar Transação"}`,
+			`{"title":"Validação do Adquirente ao Processar Transação"}`,
 			nil,
 		},
 		{

@@ -151,7 +151,7 @@ type AcquirerValidationError struct {
 func NewAcquirerValidationError(message string) (e *AcquirerValidationError) {
 	e = new(AcquirerValidationError)
 	e.ParametersError = errors.NewParametersError()
-	e.ParametersError.Title = "Falha no Adquirente ao Processar Transação"
+	e.ParametersError.Title = "Validação do Adquirente ao Processar Transação"
 	e.ParametersError.Detail = message
 	return
 }
