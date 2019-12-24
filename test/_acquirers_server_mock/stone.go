@@ -32,5 +32,11 @@ func stoneHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if dto.Installments > 12 {
+		w.WriteHeader(http.StatusBadRequest)
+		fmt.Fprintf(w, `{"message":"Não aprovado"}`)
+		return
+	}
+
 	fmt.Fprintf(w, `{"message":"Transação autorizada"}`)
 }

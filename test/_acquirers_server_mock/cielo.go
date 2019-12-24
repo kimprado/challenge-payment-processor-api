@@ -32,5 +32,12 @@ func cieloHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if dto.Installments > 6 {
+		w.WriteHeader(http.StatusBadRequest)
+		fmt.Fprintf(w, `{"message":"Não aprovado"}`)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
 	fmt.Fprintf(w, `{"message":"Transação autorizada"}`)
 }
