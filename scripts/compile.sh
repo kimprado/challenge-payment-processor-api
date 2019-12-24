@@ -27,21 +27,16 @@ case "$1" in
         wire ./cmd/processorAPI/
         ;;
     wire-testes)
-        wire \
+        wire gen --output_file_prefix=tmp_ \
         ./internal/pkg/commom/config \
         ./internal/pkg/infra/redis \
         ./internal/pkg/processor \
-        ./internal/pkg/processor/api \
-        ;;
-    generate)
-        go generate ./cmd/processorAPI/
-        ;;
-    generate-testes)
-        go generate \
-        ./internal/pkg/commom/config \
-        ./internal/pkg/infra/redis \
-        ./internal/pkg/processor \
-        ./internal/pkg/processor/api \
+        ./internal/pkg/processor/api
+
+        mv ./internal/pkg/commom/config/tmp_wire_gen.go ./internal/pkg/commom/config/wire_gen_test.go
+        mv ./internal/pkg/infra/redis/tmp_wire_gen.go ./internal/pkg/infra/redis/wire_gen_test.go
+        mv ./internal/pkg/processor/tmp_wire_gen.go ./internal/pkg/processor/wire_gen_test.go
+        mv ./internal/pkg/processor/api/tmp_wire_gen.go ./internal/pkg/processor/api/wire_gen_test.go
         ;;
     *)
         echo "Usage: {build|wire}" >&2

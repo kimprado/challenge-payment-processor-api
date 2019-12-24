@@ -7,6 +7,6 @@ COPY    go.mod /src/
 COPY    go.sum /src/
 WORKDIR /src/
 RUN     go mod download
-RUN     go get github.com/google/wire/cmd/wire@v0.3.0
+RUN     go get github.com/google/wire/cmd/wire@v0.4.0
 
 EXPOSE  3000
