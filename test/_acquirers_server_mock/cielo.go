@@ -22,19 +22,19 @@ func cieloHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if dto.Total > 500 {
+	if dto.TransactionDTO == nil || dto.TransactionDTO.PurchaseDTO == nil || dto.Total > 500 {
 		w.WriteHeader(http.StatusBadRequest)
 		fmt.Fprintf(w, `{"message":"Valor inválido"}`)
 		return
 	}
 
-	if dto.Holder == "João Antônio" {
+	if dto.TransactionDTO == nil || dto.TransactionDTO.CardOpenInfoDTO == nil || dto.Holder == "João Antônio" {
 		w.WriteHeader(http.StatusBadRequest)
 		fmt.Fprintf(w, `{"message":"Transação não permitida para o portador"}`)
 		return
 	}
 
-	if dto.Installments > 6 {
+	if dto.TransactionDTO == nil || dto.TransactionDTO.PurchaseDTO == nil || dto.Installments > 6 {
 		w.WriteHeader(http.StatusBadRequest)
 		fmt.Fprintf(w, `{"message":"Não aprovado"}`)
 		return
