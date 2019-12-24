@@ -120,7 +120,7 @@ func TestProcessTransaction(t *testing.T) {
 			newExternalTransactionDTO("xpto121a", "João", 1000, 1),
 			nil,
 			newProcessorCaseMock(func(a processor.AcquirerID, t *processor.ExternalTransactionDTO) (ar *processor.AuthorizationResponse) {
-				ar = &processor.AuthorizationResponse{Err: processor.NewAcquirerValidationError("", "")}
+				ar = &processor.AuthorizationResponse{Err: processor.NewAcquirerValidationError("")}
 				return
 			}),
 			http.StatusBadRequest,
