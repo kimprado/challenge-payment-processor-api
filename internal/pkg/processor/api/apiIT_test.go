@@ -53,9 +53,16 @@ func TestIntegrationProcessTransaction(t *testing.T) {
 		responseBody string
 	}{
 		{
-			"Transação Válida",
+			"Stone - Transação Válida",
 			newAcquirerID_IT("Stone"),
 			newExternalTransactionDTO_IT("xpto121a", "João", 1000, 1),
+			http.StatusOK,
+			`{"message":"Transação autorizada"}`,
+		},
+		{
+			"Cielo - Transação Válida",
+			newAcquirerID_IT("Cielo"),
+			newExternalTransactionDTO_IT("xpto121a", "João", 500, 1),
 			http.StatusOK,
 			`{"message":"Transação autorizada"}`,
 		},
