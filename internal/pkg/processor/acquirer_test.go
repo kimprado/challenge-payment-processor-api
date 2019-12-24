@@ -24,10 +24,7 @@ func TestProcessAuthorizationRequest(t *testing.T) {
 	url := "htttp://localhost/acquirer/stone"
 	s = newHTTPRequestSenderMock()
 	repo = newCardRepositoryFinderMock()
-	p = &AcquirerParameter{
-		httpSender: s,
-		cardFinder: repo,
-	}
+	p = NewAcquirerParameter(repo, s)
 
 	ar = &AuthorizationRequest{ResponseChannel: make(chan *AuthorizationResponse, 1), Transaction: &ExternalTransactionDTO{TransactionDTO: &TransactionDTO{CardOpenInfoDTO: &CardOpenInfoDTO{Holder: "João"}}}}
 
