@@ -86,7 +86,6 @@ services:
       - ./test/POST_Transaction.json:/src/test/POST_Transaction.json
     network_mode: host
     depends_on:
-      - api-load
       - nginx
   test-load-jmeter:
     build: 
