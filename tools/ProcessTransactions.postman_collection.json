@@ -1,0 +1,610 @@
+{
+	"info": {
+		"_postman_id": "0fe508c0-3d4f-4310-a47a-560a9ea28586",
+		"name": "ProcessTransactions",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Transação - Stone - Valid - basico",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "X-ACQUIRER-ID",
+						"value": "Stone",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"token\": \"xpto121a\",\n    \"holder\": \"João\",\n    \"total\": 1000,\n    \"installments\": 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:3000/transactions"
+			},
+			"response": []
+		},
+		{
+			"name": "Transação - Stone - Valid - joão",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "X-ACQUIRER-ID",
+						"type": "text",
+						"value": "Stone"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\n{\n    \"token\": \"xpto121a\",\n    \"holder\": \"João\",\n    \"brand\":\"Mastercard\",\n    \"validity\":\"2025-10\",\n    \"total\": 35.87,\n    \"installments\": 1,\n    \"items\": [\n    \t{\n    \t\t\"description\": \"Coca-cola\",\n    \t\t\"price\": 10.1\n    \t},\n    \t{\n    \t\t\"description\": \"Sorvete\",\n    \t\t\"price\": 25.77\n    \t}\n\t],\n\t\"id\": \"60.849.406/0001-75\",\n\t\"address\": \"Avenida Das Américas, 5150, Barra da Tijuca, Rio de Janeiro - RJ\",\n\t\"zipcode\": \"22640-102\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:3000/transactions"
+			},
+			"response": []
+		},
+		{
+			"name": "Transação - Stone - Valid - carlos",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "X-ACQUIRER-ID",
+						"type": "text",
+						"value": "Stone"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"token\": \"NDQzNiA5ODQxIDM4MTIgNzQ2MCAtIDU4Mg==\",\n    \"holder\": \"Carlos\",\n    \"brand\":\"Visa\",\n    \"validity\":\"2021-03\",\n    \"total\": 900,\n    \"installments\": 12,\n    \"items\": [\n    \t{\n    \t\t\"description\": \"Lindt\",\n    \t\t\"price\": 900\n    \t}\n\t],\n\t\"id\": \"60.849.406/0001-75\",\n\t\"address\": \"Avenida Das Américas, 5150, Barra da Tijuca, Rio de Janeiro - RJ\",\n\t\"zipcode\": \"22640-102\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:3000/transactions"
+			},
+			"response": []
+		},
+		{
+			"name": "Transação - Stone - Valid - carlos nginx",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "X-ACQUIRER-ID",
+						"type": "text",
+						"value": "Stone"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"token\": \"NDQzNiA5ODQxIDM4MTIgNzQ2MCAtIDU4Mg==\",\n    \"holder\": \"Carlos\",\n    \"brand\":\"Visa\",\n    \"validity\":\"2021-03\",\n    \"total\": 900,\n    \"installments\": 12,\n    \"items\": [\n    \t{\n    \t\t\"description\": \"Lindt\",\n    \t\t\"price\": 900\n    \t}\n\t],\n\t\"id\": \"60.849.406/0001-75\",\n\t\"address\": \"Avenida Das Américas, 5150, Barra da Tijuca, Rio de Janeiro - RJ\",\n\t\"zipcode\": \"22640-102\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:80/api/transactions"
+			},
+			"response": []
+		},
+		{
+			"name": "Transação - Stone - Valid - andré",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "X-ACQUIRER-ID",
+						"type": "text",
+						"value": "Stone"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\n{\n    \"token\": \"NTIxMSA0MjkxIDUzNDUgNDYxMSAtIDIwMA==\",\n    \"holder\": \"André\",\n    \"brand\":\"Mastercard\",\n    \"validity\":\"2027-12\",\n    \"total\": 305.50,\n    \"installments\": 2,\n    \"items\": [\n    \t{\n    \t\t\"description\": \"Kindle\",\n    \t\t\"price\": 305.50\n    \t}\n\t],\n\t\"id\": \"60.849.406/0001-75\",\n\t\"address\": \"Avenida Das Américas, 5150, Barra da Tijuca, Rio de Janeiro - RJ\",\n\t\"zipcode\": \"22640-102\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:3000/transactions"
+			},
+			"response": []
+		},
+		{
+			"name": "Transação - Stone - Valid - maria",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "X-ACQUIRER-ID",
+						"type": "text",
+						"value": "Stone"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\n{\n    \"token\": \"MzcwOCAzMDMwIDI3ODkgMjc4IC0gOTIz\",\n    \"holder\": \"Maria\",\n    \"brand\":\"American Express\",\n    \"validity\":\"2026-05\",\n    \"total\": 450.99,\n    \"installments\": 1,\n    \"items\": [\n    \t{\n    \t\t\"description\": \"Smartband 4\",\n    \t\t\"price\": 450.99\n    \t}\n\t],\n\t\"id\": \"60.849.406/0001-75\",\n\t\"address\": \"Avenida Das Américas, 5150, Barra da Tijuca, Rio de Janeiro - RJ\",\n\t\"zipcode\": \"22640-102\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:3000/transactions"
+			},
+			"response": []
+		},
+		{
+			"name": "Transação - Stone - Invalid - Parâmetros vazios",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "X-ACQUIRER-ID",
+						"type": "text",
+						"value": "Stone"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"token\": \"xpto121a\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:3000/transactions"
+			},
+			"response": []
+		},
+		{
+			"name": "Transação - Stone - Invalid - Valor inválido",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "X-ACQUIRER-ID",
+						"type": "text",
+						"value": "Stone"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"token\": \"xpto121a\",\n    \"holder\": \"João\",\n    \"total\": 1001,\n    \"installments\": 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:3000/transactions"
+			},
+			"response": []
+		},
+		{
+			"name": "Transação - Stone - Invalid - Portador João Antônio",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "X-ACQUIRER-ID",
+						"value": "Stone",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"token\": \"xpto121a\",\n    \"holder\": \"João Antônio\",\n    \"total\": 1000,\n    \"installments\": 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:3000/transactions"
+			},
+			"response": []
+		},
+		{
+			"name": "Transação - Stone - Invalid - Limite de Parcelas",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "X-ACQUIRER-ID",
+						"type": "text",
+						"value": "Stone"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"token\": \"xpto121a\",\n    \"holder\": \"João\",\n    \"total\": 1000,\n    \"installments\": 13\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:3000/transactions"
+			},
+			"response": []
+		},
+		{
+			"name": "Transação - Cielo - Valid - basico",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "X-ACQUIRER-ID",
+						"type": "text",
+						"value": "Cielo"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"token\": \"xpto121a\",\n    \"holder\": \"Maria\",\n    \"total\": 500,\n    \"installments\": 2\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:3000/transactions"
+			},
+			"response": []
+		},
+		{
+			"name": "Transação - Cielo - Valid - joão",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "X-ACQUIRER-ID",
+						"type": "text",
+						"value": "Cielo"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\n{\n    \"token\": \"xpto121a\",\n    \"holder\": \"João\",\n    \"brand\":\"Mastercard\",\n    \"validity\":\"2025-10\",\n    \"total\": 35.87,\n    \"installments\": 1,\n    \"items\": [\n    \t{\n    \t\t\"description\": \"Coca-cola\",\n    \t\t\"price\": 10.1\n    \t},\n    \t{\n    \t\t\"description\": \"Sorvete\",\n    \t\t\"price\": 25.77\n    \t}\n\t],\n\t\"id\": \"60.849.406/0001-75\",\n\t\"address\": \"Avenida Das Américas, 5150, Barra da Tijuca, Rio de Janeiro - RJ\",\n\t\"zipcode\": \"22640-102\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:3000/transactions"
+			},
+			"response": []
+		},
+		{
+			"name": "Transação - Cielo - Valid - carlos",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "X-ACQUIRER-ID",
+						"type": "text",
+						"value": "Cielo"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\n{\n    \"token\": \"NDQzNiA5ODQxIDM4MTIgNzQ2MCAtIDU4Mg==\",\n    \"holder\": \"Carlos\",\n    \"brand\":\"Visa\",\n    \"validity\":\"2021-03\",\n    \"total\": 500,\n    \"installments\": 6,\n    \"items\": [\n    \t{\n    \t\t\"description\": \"Lindt\",\n    \t\t\"price\": 500\n    \t}\n\t],\n\t\"id\": \"60.849.406/0001-75\",\n\t\"address\": \"Avenida Das Américas, 5150, Barra da Tijuca, Rio de Janeiro - RJ\",\n\t\"zipcode\": \"22640-102\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:3000/transactions"
+			},
+			"response": []
+		},
+		{
+			"name": "Transação - Cielo - Valid - andré",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "X-ACQUIRER-ID",
+						"type": "text",
+						"value": "Cielo"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\n{\n    \"token\": \"NTIxMSA0MjkxIDUzNDUgNDYxMSAtIDIwMA==\",\n    \"holder\": \"André\",\n    \"brand\":\"Mastercard\",\n    \"validity\":\"2027-12\",\n    \"total\": 305.50,\n    \"installments\": 2,\n    \"items\": [\n    \t{\n    \t\t\"description\": \"Kindle\",\n    \t\t\"price\": 305.50\n    \t}\n\t],\n\t\"id\": \"60.849.406/0001-75\",\n\t\"address\": \"Avenida Das Américas, 5150, Barra da Tijuca, Rio de Janeiro - RJ\",\n\t\"zipcode\": \"22640-102\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:3000/transactions"
+			},
+			"response": []
+		},
+		{
+			"name": "Transação - Cielo - Valid - maria",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "X-ACQUIRER-ID",
+						"type": "text",
+						"value": "Cielo"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\n{\n    \"token\": \"MzcwOCAzMDMwIDI3ODkgMjc4IC0gOTIz\",\n    \"holder\": \"Maria\",\n    \"brand\":\"American Express\",\n    \"validity\":\"2026-05\",\n    \"total\": 450.99,\n    \"installments\": 1,\n    \"items\": [\n    \t{\n    \t\t\"description\": \"Smartband 4\",\n    \t\t\"price\": 450.99\n    \t}\n\t],\n\t\"id\": \"60.849.406/0001-75\",\n\t\"address\": \"Avenida Das Américas, 5150, Barra da Tijuca, Rio de Janeiro - RJ\",\n\t\"zipcode\": \"22640-102\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:3000/transactions"
+			},
+			"response": []
+		},
+		{
+			"name": "Transação - Cielo - Invalid - Parâmetros vazios",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "X-ACQUIRER-ID",
+						"type": "text",
+						"value": "Cielo"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"token\": \"xpto121a\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:3000/transactions"
+			},
+			"response": []
+		},
+		{
+			"name": "Transação - Cielo - Invalid - Valor inválido",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "X-ACQUIRER-ID",
+						"type": "text",
+						"value": "Cielo"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"token\": \"xpto121a\",\n    \"holder\": \"Maria\",\n    \"total\": 501,\n    \"installments\": 2\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:3000/transactions"
+			},
+			"response": []
+		},
+		{
+			"name": "Transação - Cielo - Invalid - Portador João Antônio",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "X-ACQUIRER-ID",
+						"type": "text",
+						"value": "Cielo"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"token\": \"xpto121a\",\n    \"holder\": \"João Antônio\",\n    \"total\": 500,\n    \"installments\": 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:3000/transactions"
+			},
+			"response": []
+		},
+		{
+			"name": "Transação - Cielo - Invalid - Limite de Parcelas",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "X-ACQUIRER-ID",
+						"type": "text",
+						"value": "Cielo"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"token\": \"xpto121a\",\n    \"holder\": \"João\",\n    \"total\": 500,\n    \"installments\": 7\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:3000/transactions"
+			},
+			"response": []
+		},
+		{
+			"name": "Transação - Rede - Invalid - Adquirente não cadastrada",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "X-ACQUIRER-ID",
+						"type": "text",
+						"value": "Rede"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"token\": \"xpto121a\",\n    \"holder\": \"Maria\",\n    \"total\": 50,\n    \"installments\": 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:3000/transactions"
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
