@@ -106,7 +106,7 @@ services:
     environment: 
       ACQUIRERS_PORT: 8092
       ACQUIRERS_DELAY: 100
-      ACQUIRERS_ENV: DEVELOPMENT
+      ACQUIRERS_LOGGING: DEBUG
     volumes:
       - ./test/_acquirers_server_mock/:/src/
     ports: 

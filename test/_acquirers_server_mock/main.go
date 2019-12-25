@@ -14,7 +14,7 @@ import (
 var port = os.Getenv("ACQUIRERS_PORT")
 var strDelay = os.Getenv("ACQUIRERS_DELAY")
 var delay time.Duration
-var env = os.Getenv("ACQUIRERS_ENV")
+var logging = os.Getenv("ACQUIRERS_LOGGING")
 
 func init() {
 
@@ -45,7 +45,7 @@ func main() {
 }
 
 func logRequest(w http.ResponseWriter, r *http.Request) {
-	if env == "DEVELOPMENT" {
+	if logging == "DEBUG" {
 		buf, bodyErr := ioutil.ReadAll(r.Body)
 		if bodyErr != nil {
 			http.Error(w, "Falha ao recuperar Request.Body", http.StatusInternalServerError)
