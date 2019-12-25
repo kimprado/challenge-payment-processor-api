@@ -78,6 +78,10 @@ test-load-ab-container:
 	@docker-compose up -d --build  acquirers api-load redisdb test-load-ab
 	@docker-compose logs --tail="100" -f test-load-ab &
 
+## test-load-ab-stop			: Interrompe containers de testes ApacheBench.
+test-load-ab-stop:
+	@docker-compose rm -fsv test-load-ab api-load
+
 ## infra-start			: Inicia serviços de dependência containerizados.
 infra-start:
 	@docker-compose up -d --build redisdb nginx acquirers
@@ -90,9 +94,9 @@ infra-stop:
 infra-test-start:
 	@docker-compose up -d --build redis-test acquirers
 
-## infra-test-stop		: Interrompe serviços de dependência de testes containerizados.
+## infra-test-stop		: Interrompe containers de testes.
 infra-test-stop:
-	@docker-compose rm -fsv redis-test acquirers
+	@docker-compose rm -fsv test-unit test-integration test-all redis-test acquirers
 
 ## package			: Empacota API na imagem challenge/payment-processor-api:latest - Alpine Linux.
 package: 
