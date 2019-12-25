@@ -1,4 +1,4 @@
-testCaseName;jsonBodyData;headerAcquirerID;responseStatusCode;responseBody
+testCaseName;requestBody;requestHeaderAcquirerID;responseStatusCode;responseBody
 Stone - Valid - dados básicos;{"token":"xpto121a","holder":"João","total":1000,"installments":1};Stone;200;{"message":"Transação autorizada"}
 Stone - Valid - joão;{"token": "xpto121a","holder":"João","brand":"Mastercard","validity":"2025-10","total":35.87,"installments":1,"items":[{"description":"Coca-cola","price":10.1},{"description":"Sorvete","price":25.77}],"id":"60.849.406/0001-75","address":"Avenida Das Américas, 5150, Barra da Tijuca, Rio de Janeiro - RJ","zipcode":"22640-102"};Stone;200;{"message":"Transação autorizada"}
 Stone - Valid - carlos;{"token": "NDQzNiA5ODQxIDM4MTIgNzQ2MCAtIDU4Mg==","holder":"Carlos","brand":"Visa","validity":"2021-03","total":900,"installments":12,"items":[{"description":"Lindt","price":900}],"id":"60.849.406/0001-75","address":"Avenida Das Américas, 5150, Barra da Tijuca, Rio de Janeiro - RJ","zipcode":"22640-102"};Stone;200;{"message":"Transação autorizada"}
