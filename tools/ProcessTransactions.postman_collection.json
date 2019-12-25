@@ -6,7 +6,7 @@
 	},
 	"item": [
 		{
-			"name": "Transação - Stone - Valid - basico",
+			"name": "Transação - Stone - Valid - dados básicos",
 			"request": {
 				"method": "POST",
 				"header": [
@@ -92,36 +92,6 @@
 					}
 				},
 				"url": "http://localhost:3000/transactions"
-			},
-			"response": []
-		},
-		{
-			"name": "Transação - Stone - Valid - carlos nginx",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"name": "Content-Type",
-						"type": "text",
-						"value": "application/json"
-					},
-					{
-						"key": "X-ACQUIRER-ID",
-						"type": "text",
-						"value": "Stone"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"token\": \"NDQzNiA5ODQxIDM4MTIgNzQ2MCAtIDU4Mg==\",\n    \"holder\": \"Carlos\",\n    \"brand\":\"Visa\",\n    \"validity\":\"2021-03\",\n    \"total\": 900,\n    \"installments\": 12,\n    \"items\": [\n    \t{\n    \t\t\"description\": \"Lindt\",\n    \t\t\"price\": 900\n    \t}\n\t],\n\t\"id\": \"60.849.406/0001-75\",\n\t\"address\": \"Avenida Das Américas, 5150, Barra da Tijuca, Rio de Janeiro - RJ\",\n\t\"zipcode\": \"22640-102\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": "http://localhost:80/api/transactions"
 			},
 			"response": []
 		},
@@ -306,7 +276,7 @@
 			"response": []
 		},
 		{
-			"name": "Transação - Cielo - Valid - basico",
+			"name": "Transação - Cielo - Valid - dados básicos",
 			"request": {
 				"method": "POST",
 				"header": [
