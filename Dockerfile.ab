@@ -3,3 +3,5 @@ FROM alpine:3.9
 
 ENV TERM linux
 RUN apk --no-cache add apache2-utils bash
+
+WORKDIR /src/test

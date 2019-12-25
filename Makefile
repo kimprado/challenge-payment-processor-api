@@ -71,12 +71,12 @@ test-all-container:
 ## test-load-ab			: Executa testes de carga com ApacheBench.
 test-load-ab:
 	@docker-compose up -d --build redisdb test-load-ab
-	@docker-compose logs --tail="10" -f test-load-ab &
+	@docker-compose logs --tail="100" -f test-load-ab &
 
 ## test-load-ab-container		: Executa testes de carga com ApacheBench e API containerizada.
 test-load-ab-container:
-	@docker-compose up -d --build  api-load redisdb test-load-ab
-	@docker-compose logs --tail="10" -f test-load-ab &
+	@docker-compose up -d --build  acquirers api-load redisdb test-load-ab
+	@docker-compose logs --tail="100" -f test-load-ab &
 
 ## infra-start			: Inicia serviços de dependência containerizados.
 infra-start:

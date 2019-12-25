@@ -116,7 +116,7 @@ type StoneAcquirerWorkers struct {
 func NewStoneAcquirerWorkers(a AcquirerActorsResgister, p *AcquirerParameter, c config.Configuration) (w *StoneAcquirerWorkers) {
 	w = new(StoneAcquirerWorkers)
 	w.AcquirerWorkers = newAcquirerWorkers("Stone", a)
-	for i := 0; i < 10; i++ {
+	for i := 0; i < 110; i++ {
 		w.add(newAcquirer(c.StoneAcquirer.URL, p))
 	}
 	return

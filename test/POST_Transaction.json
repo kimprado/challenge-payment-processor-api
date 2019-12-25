@@ -1,0 +1,14 @@
+{
+    "token": "NDQzNiA5ODQxIDM4MTIgNzQ2MCAtIDU4Mg==",
+    "holder": "Carlos",
+    "brand":"Visa",
+    "validity":"2021-03",
+    "total": 900,
+    "installments": 12,
+    "items": [
+    	{
+    		"description": "Lindt",
+    		"price": 900
+    	}
+	]
+}
