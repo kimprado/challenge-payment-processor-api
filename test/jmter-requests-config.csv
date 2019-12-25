@@ -17,3 +17,4 @@ Cielo - Invalid - Parâmetros vazios;{"token":"xpto121a"};Cielo;400;{"title":"Va
 Cielo - Invalid - Valor inválido;{"token":"xpto121a","holder":"João","total":1001,"installments":1};Cielo;400;{"title":"Validação do Adquirente ao Processar Transação","detail":"Valor inválido"}
 Cielo - Invalid - Portador João Antônio;{"token":"xpto121a","holder":"João Antônio","total":500,"installments":1};Cielo;400;{"title":"Validação do Adquirente ao Processar Transação","detail":"Transação não permitida para o portador"}
 Cielo - Invalid - Limite de Parcelas;{"token":"xpto121a","holder":"João","total":500,"installments":7};Cielo;400;{"title":"Validação do Adquirente ao Processar Transação","detail":"Não aprovado"}
+Rede - Invalid - Adquirente não cadastrada;{"token":"xpto121a","holder":"João","total":500,"installments":1};Rede;400;{"title":"Falha ao enviar requisição para Adquirente","detail":"Adquirente \"Rede\" inexistente"}
