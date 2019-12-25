@@ -83,7 +83,7 @@ services:
     command: [ "bash","load-test.sh" ]
     volumes:
       - ./test/load-test-apachebench.sh:/src/test/load-test.sh
-      - ./test/POST_Transaction.json:/src/test/POST_Transaction.json
+      - ./test/apachebench-POST_Transaction.json:/src/test/apachebench-POST_Transaction.json
     network_mode: host
     depends_on:
       - nginx
