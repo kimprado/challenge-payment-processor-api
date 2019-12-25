@@ -68,10 +68,9 @@ test-integration-container:
 test-all-container:
 	@docker-compose up --build test-all
 
-## test-load-ab			: Executa testes de carga com ApacheBench.
-test-load-ab:
-	@docker-compose up -d --build redisdb test-load-ab
-	@docker-compose logs --tail="100" -f test-load-ab &
+## test-load-ab-local		: Executa testes de carga com ApacheBench localmente. Use comando test-load-ab-container em caso de erro.
+test-load-ab-local:
+	@./test/load-test-apachebench.sh
 
 ## test-load-ab-container		: Executa testes de carga com ApacheBench e API containerizada.
 test-load-ab-container:
