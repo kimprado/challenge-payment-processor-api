@@ -78,9 +78,13 @@ test-load-ab-container:
 	@docker-compose up -d --build  acquirers api-load redisdb test-load-ab
 	@docker-compose logs --tail="100" -f test-load-ab &
 
-## test-load-ab-stop			: Interrompe containers de testes ApacheBench.
+## test-load-ab-stop		: Interrompe containers de testes ApacheBench.
 test-load-ab-stop:
 	@docker-compose rm -fsv test-load-ab api-load
+
+## test-load-jmeter-local		: Executa testes de carga localmente com Jmeter. Ex: modo gráfico 'make test-load-jmeter-local gui=s'
+test-load-jmeter-local:
+	@./test/load-test-jmeter.sh $(gui)
 
 ## infra-start			: Inicia serviços de dependência containerizados.
 infra-start:
