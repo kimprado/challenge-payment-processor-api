@@ -1,7 +1,6 @@
 #!/bin/bash
 
 set -e
-clear
 
 CLI_MODE="-n"
 GUI_MODE=""
@@ -13,9 +12,11 @@ if [ -z "$1" ]
 then
     echo "JMeter in CLI mode"
     MODE=$CLI_MODE
+    export JMETER_EXIT_ON_ERROR=true
 else
     echo "JMeter in GUI mode"
     MODE=$GUI_MODE
+    export JMETER_EXIT_ON_ERROR=false
 fi
 
 if  [ ! -e $PATH_TEST_PLAN ]; then

@@ -1,0 +1,19 @@
+FROM java:8-jdk-alpine
+
+ RUN   apk update \                                                                                                                                                                                                                        
+  &&   apk add ca-certificates curl bash \                                                                                                                                                                                                      
+  &&   update-ca-certificates 
+
+COPY  ./third_party/pcurl.sh /usr/local/bin/pcurl
+RUN   chmod +x /usr/local/bin/pcurl
+
+WORKDIR /opt/
+
+RUN pcurl https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.1.1.tgz
+
+RUN tar -zxf ./apache-jmeter-5.1.1.tgz
+RUN mv ./apache-jmeter-5.1.1 /opt/jmeter
+RUN ln -s /opt/jmeter/bin/jmeter /usr/local/bin/jmeter
+
+WORKDIR /src/test
+RUN     jmeter --version

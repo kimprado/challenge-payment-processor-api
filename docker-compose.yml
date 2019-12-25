@@ -88,12 +88,25 @@ services:
     depends_on:
       - api-load
       - nginx
+  test-load-jmeter:
+    build: 
+      context: .
+      dockerfile: '${PWD}/Dockerfile.jmeter'
+    command: [ "bash","load-test.sh" ]
+    volumes:
+      - ./test/load-test-jmeter.sh:/src/test/load-test.sh
+      - ./test/jmeter-load-test-plan.jmx:/src/test/jmeter-load-test-plan.jmx
+    network_mode: host
+    depends_on:
+      - api-load
+      - nginx
   acquirers:
     build: 
       context: ./test/_acquirers_server_mock
     environment: 
       ACQUIRERS_PORT: 8092
       ACQUIRERS_DELAY: 100
+      ACQUIRERS_ENV: DEVELOPMENT
     volumes:
       - ./test/_acquirers_server_mock/:/src/
     ports: 

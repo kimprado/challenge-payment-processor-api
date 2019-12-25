@@ -49,6 +49,11 @@
             <stringProp name="Argument.value">${__BeanShell(System.getenv(&quot;JMETER_API_CONTEXT&quot;))}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
+          <elementProp name="exit-on-error" elementType="Argument">
+            <stringProp name="Argument.name">exit-on-error</stringProp>
+            <stringProp name="Argument.value">${__BeanShell(System.getenv(&quot;JMETER_EXIT_ON_ERROR&quot;))}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
         </collectionProp>
       </Arguments>
       <hashTree/>
@@ -149,7 +154,6 @@
                 <stringProp name="filename"></stringProp>
                 <stringProp name="parameters"></stringProp>
                 <stringProp name="script">def failureMessage = &quot;&quot;;
-//def jsonResponse = null;
 
 if(!&quot;200&quot;.equals(prev.getResponseCode())){
 	failureMessage += &quot;Expected &lt;response code&gt; [200] but we got instead [&quot; + prev.getResponseCode() + &quot;]\n&quot; ;
@@ -159,14 +163,17 @@ if(!&quot;200&quot;.equals(prev.getResponseCode())){
 if (failureMessage?.trim()) {
     failureMessage += &quot;URL: &quot; + SampleResult.getURL() + &quot;\n&quot;;     
     failureMessage += &quot;RESPONSE: &quot; + prev.getResponseDataAsString() + &quot;\n&quot;;
-    failureMessage += &quot;REQUEST HEADERS: &quot; + SampleResult.getRequestHeaders() + &quot;\n&quot;;
+    failureMessage += &quot;REQUEST HEADERS: \n&quot; + SampleResult.getRequestHeaders() + &quot;\n&quot;;
 
     AssertionResult.setFailureMessage(failureMessage);
     AssertionResult.setFailure(true);
     println &quot;\n&quot;
     println &quot;Erro ao executar teste\n&quot;
     println failureMessage;
-    System.exit(1);
+
+    if (vars.get(&quot;exit-on-error&quot;).toBoolean()) {
+		System.exit(1);
+    }
 }</stringProp>
                 <stringProp name="scriptLanguage">groovy</stringProp>
                 <stringProp name="TestPlan.comments">Response Code,Duration, Response</stringProp>
