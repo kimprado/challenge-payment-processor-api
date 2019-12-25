@@ -12,7 +12,7 @@ func statusCode(e error) (s int) {
 
 	switch e.(type) {
 	case *processor.AcquirerActorSendNotFoundError:
-		s = http.StatusBadRequest // 400
+		s = http.StatusNotFound // 404
 	case *processor.CardNotFoundError:
 		s = http.StatusNotFound // 404
 	case *processor.AcquirerValidationError:

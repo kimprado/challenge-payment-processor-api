@@ -97,7 +97,7 @@ func TestProcessTransaction(t *testing.T) {
 				ar = &processor.AuthorizationResponse{Err: processor.NewAcquirerActorSendNotFoundError("Rede")}
 				return
 			}),
-			http.StatusBadRequest,
+			http.StatusNotFound,
 			`{"title":"Falha ao enviar requisição para Adquirente","detail":"Adquirente \"Rede\" inexistente"}`,
 			nil,
 		},
