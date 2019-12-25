@@ -50,6 +50,11 @@
             <stringProp name="Argument.value">${__BeanShell(System.getenv(&quot;JMETER_API_CONTEXT&quot;))}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
+          <elementProp name="test-cases-path" elementType="Argument">
+            <stringProp name="Argument.name">test-cases-path</stringProp>
+            <stringProp name="Argument.value">${__BeanShell(System.getenv(&quot;JMETER_TEST_CASES_PATH&quot;))}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
           <elementProp name="exit-on-error" elementType="Argument">
             <stringProp name="Argument.name">exit-on-error</stringProp>
             <stringProp name="Argument.value">${__BeanShell(System.getenv(&quot;JMETER_EXIT_ON_ERROR&quot;))}</stringProp>
@@ -97,7 +102,7 @@
         <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set Config" enabled="true">
           <stringProp name="delimiter">;</stringProp>
           <stringProp name="fileEncoding">UTF-8</stringProp>
-          <stringProp name="filename">/home/kim/devroot/bitbucket/challen_ge/pagarme/payment-processor/test/jmter-requests-config.csv</stringProp>
+          <stringProp name="filename">${test-cases-path}</stringProp>
           <boolProp name="ignoreFirstLine">false</boolProp>
           <boolProp name="quotedData">false</boolProp>
           <boolProp name="recycle">true</boolProp>
