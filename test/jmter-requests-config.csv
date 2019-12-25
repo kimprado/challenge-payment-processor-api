@@ -1,0 +1,2 @@
+jsonBodyData;headerAcquirerID;responseStatusCode;responseBody
+{"token": "NDQzNiA5ODQxIDM4MTIgNzQ2MCAtIDU4Mg==","holder":"Carlos","brand":"Visa","validity":"2021-03","total":900,"installments":12,"items":[{"description":"Lindt","price":900}],"id":"60.849.406/0001-75","address":"Avenida Das Américas, 5150, Barra da Tijuca, Rio de Janeiro - RJ","zipcode":"22640-102"};Stone;200;{"message":"Transação autorizada"}
