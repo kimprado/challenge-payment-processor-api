@@ -96,9 +96,9 @@ services:
     volumes:
       - ./test/load-test-jmeter.sh:/src/test/load-test.sh
       - ./test/jmeter-load-test-plan.jmx:/src/test/jmeter-load-test-plan.jmx
+      - ./test/jmeter-requests-config.csv:/src/test/jmeter-requests-config.csv
     network_mode: host
     depends_on:
-      - api-load
       - nginx
   acquirers:
     build: 

@@ -88,7 +88,7 @@ test-load-jmeter-local:
 
 ## test-load-jmeter-container	: Executa testes de carga com Jmeter e API containerizada.
 test-load-jmeter-container:
-	@docker-compose up -d --build  acquirers api-load redisdb test-load-jmeter
+	@docker-compose up -d --build  acquirers api redisdb test-load-jmeter
 	@docker-compose logs --tail="100" -f test-load-jmeter &
 
 ## infra-start			: Inicia serviços de dependência containerizados.
