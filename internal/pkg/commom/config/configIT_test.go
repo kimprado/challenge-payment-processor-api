@@ -26,10 +26,12 @@ const configTemplate = `
         "port": 6379
 	},
     "StoneAcquirer": {
-        "URL": "http://host-IT-test:8092/stone"
+        "URL": "http://host-IT-test:8092/stone",
+        "ConcurrentWorkers": 17
     },
     "CieloAcquirer": {
-        "URL": "http://host-IT-test:8092/cielo"
+        "URL": "http://host-IT-test:8092/cielo",
+        "ConcurrentWorkers": 25
     },
     "logging": {
         "level": {
@@ -51,21 +53,25 @@ func TestLoadConfig(t *testing.T) {
 	writeFile(f, fmt.Sprintf(configTemplate, dateTime))
 
 	expect := struct {
-		environment      string
-		serverPort       string
-		redisDbHost      string
-		redisDbPort      int
-		stoneAcquirerURL string
-		cieloAcquirerURL string
-		entrytimeout     time.Duration
-		logging          map[string]string
+		environment                    string
+		serverPort                     string
+		redisDbHost                    string
+		redisDbPort                    int
+		stoneAcquirerURL               string
+		stoneAcquirerConcurrentWorkers int
+		cieloAcquirerURL               string
+		cieloAcquirerConcurrentWorkers int
+		entrytimeout                   time.Duration
+		logging                        map[string]string
 	}{
-		environment:      "test-" + dateTime,
-		serverPort:       "3080",
-		redisDbHost:      "host-IT-test",
-		redisDbPort:      6379,
-		stoneAcquirerURL: "http://host-IT-test:8092/stone",
-		cieloAcquirerURL: "http://host-IT-test:8092/cielo",
+		environment:                    "test-" + dateTime,
+		serverPort:                     "3080",
+		redisDbHost:                    "host-IT-test",
+		redisDbPort:                    6379,
+		stoneAcquirerURL:               "http://host-IT-test:8092/stone",
+		stoneAcquirerConcurrentWorkers: 17,
+		cieloAcquirerURL:               "http://host-IT-test:8092/cielo",
+		cieloAcquirerConcurrentWorkers: 25,
 		logging: map[string]string{
 			"ROOT": "INFO",
 		},
@@ -91,6 +97,18 @@ func TestLoadConfig(t *testing.T) {
 	}
 	if expect.redisDbPort != c.RedisDB.Port {
 		t.Errorf("redisDbPort esperado %q é diferente de %q\n", expect.redisDbPort, c.RedisDB.Port)
+	}
+	if expect.stoneAcquirerURL != c.StoneAcquirer.URL {
+		t.Errorf("stoneAcquirerURL esperado %v é diferente de %v\n", expect.stoneAcquirerURL, c.StoneAcquirer.URL)
+	}
+	if expect.stoneAcquirerConcurrentWorkers != c.StoneAcquirer.ConcurrentWorkers {
+		t.Errorf("stoneAcquirerConcurrentWorkers esperado %v é diferente de %v\n", expect.stoneAcquirerConcurrentWorkers, c.StoneAcquirer.ConcurrentWorkers)
+	}
+	if expect.cieloAcquirerURL != c.CieloAcquirer.URL {
+		t.Errorf("cieloAcquirerURL esperado %v é diferente de %v\n", expect.cieloAcquirerURL, c.CieloAcquirer.URL)
+	}
+	if expect.cieloAcquirerConcurrentWorkers != c.CieloAcquirer.ConcurrentWorkers {
+		t.Errorf("cieloAcquirerConcurrentWorkers esperado %v é diferente de %v\n", expect.cieloAcquirerConcurrentWorkers, c.CieloAcquirer.ConcurrentWorkers)
 	}
 
 	for k, v := range expect.logging {

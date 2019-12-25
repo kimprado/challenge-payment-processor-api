@@ -249,6 +249,7 @@ func TestCreateStoneWorker(t *testing.T) {
 	r = &AcquirerActorsMock{}
 
 	c.StoneAcquirer.URL = "htttp://localhost/acquirer/stone"
+	c.StoneAcquirer.ConcurrentWorkers = 10
 	s = newHTTPRequestSenderMock()
 	repo = newCardRepositoryFinderMock()
 	p = &AcquirerParameter{
@@ -301,7 +302,8 @@ func TestCieloStoneWorker(t *testing.T) {
 
 	r = &AcquirerActorsMock{}
 
-	c.CieloAcquirer.URL = "htttp://localhost/acquirer/stone"
+	c.CieloAcquirer.URL = "htttp://localhost/acquirer/cielo"
+	c.CieloAcquirer.ConcurrentWorkers = 10
 	s = newHTTPRequestSenderMock()
 	repo = newCardRepositoryFinderMock()
 	p = &AcquirerParameter{

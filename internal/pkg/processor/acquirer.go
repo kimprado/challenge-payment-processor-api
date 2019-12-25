@@ -116,7 +116,7 @@ type StoneAcquirerWorkers struct {
 func NewStoneAcquirerWorkers(a AcquirerActorsResgister, p *AcquirerParameter, c config.Configuration) (w *StoneAcquirerWorkers) {
 	w = new(StoneAcquirerWorkers)
 	w.AcquirerWorkers = newAcquirerWorkers("Stone", a)
-	for i := 0; i < 110; i++ {
+	for i := 0; i < c.StoneAcquirer.ConcurrentWorkers; i++ {
 		w.add(newAcquirer(c.StoneAcquirer.URL, p))
 	}
 	return
@@ -132,7 +132,7 @@ type CieloAcquirerWorkers struct {
 func NewCieloAcquirerWorkers(a AcquirerActorsResgister, p *AcquirerParameter, c config.Configuration) (w *CieloAcquirerWorkers) {
 	w = new(CieloAcquirerWorkers)
 	w.AcquirerWorkers = newAcquirerWorkers("Cielo", a)
-	for i := 0; i < 10; i++ {
+	for i := 0; i < c.CieloAcquirer.ConcurrentWorkers; i++ {
 		w.add(newAcquirer(c.CieloAcquirer.URL, p))
 	}
 	return

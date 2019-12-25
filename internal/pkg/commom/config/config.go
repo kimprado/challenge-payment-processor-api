@@ -24,12 +24,14 @@ type Configuration struct {
 
 	StoneAcquirer struct {
 		// URL string `default:"http://localhost:8092/stone"`
-		URL string `required:"true"`
+		URL               string `required:"true"`
+		ConcurrentWorkers int    `required:"true"`
 	}
 
 	CieloAcquirer struct {
 		// URL string `default:"http://localhost:8092/cielo"`
-		URL string `required:"true"`
+		URL               string `required:"true"`
+		ConcurrentWorkers int    `required:"true"`
 	}
 
 	Logging struct {

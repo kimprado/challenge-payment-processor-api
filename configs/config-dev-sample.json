@@ -10,10 +10,12 @@
         "port": 6379
     },
     "StoneAcquirer": {
-        "URL": "http://localhost:8092/stone"
+        "URL": "http://localhost:8092/stone",
+        "ConcurrentWorkers": 10
     },
     "CieloAcquirer": {
-        "URL": "http://localhost:8092/cielo"
+        "URL": "http://localhost:8092/cielo",
+        "ConcurrentWorkers": 10
     },
     "logging": {
         "level": {
