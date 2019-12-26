@@ -1,4 +1,4 @@
-package infohttp
+package info
 
 import (
 	"encoding/json"
@@ -9,15 +9,15 @@ import (
 	"github.com/challenge/payment-processor/internal/pkg/commom/logging"
 )
 
-// InfoExporterHTTP expõe informações aplicação
-type InfoExporterHTTP struct {
+// AppInfoExporterHTTP expõe informações aplicação
+type AppInfoExporterHTTP struct {
 	info   App
 	logger logging.LoggerWebInfoHTTPExporter
 }
 
-// NewInfoExporterHTTP cria instância de InfoExporterHTTP
-func NewInfoExporterHTTP(a App, l logging.LoggerWebInfoHTTPExporter) (e *InfoExporterHTTP) {
-	e = &InfoExporterHTTP{
+// NewAppInfoExporterHTTP cria instância de AppInfoExporterHTTP
+func NewAppInfoExporterHTTP(a App, l logging.LoggerWebInfoHTTPExporter) (e *AppInfoExporterHTTP) {
+	e = &AppInfoExporterHTTP{
 		info:   a,
 		logger: l,
 	}
@@ -25,7 +25,7 @@ func NewInfoExporterHTTP(a App, l logging.LoggerWebInfoHTTPExporter) (e *InfoExp
 }
 
 // Serve envia informações da aplicação
-func (e *InfoExporterHTTP) Serve(res http.ResponseWriter, req *http.Request) {
+func (e *AppInfoExporterHTTP) Serve(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("Content-Type", "application/json; charset=UTF-8")
 
 	var info *debug.BuildInfo

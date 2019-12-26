@@ -13,7 +13,7 @@ import (
 
 	cfg "github.com/challenge/payment-processor/internal/pkg/commom/config"
 	"github.com/challenge/payment-processor/internal/pkg/commom/logging"
-	"github.com/challenge/payment-processor/internal/pkg/instrumentation/infohttp"
+	"github.com/challenge/payment-processor/internal/pkg/instrumentation/info"
 	"github.com/challenge/payment-processor/internal/pkg/processor/api"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
@@ -31,15 +31,15 @@ type WebServer struct {
 // ParamWebServer encapsula parâmetros de WebServer
 type ParamWebServer struct {
 	ctrl            *api.Controller
-	configExporter  *infohttp.ConfigExporterHTTP
-	infoExporter    *infohttp.InfoExporterHTTP
-	versionExporter *infohttp.VersionExporterHTTP
+	configExporter  *info.ConfigExporterHTTP
+	infoExporter    *info.AppInfoExporterHTTP
+	versionExporter *info.VersionExporterHTTP
 	config          cfg.Configuration
 	logger          logging.LoggerWebServer
 }
 
 // NewParamWebServer cria referência ParamWebServer
-func NewParamWebServer(c *api.Controller, exporterHTTP *infohttp.ConfigExporterHTTP, infoExporterHTTP *infohttp.InfoExporterHTTP, versionExporterHTTP *infohttp.VersionExporterHTTP, config cfg.Configuration, l logging.LoggerWebServer) (p *ParamWebServer) {
+func NewParamWebServer(c *api.Controller, exporterHTTP *info.ConfigExporterHTTP, infoExporterHTTP *info.AppInfoExporterHTTP, versionExporterHTTP *info.VersionExporterHTTP, config cfg.Configuration, l logging.LoggerWebServer) (p *ParamWebServer) {
 	p = new(ParamWebServer)
 	p.ctrl = c
 	p.configExporter = exporterHTTP

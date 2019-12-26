@@ -1,4 +1,4 @@
-package infohttp
+package info
 
 import (
 	"fmt"

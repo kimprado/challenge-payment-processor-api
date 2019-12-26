@@ -1,4 +1,4 @@
-package infohttp
+package info
 
 import "github.com/google/wire"
 
@@ -6,6 +6,6 @@ import "github.com/google/wire"
 var PkgSet = wire.NewSet(
 	NewApp,
 	NewConfigExporterHTTP,
-	NewInfoExporterHTTP,
+	NewAppInfoExporterHTTP,
 	NewVersionExporterHTTP,
 )
