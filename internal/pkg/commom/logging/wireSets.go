@@ -15,5 +15,7 @@ var PkgSet = wire.NewSet(
 	NewLoggerWebConfigHTTPExporter,
 	NewLoggerWebInfoHTTPExporter,
 	NewLoggerWebVersionHTTPExporter,
+	NewMetricsRequestCounter,
+	NewMetricsRequestResponseTime,
 	NewWebServer,
 )

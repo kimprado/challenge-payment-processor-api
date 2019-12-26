@@ -38,6 +38,12 @@ type Configuration struct {
 		File  string `required:"false"`
 		Level LoggingLevels
 	}
+
+	Metrics struct {
+		Enable    bool   `default:"true"`
+		Namespace string `default:"challenge"`
+		Subsystem string `default:"payment_processor_API"`
+	}
 }
 
 // Redis representa configuração de conexão Redis

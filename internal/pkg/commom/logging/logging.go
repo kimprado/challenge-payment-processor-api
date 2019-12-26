@@ -50,6 +50,16 @@ type LoggerWebVersionHTTPExporter struct {
 	l.Logger
 }
 
+//LoggerMetricsRequestCounter para logar instrumentation.metrics.http.REQUEST_COUNTER
+type LoggerMetricsRequestCounter struct {
+	l.Logger
+}
+
+//LoggerMetricsRequestResponseTime para logar instrumentation.metrics.http.REQUEST_RESPONSE_TIME
+type LoggerMetricsRequestResponseTime struct {
+	l.Logger
+}
+
 // LoggerWebServer para logar webserver
 type LoggerWebServer struct {
 	l.Logger
@@ -106,6 +116,18 @@ func NewLoggerWebInfoHTTPExporter(configLevels config.LoggingLevels) (log Logger
 //NewLoggerWebVersionHTTPExporter cria Logger "instrumentation.info.version"
 func NewLoggerWebVersionHTTPExporter(configLevels config.LoggingLevels) (log LoggerWebVersionHTTPExporter) {
 	log = LoggerWebVersionHTTPExporter{l.NewLogger("instrumentation.info.version", configLevels)}
+	return
+}
+
+//NewMetricsRequestCounter cria Logger "instrumentation.metrics.http.REQUEST_COUNTER"
+func NewMetricsRequestCounter(configLevels config.LoggingLevels) (log LoggerMetricsRequestCounter) {
+	log = LoggerMetricsRequestCounter{l.NewLogger("instrumentation.metrics.http.REQUEST_COUNTER", configLevels)}
+	return
+}
+
+//NewMetricsRequestResponseTime cria Logger "instrumentation.metrics.http.REQUEST_RESPONSE_TIME"
+func NewMetricsRequestResponseTime(configLevels config.LoggingLevels) (log LoggerMetricsRequestResponseTime) {
+	log = LoggerMetricsRequestResponseTime{l.NewLogger("instrumentation.metrics.http.REQUEST_RESPONSE_TIME", configLevels)}
 	return
 }
 

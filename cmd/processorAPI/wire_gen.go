@@ -12,6 +12,7 @@ import (
 	"github.com/challenge/payment-processor/internal/pkg/infra/http"
 	"github.com/challenge/payment-processor/internal/pkg/infra/redis"
 	"github.com/challenge/payment-processor/internal/pkg/instrumentation/info"
+	"github.com/challenge/payment-processor/internal/pkg/instrumentation/metrics"
 	"github.com/challenge/payment-processor/internal/pkg/processor"
 	"github.com/challenge/payment-processor/internal/pkg/processor/api"
 	"github.com/challenge/payment-processor/internal/pkg/webserver"
@@ -54,8 +55,13 @@ func initializeApp(configuration config.Configuration) (*app.PaymentProcessorApp
 	appInfoExporterHTTP := info.NewAppInfoExporterHTTP(infoApp, loggerWebInfoHTTPExporter)
 	loggerWebVersionHTTPExporter := logging.NewLoggerWebVersionHTTPExporter(loggingLevels)
 	versionExporterHTTP := info.NewVersionExporterHTTP(infoApp, loggerWebVersionHTTPExporter)
+	loggerMetricsRequestResponseTime := logging.NewMetricsRequestResponseTime(loggingLevels)
+	reqResponseTime := metrics.NewReqResponseTime(configuration, loggerMetricsRequestResponseTime)
+	loggerMetricsRequestCounter := logging.NewMetricsRequestCounter(loggingLevels)
+	requestCounter := metrics.NewRequestCounter(configuration, loggerMetricsRequestCounter)
 	loggerWebServer := logging.NewWebServer(loggingLevels)
-	paramWebServer := webserver.NewParamWebServer(controller, configExporterHTTP, appInfoExporterHTTP, versionExporterHTTP, configuration, loggerWebServer)
+	panicCounter := metrics.NewPanicCounter(configuration, loggerWebServer)
+	paramWebServer := webserver.NewParamWebServer(controller, configExporterHTTP, appInfoExporterHTTP, versionExporterHTTP, reqResponseTime, requestCounter, panicCounter, configuration, loggerWebServer)
 	webServer := webserver.NewWebServer(paramWebServer)
 	loggerCardRepository := logging.NewLoggerCardRepository(loggingLevels)
 	cardRepositoryRedis := processor.NewCardRepositoryRedis(dbConnection, redisDB, configuration, loggerCardRepository)
