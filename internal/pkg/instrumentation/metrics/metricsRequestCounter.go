@@ -36,8 +36,8 @@ func NewRequestCounter(c config.Configuration, l logging.LoggerMetricsRequestCou
 
 //RequestCounter envia métricas para Prometheus
 func (m *RequestCounter) metricsRequestCounter(code int, method, url, acquirer string) {
-	if !m.logger.IsTraceEnabled() {
-		m.logger.Tracef("HTTP.Status %v - %q - %q - %q\n", code, method, url, acquirer)
+	if m.logger.IsDebugEnabled() {
+		m.logger.Debugf("HTTP.Status %v - %q - %q - %q\n", code, method, url, acquirer)
 	}
 	m.counter.WithLabelValues(fmt.Sprint(code), method, url, acquirer).Inc()
 }
