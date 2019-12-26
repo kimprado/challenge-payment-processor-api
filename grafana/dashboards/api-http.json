@@ -248,6 +248,90 @@
       }
     },
     {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorPostfix": false,
+      "colorPrefix": false,
+      "colorValue": true,
+      "colors": [
+        "#56A64B",
+        "#FF9830",
+        "#F2495C"
+      ],
+      "description": "Total de falhas graves(crash com panic)",
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 1,
+        "show": true,
+        "thresholdLabels": true,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 4,
+        "x": 0,
+        "y": 12
+      },
+      "id": 8,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(138, 184, 255, 0.2)",
+        "full": true,
+        "lineColor": "#3274D9",
+        "show": true
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "expr": "challenge_payment_processor_api_http_req_fail_panic_total",
+          "format": "time_series",
+          "intervalFactor": 1,
+          "refId": "A"
+        }
+      ],
+      "thresholds": "1,50",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Total de falhas graves",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
       "aliasColors": {},
       "bars": false,
       "dashLength": 10,
@@ -257,8 +341,8 @@
       "fill": 1,
       "gridPos": {
         "h": 9,
-        "w": 11,
-        "x": 0,
+        "w": 7,
+        "x": 4,
         "y": 12
       },
       "id": 4,
