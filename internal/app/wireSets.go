@@ -14,7 +14,7 @@ import (
 
 // AppSet define providers do pacote
 var AppSet = wire.NewSet(
-	config.PkgSet,
+	config.AppSet,
 	logging.PkgSet,
 	http.PkgSet,
 	redis.PkgSet,

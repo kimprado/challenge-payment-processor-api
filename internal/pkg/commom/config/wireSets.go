@@ -8,3 +8,9 @@ var PkgSet = wire.NewSet(
 	NewLoggingLevels,
 	NewRedisDB,
 )
+
+// AppSet define providers do pacote para inicialização da aplicação
+var AppSet = wire.NewSet(
+	NewLoggingLevels,
+	NewRedisDB,
+)

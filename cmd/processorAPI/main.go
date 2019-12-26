@@ -29,13 +29,13 @@ func main() {
 
 	if config.Logging.File != "" {
 		log.Printf("Arquivo de logging %q\n", config.Logging.File)
-		appender, _ = initializeAppender("")
+		appender, _ = initializeAppender(config)
 		appender.Configure()
 	} else {
 		log.SetOutput(os.Stdout)
 	}
 
-	app, err = initializeApp("")
+	app, err = initializeApp(config)
 	if err != nil {
 		fmt.Printf("Erro ao iniciar aplicação %v\n", err)
 		return

@@ -27,20 +27,12 @@ func initializeConfig(path string) (config.Configuration, error) {
 	return configuration, nil
 }
 
-func initializeAppender(path string) (logging.FileAppender, error) {
-	configuration, err := config.NewConfig(path)
-	if err != nil {
-		return logging.FileAppender{}, err
-	}
+func initializeAppender(configuration config.Configuration) (logging.FileAppender, error) {
 	fileAppender := logging.NewFileAppender(configuration)
 	return fileAppender, nil
 }
 
-func initializeApp(path string) (*app.PaymentProcessorApp, error) {
-	configuration, err := config.NewConfig(path)
-	if err != nil {
-		return nil, err
-	}
+func initializeApp(configuration config.Configuration) (*app.PaymentProcessorApp, error) {
 	redisDB := config.NewRedisDB(configuration)
 	loggingLevels := config.NewLoggingLevels(configuration)
 	loggerRedisDB := logging.NewRedisDB(loggingLevels)

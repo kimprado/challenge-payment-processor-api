@@ -10,16 +10,16 @@ import (
 )
 
 // initializeConfig inicializa Configuration
-func initializeConfig(path string) (config config.Configuration, err error) {
-	panic(wire.Build(app.AppSet))
+func initializeConfig(path string) (configuration config.Configuration, err error) {
+	panic(wire.Build(config.NewConfig))
 }
 
 // initializeAppender inicializa FileAppender
-func initializeAppender(path string) (appender logging.FileAppender, err error) {
+func initializeAppender(configuration config.Configuration) (appender logging.FileAppender, err error) {
 	panic(wire.Build(app.AppSet))
 }
 
 // initializeApp inicializa ExchangeApp
-func initializeApp(path string) (a *app.PaymentProcessorApp, err error) {
+func initializeApp(configuration config.Configuration) (a *app.PaymentProcessorApp, err error) {
 	panic(wire.Build(app.AppSet))
 }
