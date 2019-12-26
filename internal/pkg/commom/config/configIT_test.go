@@ -9,6 +9,8 @@ import (
 	"os"
 	"testing"
 	"time"
+
+	"github.com/stretchr/testify/assert"
 )
 
 var now = time.Now()
@@ -40,6 +42,26 @@ const configTemplate = `
     }
 }
 `
+
+func TestCreateNewInvalidConfig(t *testing.T) {
+	_, err := NewConfig("./configs/config-dev-inexistente.json")
+
+	assert.NotNil(t, err)
+	// assert.Nil(t, c)
+
+	// expect := struct {
+	// 	configPath string
+	// }{
+	// 	configPath: "./configs/config-dev-inexistente.json",
+	// }
+
+	// c := loadFlags()
+
+	// if c != expect.configPath {
+	// 	t.Errorf("Caminho esperado %q é diferente sde %q\n", expect.configPath, c)
+	// }
+
+}
 
 func TestLoadConfig(t *testing.T) {
 	f, d, err := createTmpFile()

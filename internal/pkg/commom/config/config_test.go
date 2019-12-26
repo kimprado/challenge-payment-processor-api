@@ -4,6 +4,8 @@ package config
 
 import (
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestLoadFlagsPadrao(t *testing.T) {
@@ -19,4 +21,16 @@ func TestLoadFlagsPadrao(t *testing.T) {
 		t.Errorf("Caminho esperado %q é diferente sde %q\n", expect.configPath, c)
 	}
 
+}
+
+func TestNewCreateRedisDB(t *testing.T) {
+	r := NewRedisDB(Configuration{})
+	assert.NotNil(t, r)
+	return
+}
+
+func TestNewCreateLoggingLevels(t *testing.T) {
+	ll := NewLoggingLevels(Configuration{})
+	assert.Nil(t, ll)
+	return
 }

@@ -70,20 +70,14 @@ func NewLoggingLevels(c Configuration) (ll LoggingLevels) {
 
 // NewConfig -
 func NewConfig(configLocationFile string) (c Configuration, err error) {
-	if !loaded {
-		var configLocation string
-		if configLocationFile != "" {
-			configLocation = configLocationFile
-		} else {
-			configLocation = loadFlags()
-		}
-		config, err = loadConfig(configLocation)
-		if err != nil {
-			return
-		}
-		c = config
-		config = c
-		loaded = true
+	var configLocation string
+	if configLocationFile != "" {
+		configLocation = configLocationFile
+	} else {
+		configLocation = loadFlags()
+	}
+	config, err = loadConfig(configLocation)
+	if err != nil {
 		return
 	}
 	c = config
