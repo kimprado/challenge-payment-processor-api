@@ -5,12 +5,16 @@ set -e
 case "$1" in
     start)
         docker-compose up -d --build \
+        prometheus \
+        grafana \
         acquirers \
         nginx \
         api
         ;;
     start-safe)
         docker-compose up -d --build \
+        prometheus \
+        grafana \
         acquirers \
         nginx \
         api-safe
@@ -22,7 +26,9 @@ case "$1" in
         nginx \
         api \
         api-safe \
-        redisdb
+        redisdb \
+        prometheus \
+        grafana
         ;;
     *)
         echo "Usage: {start|stop}" >&2

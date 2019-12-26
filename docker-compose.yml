@@ -123,3 +123,13 @@ services:
     network_mode: host
     volumes:
       - ${PWD}/api/swagger.yml:/spec/swagger.yml
+  prometheus:
+    build: './prometheus'
+    network_mode: host
+    ports:
+     - '9090:9090'
+  grafana:
+    build: './grafana'
+    network_mode: host
+    ports:
+     - '3001:3001'

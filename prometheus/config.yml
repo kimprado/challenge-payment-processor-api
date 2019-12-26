@@ -1,0 +1,13 @@
+global:
+  scrape_interval:     5s
+  evaluation_interval: 5s
+
+  external_labels:
+      monitor: 'prometheus-grafana-exporter'
+
+scrape_configs:
+
+  - job_name: 'payment-processor-api'
+    metrics_path: /metrics  
+    static_configs:
+      - targets: ['localhost:3000']

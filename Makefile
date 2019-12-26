@@ -106,6 +106,14 @@ infra-test-start:
 infra-test-stop:
 	@docker-compose rm -fsv test-unit test-integration test-all test-load-ab test-load-jmeter redis-test acquirers
 
+## infra-monitoring-start		: Inicia serviços de dependência de monitoramento.
+infra-monitoring-start:
+	@docker-compose up -d --build prometheus grafana
+
+## infra-monitoring-stop		: Interrompe containers de monitoramento.
+infra-monitoring-stop:
+	@docker-compose rm -fsv prometheus grafana
+
 ## package			: Empacota API na imagem challenge/payment-processor-api:latest - Alpine Linux.
 package: 
 	@./scripts/package.sh package
