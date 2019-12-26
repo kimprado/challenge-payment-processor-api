@@ -42,7 +42,7 @@ type Configuration struct {
 	Metrics struct {
 		Enable    bool   `default:"true"`
 		Namespace string `default:"challenge"`
-		Subsystem string `default:"payment_processor_API"`
+		Subsystem string `default:"payment_processor_api"`
 	}
 }
 
