@@ -23,6 +23,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "prometheus-ds-api",
+      "description": "",
       "fill": 1,
       "gridPos": {
         "h": 12,
@@ -101,7 +102,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Latência",
+      "title": "Latência em milissegundo",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -145,7 +146,7 @@
       "dashes": false,
       "datasource": "prometheus-ds-api",
       "decimals": null,
-      "description": "req/seg em janela de 1 e 5  minutos",
+      "description": "req/seg em janela de 1 minuto ",
       "fill": 1,
       "gridPos": {
         "h": 12,
@@ -153,7 +154,7 @@
         "x": 11,
         "y": 0
       },
-      "id": 5,
+      "id": 6,
       "legend": {
         "alignAsTable": true,
         "avg": false,
@@ -188,29 +189,38 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(challenge_payment_processor_api_http_req_processed_total[1m])) by (instance)",
+          "expr": "sum(challenge_payment_processor_api_http_req_processed_total) by (instance,code,url)\n",
           "format": "time_series",
-          "hide": false,
+          "hide": true,
           "interval": "15s",
           "intervalFactor": 1,
-          "legendFormat": "r/s 1m {{instance}}",
-          "refId": "D"
+          "legendFormat": "Geral {{instance}} {{code}} {{url}}",
+          "refId": "A"
         },
         {
-          "expr": "sum(rate(challenge_payment_processor_api_http_req_processed_total[5m])) by (instance)",
+          "expr": "rate(challenge_payment_processor_api_http_req_processed_total{url=~\"/transactions.*\"}[1m])",
           "format": "time_series",
           "hide": false,
           "interval": "15s",
           "intervalFactor": 1,
-          "legendFormat": "r/s 5m {{instance}}",
-          "refId": "A"
+          "legendFormat": "{{instance}} {{code}}  {{url}}  {{acquirer}}",
+          "refId": "B"
+        },
+        {
+          "expr": "challenge_payment_processor_api_http_req_processed_total",
+          "format": "time_series",
+          "hide": true,
+          "interval": "15s",
+          "intervalFactor": 1,
+          "legendFormat": "Geral {{instance}} {{code}} {{url}}",
+          "refId": "C"
         }
       ],
       "thresholds": [],
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Requisições por segundo - total",
+      "title": "Pedidos de Autorização por segundo - status/endpoint/adquirente",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -435,7 +445,7 @@
       "dashes": false,
       "datasource": "prometheus-ds-api",
       "decimals": null,
-      "description": "req/seg em janela de 1 minuto",
+      "description": "req/seg em janela de 1 e 5  minutos",
       "fill": 1,
       "gridPos": {
         "h": 9,
@@ -443,7 +453,116 @@
         "x": 11,
         "y": 12
       },
-      "id": 6,
+      "id": 5,
+      "legend": {
+        "alignAsTable": true,
+        "avg": false,
+        "current": true,
+        "max": false,
+        "min": false,
+        "rightSide": true,
+        "show": true,
+        "sort": null,
+        "sortDesc": null,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "paceLength": 10,
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "alias": "avg",
+          "dashes": true,
+          "lines": false,
+          "linewidth": 3
+        }
+      ],
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "sum(rate(challenge_payment_processor_api_http_req_processed_total[1m])) by (instance)",
+          "format": "time_series",
+          "hide": false,
+          "interval": "15s",
+          "intervalFactor": 1,
+          "legendFormat": "r/s 1m {{instance}}",
+          "refId": "D"
+        },
+        {
+          "expr": "sum(rate(challenge_payment_processor_api_http_req_processed_total[5m])) by (instance)",
+          "format": "time_series",
+          "hide": false,
+          "interval": "15s",
+          "intervalFactor": 1,
+          "legendFormat": "r/s 5m {{instance}}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Requisições por segundo - total",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "prometheus-ds-api",
+      "decimals": null,
+      "description": "req/seg em janela de 1 minuto",
+      "fill": 1,
+      "gridPos": {
+        "h": 12,
+        "w": 24,
+        "x": 0,
+        "y": 21
+      },
+      "id": 9,
       "legend": {
         "alignAsTable": true,
         "avg": false,
@@ -555,7 +674,7 @@
     "list": []
   },
   "time": {
-    "from": "now-15m",
+    "from": "now-5m",
     "to": "now"
   },
   "timepicker": {

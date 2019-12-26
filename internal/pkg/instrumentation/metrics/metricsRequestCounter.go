@@ -26,7 +26,7 @@ func NewRequestCounter(c config.Configuration, l logging.LoggerMetricsRequestCou
 		Help:      "Total de requests recebidos",
 	},
 		[]string{
-			"code", "method", "url",
+			"code", "method", "url", "acquirer",
 		},
 	)
 	m.logger = l
@@ -35,11 +35,11 @@ func NewRequestCounter(c config.Configuration, l logging.LoggerMetricsRequestCou
 }
 
 //RequestCounter envia métricas para Prometheus
-func (m *RequestCounter) metricsRequestCounter(code int, method string, url string) {
+func (m *RequestCounter) metricsRequestCounter(code int, method, url, acquirer string) {
 	if !m.logger.IsTraceEnabled() {
-		m.logger.Debugf("HTTP.Status %v - %q - %q\n", code, method, url)
+		m.logger.Tracef("HTTP.Status %v - %q - %q - %q\n", code, method, url, acquirer)
 	}
-	m.counter.WithLabelValues(fmt.Sprint(code), method, url).Inc()
+	m.counter.WithLabelValues(fmt.Sprint(code), method, url, acquirer).Inc()
 }
 
 type metricsResponseWriter struct {
@@ -67,7 +67,10 @@ func (m *RequestCounter) Wrap(wrappedHandler http.Handler) http.Handler {
 		wrappedHandler.ServeHTTP(mrw, req)
 
 		statusCode := mrw.statusCode
-		m.metricsRequestCounter(statusCode, req.Method, req.URL.Path)
+
+		acquirer := req.Header.Get("X-ACQUIRER-ID")
+
+		m.metricsRequestCounter(statusCode, req.Method, req.URL.Path, acquirer)
 		if m.logger.IsTraceEnabled() {
 			m.logger.Tracef("<-- %d %s", statusCode, http.StatusText(statusCode))
 		}
