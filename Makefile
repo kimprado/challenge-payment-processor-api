@@ -104,7 +104,7 @@ infra-test-start:
 
 ## infra-test-stop		: Interrompe containers de testes.
 infra-test-stop:
-	@docker-compose rm -fsv test-unit test-integration test-all redis-test acquirers
+	@docker-compose rm -fsv test-unit test-integration test-all test-load-ab test-load-jmeter redis-test acquirers
 
 ## package			: Empacota API na imagem challenge/payment-processor-api:latest - Alpine Linux.
 package: 
