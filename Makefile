@@ -70,7 +70,7 @@ test-all-container:
 
 ## test-load-ab-local		: Executa testes de carga com ApacheBench localmente. Use comando test-load-ab-container em caso de erro.
 test-load-ab-local:
-	@./test/load-test-apachebench.sh
+	@third_party/wait-for-it.sh localhost:3000 -s -t 30 -- ./test/load-test-apachebench.sh
 
 ## test-load-ab-container		: Executa testes de carga com ApacheBench e API containerizada.
 test-load-ab-container:

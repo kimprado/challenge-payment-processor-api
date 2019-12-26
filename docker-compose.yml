@@ -11,6 +11,7 @@ services:
       - 3000:3000
     depends_on:
       - redisdb
+      - acquirers
   api-safe:
     build:
       context: '${PWD}'
@@ -20,6 +21,7 @@ services:
       - 3000:3000
     depends_on:
       - redisdb
+      - acquirers
   api-load:
     build:
       context: '${PWD}'
@@ -29,6 +31,7 @@ services:
       - 3000:3000
     depends_on:
       - redisdb
+      - acquirers
   nginx:
     image: nginx:1.15.12-alpine
     network_mode: host
@@ -80,10 +83,11 @@ services:
     build: 
       context: .
       dockerfile: '${PWD}/Dockerfile.ab'
-    command: [ "bash","load-test.sh" ]
+    command: [ "./wait-for-it.sh", "localhost:3000", "-s", "--timeout=30", "--", "bash","load-test.sh" ]
     volumes:
       - ./test/load-test-apachebench.sh:/src/test/load-test.sh
       - ./test/apachebench-POST_Transaction.json:/src/test/apachebench-POST_Transaction.json
+      - ./third_party/wait-for-it.sh:/src/test/wait-for-it.sh
     network_mode: host
     depends_on:
       - nginx
@@ -91,11 +95,12 @@ services:
     build: 
       context: .
       dockerfile: '${PWD}/Dockerfile.jmeter'
-    command: [ "bash","load-test.sh" ]
+    command: [ "./wait-for-it.sh", "localhost:3000", "-s", "--timeout=30", "--", "bash","load-test.sh" ]
     volumes:
       - ./test/load-test-jmeter.sh:/src/test/load-test.sh
       - ./test/jmeter-load-test-plan.jmx:/src/test/jmeter-load-test-plan.jmx
       - ./test/jmeter-requests-config.csv:/src/test/jmeter-requests-config.csv
+      - ./third_party/wait-for-it.sh:/src/test/wait-for-it.sh
     network_mode: host
     depends_on:
       - nginx
