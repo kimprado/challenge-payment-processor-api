@@ -2,6 +2,12 @@
 
 set -e
 
+DATE=$(date +%FT%T%z)
+USER=$(whoami)
+GIT_VERSION=$(git --no-pager describe --tags --always)
+GIT_REVISION=$(git --no-pager describe --long --always)
+BRANCH=$(git branch | grep \* | cut -d ' ' -f2)
+
 case "$1" in
     build)
         go build -ldflags \

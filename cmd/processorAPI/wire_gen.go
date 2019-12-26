@@ -11,6 +11,7 @@ import (
 	"github.com/challenge/payment-processor/internal/pkg/commom/logging"
 	"github.com/challenge/payment-processor/internal/pkg/infra/http"
 	"github.com/challenge/payment-processor/internal/pkg/infra/redis"
+	"github.com/challenge/payment-processor/internal/pkg/instrumentation/infohttp"
 	"github.com/challenge/payment-processor/internal/pkg/processor"
 	"github.com/challenge/payment-processor/internal/pkg/processor/api"
 	"github.com/challenge/payment-processor/internal/pkg/webserver"
@@ -54,8 +55,15 @@ func initializeApp(path string) (*app.PaymentProcessorApp, error) {
 	paymentProcessorService := processor.NewPaymentProcessorService(acquirerActors, loggerProcessor)
 	loggerAPI := logging.NewLoggerAPI(loggingLevels)
 	controller := api.NewController(paymentProcessorService, loggerAPI)
+	loggerWebConfigHTTPExporter := logging.NewLoggerWebConfigHTTPExporter(loggingLevels)
+	configExporterHTTP := infohttp.NewConfigExporterHTTP(configuration, loggerWebConfigHTTPExporter)
+	infohttpApp := infohttp.NewApp()
+	loggerWebInfoHTTPExporter := logging.NewLoggerWebInfoHTTPExporter(loggingLevels)
+	infoExporterHTTP := infohttp.NewInfoExporterHTTP(infohttpApp, loggerWebInfoHTTPExporter)
+	loggerWebVersionHTTPExporter := logging.NewLoggerWebVersionHTTPExporter(loggingLevels)
+	versionExporterHTTP := infohttp.NewVersionExporterHTTP(infohttpApp, loggerWebVersionHTTPExporter)
 	loggerWebServer := logging.NewWebServer(loggingLevels)
-	paramWebServer := webserver.NewParamWebServer(controller, configuration, loggerWebServer)
+	paramWebServer := webserver.NewParamWebServer(controller, configExporterHTTP, infoExporterHTTP, versionExporterHTTP, configuration, loggerWebServer)
 	webServer := webserver.NewWebServer(paramWebServer)
 	loggerCardRepository := logging.NewLoggerCardRepository(loggingLevels)
 	cardRepositoryRedis := processor.NewCardRepositoryRedis(dbConnection, redisDB, configuration, loggerCardRepository)

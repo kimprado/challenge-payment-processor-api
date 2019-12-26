@@ -35,6 +35,21 @@ type LoggerRedisDB struct {
 	l.Logger
 }
 
+//LoggerWebConfigHTTPExporter para logar web.config.httpexporter
+type LoggerWebConfigHTTPExporter struct {
+	l.Logger
+}
+
+//LoggerWebInfoHTTPExporter para logar instrumentation.info.config
+type LoggerWebInfoHTTPExporter struct {
+	l.Logger
+}
+
+//LoggerWebVersionHTTPExporter para logar instrumentation.info.version
+type LoggerWebVersionHTTPExporter struct {
+	l.Logger
+}
+
 // LoggerWebServer para logar webserver
 type LoggerWebServer struct {
 	l.Logger
@@ -73,6 +88,24 @@ func NewLoggerHTTP(configLevels config.LoggingLevels) (log LoggerHTTP) {
 // NewRedisDB cria Logger "infra.redis.db"
 func NewRedisDB(configLevels config.LoggingLevels) (log LoggerRedisDB) {
 	log = LoggerRedisDB{l.NewLogger("infra.redis.db", configLevels)}
+	return
+}
+
+//NewLoggerWebConfigHTTPExporter cria Logger "instrumentation.info.config"
+func NewLoggerWebConfigHTTPExporter(configLevels config.LoggingLevels) (log LoggerWebConfigHTTPExporter) {
+	log = LoggerWebConfigHTTPExporter{l.NewLogger("instrumentation.info.config", configLevels)}
+	return
+}
+
+//NewLoggerWebInfoHTTPExporter cria Logger "instrumentation.info.info"
+func NewLoggerWebInfoHTTPExporter(configLevels config.LoggingLevels) (log LoggerWebInfoHTTPExporter) {
+	log = LoggerWebInfoHTTPExporter{l.NewLogger("instrumentation.info.info", configLevels)}
+	return
+}
+
+//NewLoggerWebVersionHTTPExporter cria Logger "instrumentation.info.version"
+func NewLoggerWebVersionHTTPExporter(configLevels config.LoggingLevels) (log LoggerWebVersionHTTPExporter) {
+	log = LoggerWebVersionHTTPExporter{l.NewLogger("instrumentation.info.version", configLevels)}
 	return
 }
 

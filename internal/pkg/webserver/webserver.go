@@ -13,6 +13,7 @@ import (
 
 	cfg "github.com/challenge/payment-processor/internal/pkg/commom/config"
 	"github.com/challenge/payment-processor/internal/pkg/commom/logging"
+	"github.com/challenge/payment-processor/internal/pkg/instrumentation/infohttp"
 	"github.com/challenge/payment-processor/internal/pkg/processor/api"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
@@ -29,15 +30,21 @@ type WebServer struct {
 
 // ParamWebServer encapsula parâmetros de WebServer
 type ParamWebServer struct {
-	ctrl   *api.Controller
-	config cfg.Configuration
-	logger logging.LoggerWebServer
+	ctrl            *api.Controller
+	configExporter  *infohttp.ConfigExporterHTTP
+	infoExporter    *infohttp.InfoExporterHTTP
+	versionExporter *infohttp.VersionExporterHTTP
+	config          cfg.Configuration
+	logger          logging.LoggerWebServer
 }
 
 // NewParamWebServer cria referência ParamWebServer
-func NewParamWebServer(c *api.Controller, config cfg.Configuration, l logging.LoggerWebServer) (p *ParamWebServer) {
+func NewParamWebServer(c *api.Controller, exporterHTTP *infohttp.ConfigExporterHTTP, infoExporterHTTP *infohttp.InfoExporterHTTP, versionExporterHTTP *infohttp.VersionExporterHTTP, config cfg.Configuration, l logging.LoggerWebServer) (p *ParamWebServer) {
 	p = new(ParamWebServer)
 	p.ctrl = c
+	p.configExporter = exporterHTTP
+	p.infoExporter = infoExporterHTTP
+	p.versionExporter = versionExporterHTTP
 	p.config = config
 	p.logger = l
 	return
@@ -73,6 +80,9 @@ func (ws *WebServer) Start() {
 
 	http.Handle("/", defaultHandler)
 	http.Handle("/metrics", promhttp.Handler())
+	http.Handle("/config", http.HandlerFunc(ws.configExporter.Serve))
+	http.Handle("/info", http.HandlerFunc(ws.infoExporter.Serve))
+	http.Handle("/version", http.HandlerFunc(ws.versionExporter.Serve))
 
 	var serverPort = ws.config.Server.Port
 	if portNumber.MatchString(serverPort) {
