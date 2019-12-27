@@ -30,10 +30,6 @@ if  [ ! -e "./.vscode/launch.json" ]; then
     cp "./.vscode/launch-sample.json" "./.vscode/launch.json"
 fi
 
-if  [ ! -e "./configs/config-blank.json" ]; then
-    cp "./configs/config-blank-sample.json" "./configs/config-blank.json"
-fi
-
 if  [ ! -e "./configs/config-dev.json" ]; then
     cp "./configs/config-dev-sample.json" "./configs/config-dev.json"
 fi

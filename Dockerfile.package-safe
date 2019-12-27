@@ -31,9 +31,7 @@ ARG workbuild=/usr/dist
 #     tzdata
 
 COPY --from=build ${workbuild}/payment-processor-api.bin /bin/payment-processor-api.bin
-RUN mkdir -p /etc/exchange-api/
-RUN echo "{}" >> /etc/exchange-api/config.json
 
 EXPOSE  3000
 WORKDIR /bin
-CMD     [ "/bin/payment-processor-api.bin" , "-config-location=/etc/exchange-api/config.json" ]
+CMD     [ "/bin/payment-processor-api.bin" ]

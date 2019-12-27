@@ -104,7 +104,7 @@ func NewConfig(configLocationFile string) (c Configuration, err error) {
 }
 
 func loadFlags() (configPath string) {
-	cp := flag.String("config-location", "./configs/config-dev.json", "Caminho para arquivo de configuração")
+	cp := flag.String("config-location", "", "Caminho para arquivo de configuração")
 
 	flag.Parse()
 
@@ -119,7 +119,11 @@ func loadConfig(configLocation string) (config Configuration, err error) {
 		ENVPrefix: "PROCESSOR",
 	})
 
-	err = cfg.Load(configApp, configLocation)
+	if configLocation != "" {
+		err = cfg.Load(configApp, configLocation)
+	} else {
+		err = cfg.Load(configApp)
+	}
 
 	if err != nil {
 		return

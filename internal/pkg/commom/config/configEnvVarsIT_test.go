@@ -69,7 +69,7 @@ func TestNewConfigEnvVars(t *testing.T) {
 	var c Configuration
 	var err error
 
-	c, err = initializeConfigTest("../../../../configs/config-blank.json")
+	c, err = initializeConfigTest("")
 
 	if err != nil {
 		t.Errorf("Erro ao carregar configurações %v", err)
