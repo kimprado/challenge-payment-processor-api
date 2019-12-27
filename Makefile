@@ -8,24 +8,36 @@ help : Makefile
 ## run				: Executa aplicação empacotada em imagem Alpine Linux.
 run: 
 	@./scripts/deploy.sh start
+	@echo ""
 	@echo "Acesse nginx:"
 	@echo "http://localhost:80/"
 	@echo "Acesse API:"
 	@echo "http://`docker-compose port api 3000`/"
 	@echo "Acesse swagger:"
 	@echo "http://localhost:80/docs"
+	@echo "Acesse grafana:"
+	@echo "http://localhost:3001/d/kKd-m3qiz/requisicoes-http-payment-processor-api?orgId=1&kiosk=tv"
+	@echo "Acesse prometheus:"
+	@echo "http://localhost:9090"
+	@echo ""
 
 # Alternativa criada devido a algumas indisponibilidades percebidas no 
 # repositório apk durante desenvolvimento.
 ## run-safe			: Executa aplicação empacotada com imagem Golang Official(pesada).
 run-safe: 
 	@./scripts/deploy.sh start-safe
+	@echo ""
 	@echo "Acesse nginx:"
 	@echo "http://localhost:80/"
 	@echo "Acesse API:"
 	@echo "http://`docker-compose port api-safe 3000`/"
 	@echo "Acesse swagger:"
 	@echo "http://localhost:80/docs"
+	@echo "Acesse grafana:"
+	@echo "http://localhost:3001/d/kKd-m3qiz/requisicoes-http-payment-processor-api?orgId=1&kiosk=tv"
+	@echo "Acesse prometheus:"
+	@echo "http://localhost:9090"
+	@echo ""
 
 ## stop				: Pára aplicação.
 stop:
