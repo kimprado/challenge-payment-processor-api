@@ -3,8 +3,8 @@ package processor
 // ExternalTransactionDTO representa dados de uma transação
 // vinda do ambiente externo.
 type ExternalTransactionDTO struct {
-	*TransactionDTO
 	Token string `json:"token"`
+	*TransactionDTO
 }
 
 // AcquirerTransactionDTO representa dados de uma transação
