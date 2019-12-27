@@ -36,15 +36,31 @@ paths:
       responses:
         200:
           description: "Sucesso. Transação autorizada."
+        400:
+          $ref: "#/responses/BadRequest"
+        401:
+          $ref: "#/responses/Unauthorized"
+        403:
+          $ref: "#/responses/Forbidden"
+        500:
+          $ref: "#/responses/UnexpectedError"
+        503:
+          description: "Serviço temporariamente indisponível."
+          schema:
+            $ref: "#/definitions/Error"
         default:
           description: "Erro inesperado no processamtno da transação."
 responses:
   BadRequest:
-    description: "Erro com parâmetros informados"
+    description: "Um ou mais parâmetros informados são inválidos"
     schema:
       $ref: "#/definitions/ParametersError"
+  Unauthorized:
+    description: "Erro na validação do token JWT."
+  Forbidden:
+    description: "Token JWT verificado, mas com credenciais sem direito de acesso."
   UnexpectedError:
-    description: "Erro inesperado"
+    description: "Erro inesperado no processamento da transação."
     schema:
       $ref: "#/definitions/Error"
       
