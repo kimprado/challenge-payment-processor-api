@@ -9,7 +9,7 @@ if  [ ! -e $REQUEST_BODY_FILE ]; then
     REQUEST_BODY_FILE="./test/apachebench-POST_Transaction.json"
 fi
 
-ab -n 61000 -c 103 -p $REQUEST_BODY_FILE -T application/json \
+ab -n 610000 -c 103 -p $REQUEST_BODY_FILE -T application/json \
     -H 'X-ACQUIRER-ID: Stone' \
     -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwiYXVkIjoicGF5bWVudC1wcm9jZXNzb3ItYXBpIn0.uw-8pECPeJbme82nptMI-bsP8f4GvCx9x6b_GzM5wws' \
     -m POST http://localhost:80/api/transactions
