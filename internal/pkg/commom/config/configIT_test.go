@@ -36,6 +36,7 @@ const configTemplate = `
         "ConcurrentWorkers": 25
     },
     "Security": {
+		"Enable": "Enable-Security",
         "JWTKey": "challenge"
     },
     "logging": {
@@ -72,6 +73,7 @@ func TestLoadConfig(t *testing.T) {
 		cieloAcquirerURL               string
 		cieloAcquirerConcurrentWorkers int
 		entrytimeout                   time.Duration
+		securityEnable                 string
 		logging                        map[string]string
 	}{
 		environment:                    "test-" + dateTime,
@@ -82,6 +84,7 @@ func TestLoadConfig(t *testing.T) {
 		stoneAcquirerConcurrentWorkers: 17,
 		cieloAcquirerURL:               "http://host-IT-test:8092/cielo",
 		cieloAcquirerConcurrentWorkers: 25,
+		securityEnable:                 "Enable-Security",
 		logging: map[string]string{
 			"ROOT": "INFO",
 		},
@@ -119,6 +122,9 @@ func TestLoadConfig(t *testing.T) {
 	}
 	if expect.cieloAcquirerConcurrentWorkers != c.CieloAcquirer.ConcurrentWorkers {
 		t.Errorf("cieloAcquirerConcurrentWorkers esperado %v é diferente de %v\n", expect.cieloAcquirerConcurrentWorkers, c.CieloAcquirer.ConcurrentWorkers)
+	}
+	if expect.securityEnable != c.Security.Enable {
+		t.Errorf("securityEnable esperado %v é diferente de %v\n", expect.securityEnable, c.Security.Enable)
 	}
 
 	for k, v := range expect.logging {

@@ -18,6 +18,7 @@ func TestNewConfigEnvVars(t *testing.T) {
 		os.Setenv("PROCESSOR_STONEACQUIRER_CONCURRENTWORKERS", "1000")
 		os.Setenv("PROCESSOR_CIELOACQUIRER_URL", "http://local-test:8092/cielo")
 		os.Setenv("PROCESSOR_CIELOACQUIRER_CONCURRENTWORKERS", "800")
+		os.Setenv("PROCESSOR_SECURITY_ENABLE", "false")
 		os.Setenv("PROCESSOR_SECURITY_JWTKEY", "app-jwt-key")
 		os.Setenv("PROCESSOR_LOGGING_LEVEL", "ROOT: WARN-teste")
 	}
@@ -30,6 +31,7 @@ func TestNewConfigEnvVars(t *testing.T) {
 		os.Setenv("PROCESSOR_STONEACQUIRER_CONCURRENTWORKERS", "")
 		os.Setenv("PROCESSOR_CIELOACQUIRER_URL", "")
 		os.Setenv("PROCESSOR_CIELOACQUIRER_CONCURRENTWORKERS", "")
+		os.Setenv("PROCESSOR_SECURITY_ENABLE", "")
 		os.Setenv("PROCESSOR_SECURITY_JWTKEY", "")
 		os.Setenv("PROCESSOR_LOGGING_LEVEL", "")
 	}
@@ -45,6 +47,7 @@ func TestNewConfigEnvVars(t *testing.T) {
 		stoneAcquirerConcurrentWorkers int
 		cieloAcquirerURL               string
 		cieloAcquirerConcurrentWorkers int
+		securityEnable                 string
 		jwtKey                         string
 		logging                        map[string]string
 	}{
@@ -56,6 +59,7 @@ func TestNewConfigEnvVars(t *testing.T) {
 		stoneAcquirerConcurrentWorkers: 1000,
 		cieloAcquirerURL:               "http://local-test:8092/cielo",
 		cieloAcquirerConcurrentWorkers: 800,
+		securityEnable:                 "false",
 		jwtKey:                         "app-jwt-key",
 		logging: map[string]string{
 			"ROOT": "WARN-teste",
@@ -95,6 +99,9 @@ func TestNewConfigEnvVars(t *testing.T) {
 	}
 	if expect.cieloAcquirerConcurrentWorkers != c.CieloAcquirer.ConcurrentWorkers {
 		t.Errorf("cieloAcquirerConcurrentWorkers esperado %v é diferente de %v\n", expect.cieloAcquirerConcurrentWorkers, c.CieloAcquirer.ConcurrentWorkers)
+	}
+	if expect.securityEnable != c.Security.Enable {
+		t.Errorf("securityEnable esperado %v é diferente de %v\n", expect.securityEnable, c.Security.Enable)
 	}
 	if expect.jwtKey != c.Security.JWTKey {
 		t.Errorf("jwtKey esperado %v é diferente de %v\n", expect.jwtKey, c.Security.JWTKey)

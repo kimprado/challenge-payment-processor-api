@@ -7,6 +7,7 @@ import (
 	"os"
 	"os/signal"
 	"regexp"
+	"strconv"
 	"syscall"
 
 	"github.com/julienschmidt/httprouter"
@@ -91,7 +92,8 @@ func (ws *WebServer) Start() {
 		mid.Use(ws.reqResponseTime.Handle)
 	}
 
-	if ws.config.Security.Enable {
+	securityEnable, _ := strconv.ParseBool(ws.config.Security.Enable)
+	if securityEnable {
 		mid.Use(ws.jwt.Handle)
 	}
 

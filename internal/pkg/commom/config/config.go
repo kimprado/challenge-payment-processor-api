@@ -2,6 +2,7 @@ package config
 
 import (
 	"flag"
+	"strconv"
 
 	"github.com/jinzhu/configor"
 )
@@ -35,7 +36,7 @@ type Configuration struct {
 	}
 
 	Security struct {
-		Enable bool   `default:"true"`
+		Enable string `default:"true"`
 		JWTKey string `required:"true"`
 	}
 
@@ -91,6 +92,13 @@ func NewConfig(configLocationFile string) (c Configuration, err error) {
 	if err != nil {
 		return
 	}
+	if config.Security.Enable != "" {
+		_, err = strconv.ParseBool(config.Security.Enable)
+		if err != nil {
+			return
+		}
+	}
+
 	c = config
 	return
 }
