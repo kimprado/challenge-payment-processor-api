@@ -10,6 +10,7 @@ require (
 	github.com/jinzhu/configor v1.0.0
 	github.com/julienschmidt/httprouter v1.2.0
 	github.com/kimprado/sllog v1.0.1
+	github.com/povilasv/prommod v0.0.12
 	github.com/prometheus/client_golang v1.2.1
 	github.com/prometheus/common v0.7.0
 	github.com/rileyr/middleware v0.0.0-20171218202914-adaf4755ca16

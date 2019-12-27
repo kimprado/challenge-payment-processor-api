@@ -10,6 +10,7 @@ import (
 	"syscall"
 
 	"github.com/julienschmidt/httprouter"
+	"github.com/povilasv/prommod"
 	"github.com/rileyr/middleware"
 
 	cfg "github.com/challenge/payment-processor/internal/pkg/commom/config"
@@ -18,7 +19,9 @@ import (
 	"github.com/challenge/payment-processor/internal/pkg/instrumentation/info"
 	"github.com/challenge/payment-processor/internal/pkg/instrumentation/metrics"
 	"github.com/challenge/payment-processor/internal/pkg/processor/api"
+	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
+	"github.com/prometheus/common/version"
 )
 
 var portNumber = regexp.MustCompile("^\\d{1,5}$")
@@ -100,6 +103,9 @@ func (ws *WebServer) Start() {
 	if ws.config.Metrics.Enable {
 		defaultHandler = ws.requestcounter.Wrap(defaultHandler)
 	}
+
+	prometheus.MustRegister(version.NewCollector("challenge_payment_processor_api"))
+	prometheus.Register(prommod.NewCollector("challenge-payment-processor-api"))
 
 	http.Handle("/", defaultHandler)
 	http.Handle("/metrics", promhttp.Handler())
