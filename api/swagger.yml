@@ -22,6 +22,7 @@ paths:
       parameters:
       - in: "header"
         name: "X-Acquirer-ID"
+        description: Identificador do Adquirente
         required: true
         type: string
         x-example: Stone
@@ -96,25 +97,34 @@ definitions:
     properties:
       token:
         type: string
+        description: |
+          Informações do cartão criptografadas. Neste projeto de exemplo o token é encodado em base64.
+          É gerado por **base64(num_cartao - cvv_cartao)** 
         example: NDQzNiA5ODQxIDM4MTIgNzQ2MCAtIDU4Mg==
       holder:
         type: string
+        description: Portador.
         example: Carlos 
       brand:
         type: string
+        description: Bandeira.
         example: Visa
       validity:
         type: string
+        description: Validade no formato AAAA-MM.
         example: 2021-03
       total:
         type: number
         format: float
+        description: Valor da compra.
         example: 900
       installments:
         type: number
         format: int64
+        description: Parcelas
         example: 12
       items:
+        description: Itens da compra
         type: "array"
         xml:
           name: "items"
@@ -123,12 +133,15 @@ definitions:
           $ref: "#/definitions/TransactionItem"
       id:
         type: string
+        description: CPF/CNPJ do vendedor
         example: 60.849.406/0001-75
       address:
         type: string
+        description: Endereço do vendedor.
         example: Avenida Das Américas, 5150, Barra da Tijuca, Rio de Janeiro - RJ
       zipcode:
         type: string
+        description: CEP do vendedor.
         example: 22640-102
     xml:
       name: "transaction"
@@ -138,9 +151,11 @@ definitions:
     properties:
       description:
         type: string
+        description: Descrição do item.
         example: Lindt
       price:
         type: number
+        description: Preço do item.
         format: float
         example: 900
     xml:
