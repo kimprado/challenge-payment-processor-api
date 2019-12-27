@@ -129,8 +129,6 @@ definitions:
         type: string
       detail:
         type: string
-      instance:
-        type: string
     xml:
       name: "Error"
   ParametersError:
@@ -142,8 +140,6 @@ definitions:
       title:
         type: string
       detail:
-        type: string
-      instance:
         type: string
       invalid-parameters:
         type: "array"
