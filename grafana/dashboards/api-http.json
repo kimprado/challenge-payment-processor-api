@@ -620,6 +620,10 @@
             {
               "text": "Undeployed",
               "value": "-1"
+            },
+            {
+              "text": "Undeployed",
+              "value": "0"
             }
           ]
         },
