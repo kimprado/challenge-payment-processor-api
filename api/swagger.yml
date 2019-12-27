@@ -19,6 +19,110 @@ paths:
       - "Transaction"
       summary: "Processa transação"
       description: "Processa transação com parâmetro informado"
+      parameters:
+      - in: "header"
+        name: "X-Acquirer-ID"
+        required: true
+        type: string
+        x-example: Stone
+      - in: "body"
+        name: "transaction"
+        description: "Informações representa dados de uma transação para processamento"
+        required: true
+        schema:
+          $ref: "#/definitions/Transaction"
+      security:
+        - APIKeyAuthorizationBearer: []
       responses:
+        200:
+          description: "Sucesso. Transação autorizada."
         default:
-          description: "Transação processada"
+          description: "Erro inesperado no processamtno da transação."
+responses:
+  BadRequest:
+    description: "Erro com parâmetros informados"
+    schema:
+      $ref: "#/definitions/ParametersError"
+  UnexpectedError:
+    description: "Erro inesperado"
+    schema:
+      $ref: "#/definitions/Error"
+      
+definitions:
+  Transaction:
+    type: object
+    description: "Informações representa dados de uma transação"
+    properties:
+      token:
+        type: string
+        example: NDQzNiA5ODQxIDM4MTIgNzQ2MCAtIDU4Mg==
+      holder:
+        type: string
+        example: Carlos 
+      brand:
+        type: string
+        example: Visa
+      validity:
+        type: string
+        example: 2021-03
+      total:
+        type: number
+        format: float
+        example: 900
+      installments:
+        type: number
+        format: int64
+        example: 12
+    xml:
+      name: "ExchangeValue"
+  Error:
+    type: object
+    required:
+      - title
+    properties:
+      title:
+        type: string
+      detail:
+        type: string
+      instance:
+        type: string
+    xml:
+      name: "Error"
+  ParametersError:
+    type: object
+    description: "representa informações sobre erro de parâmetros"
+    required:
+      - title
+    properties:
+      title:
+        type: string
+      detail:
+        type: string
+      instance:
+        type: string
+      invalid-parameters:
+        type: "array"
+        xml:
+          name: "invalid-parameters"
+          wrapped: true
+        items:
+          $ref: "#/definitions/ParameterError"
+    xml:
+      name: "ParametersError"
+  ParameterError:
+    type: "object"
+    description: "representa informações sobre erro de parâmetro"
+    properties:
+      name:
+        type: string
+      value:
+        type: string
+      reason:
+        type: string
+    xml:
+      name: "ParameterError"
+securityDefinitions:
+   APIKeyAuthorizationBearer:
+     type: apiKey
+     in: header
+     name: Authorization
