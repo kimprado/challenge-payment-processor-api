@@ -605,7 +605,7 @@
       ],
       "targets": [
         {
-          "expr": "challenge_payment_processor_api_build_info",
+          "expr": "sum(challenge_payment_processor_api_build_info) by (version)",
           "format": "heatmap",
           "hide": false,
           "interval": "",
@@ -614,7 +614,7 @@
           "refId": "A"
         },
         {
-          "expr": "challenge_payment_processor_api_build_info",
+          "expr": "sum(challenge_payment_processor_api_build_info) by (revision)",
           "format": "heatmap",
           "hide": false,
           "interval": "",
@@ -623,7 +623,7 @@
           "refId": "B"
         },
         {
-          "expr": "challenge_payment_processor_api_build_info",
+          "expr": "sum(challenge_payment_processor_api_build_info) by (goversion)",
           "format": "heatmap",
           "hide": false,
           "interval": "",
@@ -632,7 +632,7 @@
           "refId": "D"
         },
         {
-          "expr": "challenge_payment_processor_api_build_info",
+          "expr": "sum(challenge_payment_processor_api_build_info) by (branch)",
           "format": "heatmap",
           "hide": false,
           "interval": "",
