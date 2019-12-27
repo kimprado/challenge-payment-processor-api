@@ -73,8 +73,28 @@ definitions:
         type: number
         format: int64
         example: 12
+      items:
+        type: "array"
+        xml:
+          name: "items"
+          wrapped: true
+        items:
+          $ref: "#/definitions/TransactionItem"
     xml:
-      name: "ExchangeValue"
+      name: "transaction"
+  TransactionItem:
+    type: object
+    description: "representa dados de itens de uma transação"
+    properties:
+      description:
+        type: string
+        example: Lindt
+      price:
+        type: number
+        format: float
+        example: 900
+    xml:
+      name: "item"
   Error:
     type: object
     required:
