@@ -42,6 +42,8 @@ paths:
           $ref: "#/responses/Unauthorized"
         403:
           $ref: "#/responses/Forbidden"
+        404:
+          $ref: "#/responses/NotFound"
         500:
           $ref: "#/responses/UnexpectedError"
         503:
@@ -59,6 +61,14 @@ responses:
     description: "Erro na validação do token JWT."
   Forbidden:
     description: "Token JWT verificado, mas com credenciais sem direito de acesso."
+  NotFound:
+    description: |
+      Recurso solicitado inexistente.
+      Erros possíveis:
+        * Adquirente inexistente
+        * Cartão inexistente
+    schema:
+      $ref: "#/definitions/Error"
   UnexpectedError:
     description: "Erro inesperado no processamento da transação."
     schema:
