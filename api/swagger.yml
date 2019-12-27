@@ -54,7 +54,16 @@ paths:
           description: "Erro inesperado no processamtno da transação."
 responses:
   BadRequest:
-    description: "Um ou mais parâmetros informados são inválidos"
+    description: |
+      Um ou mais parâmetros informados são inválidos. Pode ser gerado pela própria API ou proveniente
+      do Adquirente.
+      
+      Erros possíveis da *API*:
+        * Um ou Mais parâmetros não são válidos
+      
+      Erros possíveis do *Adquirente*:
+        * Validação do Adquirente ao Processar Transação
+
     schema:
       $ref: "#/definitions/ParametersError"
   Unauthorized:
