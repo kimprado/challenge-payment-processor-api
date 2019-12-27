@@ -43,6 +43,12 @@ func (e Home) Serve(w http.ResponseWriter, r *http.Request, params httprouter.Pa
 			<li>
 				<a href='./metrics'>metrics</a> - Méricas/Informações no formato Prometheus, como: Versões das dependências, tempo de resposta, total de requests, Tempo de GC.
 			</li>
+			<li>
+				<a href='http://localhost:3001/d/kKd-m3qiz/requisicoes-http-payment-processor-api?orgId=1&kiosk=tv'>Grafana</a> - Visualização no Grafana das métricas coletadas pelo Prometheus.
+			</li>
+			<li>
+				<a href='http://localhost:9090/targets'>Prometheus</a> - Coleta métricas da aplicação e permite consultas sobre as mesmas.
+			</li>
 		</ul>
 		</body>
 		</html>
