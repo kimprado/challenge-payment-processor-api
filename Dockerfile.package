@@ -9,7 +9,12 @@ WORKDIR /src/
 RUN     go mod download
 RUN     go get github.com/google/wire/cmd/wire@v0.4.0
 
-COPY . /src
+COPY    .git                /src/.git
+COPY    .gitignore          /src/
+COPY    cmd                 /src/cmd
+COPY    internal            /src/internal
+COPY    scripts/compile.sh  /src/scripts/
+COPY    Makefile            /src/
 
 RUN     wire ./cmd/processorAPI/
 RUN     make build-static path=${workbuild}
