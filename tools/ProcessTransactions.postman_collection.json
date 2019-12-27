@@ -576,5 +576,33 @@
 			"response": []
 		}
 	],
+	"auth": {
+		"type": "bearer",
+		"bearer": {
+			"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwiYXVkIjoicGF5bWVudC1wcm9jZXNzb3ItYXBpIn0.uw-8pECPeJbme82nptMI-bsP8f4GvCx9x6b_GzM5wws"
+		}
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "e978a931-27e6-44b6-9f5f-b513a364e5e1",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "989651c3-a6dd-43da-b7e4-ff6e4e6cd90f",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
 	"protocolProfileBehavior": {}
 }
