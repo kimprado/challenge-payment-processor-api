@@ -548,6 +548,204 @@
       }
     },
     {
+      "columns": [],
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 14,
+        "w": 4,
+        "x": 0,
+        "y": 21
+      },
+      "id": 13,
+      "links": [],
+      "pageSize": null,
+      "scroll": true,
+      "showHeader": true,
+      "sort": {
+        "col": null,
+        "desc": false
+      },
+      "styles": [
+        {
+          "alias": "Time",
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "pattern": "Time",
+          "type": "date"
+        },
+        {
+          "alias": "Build",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Metric",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        },
+        {
+          "alias": "",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "decimals": 2,
+          "pattern": "/.*/",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "expr": "challenge_payment_processor_api_build_info",
+          "format": "heatmap",
+          "hide": false,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "Golang - {{goversion}}",
+          "refId": "D"
+        },
+        {
+          "expr": "challenge_payment_processor_api_build_info",
+          "format": "heatmap",
+          "hide": false,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "Branch - {{branch}}",
+          "refId": "E"
+        },
+        {
+          "expr": "challenge_payment_processor_api_build_info",
+          "format": "heatmap",
+          "hide": false,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "Version - {{version}}",
+          "refId": "A"
+        },
+        {
+          "expr": "challenge_payment_processor_api_build_info",
+          "format": "heatmap",
+          "hide": false,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "Revision - {{revision}}",
+          "refId": "B"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Versão da Aplicação",
+      "transform": "timeseries_aggregations",
+      "type": "table"
+    },
+    {
+      "columns": [],
+      "description": "",
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 14,
+        "w": 7,
+        "x": 4,
+        "y": 21
+      },
+      "id": 11,
+      "links": [],
+      "pageSize": null,
+      "scroll": true,
+      "showHeader": true,
+      "sort": {
+        "col": 0,
+        "desc": true
+      },
+      "styles": [
+        {
+          "alias": "Time",
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "link": false,
+          "pattern": "Time",
+          "type": "date"
+        },
+        {
+          "alias": "Nome | Versão",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Metric",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        },
+        {
+          "alias": "",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "decimals": 2,
+          "pattern": "/.*/",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "expr": "sum(rate(go_mod_info[30s])) by (name,version)",
+          "format": "table",
+          "hide": true,
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "refId": "A"
+        },
+        {
+          "expr": "sum(go_mod_info) by (name,version)",
+          "format": "time_series",
+          "hide": false,
+          "intervalFactor": 1,
+          "legendFormat": "{{name}} | {{version}}",
+          "refId": "D"
+        },
+        {
+          "expr": "sum(go_mod_info) by (name,version)",
+          "format": "time_series",
+          "hide": true,
+          "intervalFactor": 1,
+          "legendFormat": "{{name}}",
+          "refId": "B"
+        },
+        {
+          "expr": "sum(go_mod_info) by (name,version)",
+          "format": "time_series",
+          "hide": true,
+          "intervalFactor": 1,
+          "legendFormat": "{{version}}",
+          "refId": "C"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Dependências da aplicação",
+      "transform": "timeseries_aggregations",
+      "type": "table"
+    },
+    {
       "aliasColors": {},
       "bars": false,
       "dashLength": 10,
@@ -557,9 +755,9 @@
       "description": "req/seg em janela de 1 minuto",
       "fill": 1,
       "gridPos": {
-        "h": 12,
-        "w": 24,
-        "x": 0,
+        "h": 14,
+        "w": 13,
+        "x": 11,
         "y": 21
       },
       "id": 9,
@@ -666,7 +864,7 @@
       }
     }
   ],
-  "refresh": "3s",
+  "refresh": "5s",
   "schemaVersion": 18,
   "style": "dark",
   "tags": [],
@@ -674,7 +872,7 @@
     "list": []
   },
   "time": {
-    "from": "now-5m",
+    "from": "now-15m",
     "to": "now"
   },
   "timepicker": {
