@@ -548,7 +548,12 @@
       }
     },
     {
-      "columns": [],
+      "columns": [
+        {
+          "text": "Current",
+          "value": "current"
+        }
+      ],
       "fontSize": "100%",
       "gridPos": {
         "h": 14,
@@ -573,7 +578,7 @@
           "type": "date"
         },
         {
-          "alias": "Build",
+          "alias": "Details",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -587,6 +592,36 @@
           "thresholds": [],
           "type": "number",
           "unit": "short"
+        },
+        {
+          "alias": "Status",
+          "colorMode": "cell",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "link": false,
+          "mappingType": 1,
+          "pattern": "Current",
+          "thresholds": [
+            "0",
+            "1"
+          ],
+          "type": "string",
+          "unit": "short",
+          "valueMaps": [
+            {
+              "text": "Deployed",
+              "value": "1"
+            },
+            {
+              "text": "Undeployed",
+              "value": "-1"
+            }
+          ]
         },
         {
           "alias": "",
@@ -643,7 +678,7 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Versão da aplicação",
+      "title": "Versões da aplicação",
       "transform": "timeseries_aggregations",
       "type": "table"
     },
