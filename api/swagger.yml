@@ -47,9 +47,7 @@ paths:
         500:
           $ref: "#/responses/UnexpectedError"
         503:
-          description: "Serviço temporariamente indisponível."
-          schema:
-            $ref: "#/definitions/Error"
+          $ref: "#/responses/ServiceUnavailable"
         default:
           description: "Erro inesperado no processamtno da transação."
 responses:
@@ -57,7 +55,7 @@ responses:
     description: |
       Um ou mais parâmetros informados são inválidos. Pode ser gerado pela própria API ou proveniente
       do Adquirente.
-      
+
       Erros possíveis da *API*:
         * Um ou Mais parâmetros não são válidos
       
@@ -80,6 +78,14 @@ responses:
       $ref: "#/definitions/Error"
   UnexpectedError:
     description: "Erro inesperado no processamento da transação."
+    schema:
+      $ref: "#/definitions/Error"
+  ServiceUnavailable:
+    description: |
+      Serviço temporariamente indisponível. Tente novamente mais tarde
+      Erros possíveis:
+        * Falha no Adquirente ao Processar Transação.
+        * Erro de conexão com Adquirente. 
     schema:
       $ref: "#/definitions/Error"
       
