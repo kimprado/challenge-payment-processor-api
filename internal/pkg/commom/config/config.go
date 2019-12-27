@@ -34,6 +34,11 @@ type Configuration struct {
 		ConcurrentWorkers int    `required:"true"`
 	}
 
+	Security struct {
+		Enable bool   `default:"true"`
+		JWTKey string `required:"true"`
+	}
+
 	Logging struct {
 		File  string `required:"false"`
 		Level LoggingLevels

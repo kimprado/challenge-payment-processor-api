@@ -14,6 +14,7 @@ import (
 
 	cfg "github.com/challenge/payment-processor/internal/pkg/commom/config"
 	"github.com/challenge/payment-processor/internal/pkg/commom/logging"
+	"github.com/challenge/payment-processor/internal/pkg/infra/security"
 	"github.com/challenge/payment-processor/internal/pkg/instrumentation/info"
 	"github.com/challenge/payment-processor/internal/pkg/instrumentation/metrics"
 	"github.com/challenge/payment-processor/internal/pkg/processor/api"
@@ -39,12 +40,13 @@ type ParamWebServer struct {
 	reqResponseTime *metrics.ReqResponseTime
 	requestcounter  *metrics.RequestCounter
 	panicCounter    *metrics.PanicCounter
+	jwt             *security.JWTFilter
 	config          cfg.Configuration
 	logger          logging.LoggerWebServer
 }
 
 // NewParamWebServer cria referência ParamWebServer
-func NewParamWebServer(c *api.Controller, exporterHTTP *info.ConfigExporterHTTP, infoExporterHTTP *info.AppInfoExporterHTTP, versionExporterHTTP *info.VersionExporterHTTP, mrt *metrics.ReqResponseTime, mrc *metrics.RequestCounter, mpc *metrics.PanicCounter, config cfg.Configuration, l logging.LoggerWebServer) (p *ParamWebServer) {
+func NewParamWebServer(c *api.Controller, exporterHTTP *info.ConfigExporterHTTP, infoExporterHTTP *info.AppInfoExporterHTTP, versionExporterHTTP *info.VersionExporterHTTP, mrt *metrics.ReqResponseTime, mrc *metrics.RequestCounter, mpc *metrics.PanicCounter, jwt *security.JWTFilter, config cfg.Configuration, l logging.LoggerWebServer) (p *ParamWebServer) {
 	p = new(ParamWebServer)
 	p.ctrl = c
 	p.configExporter = exporterHTTP
@@ -53,6 +55,7 @@ func NewParamWebServer(c *api.Controller, exporterHTTP *info.ConfigExporterHTTP,
 	p.reqResponseTime = mrt
 	p.requestcounter = mrc
 	p.panicCounter = mpc
+	p.jwt = jwt
 	p.config = config
 	p.logger = l
 	return
@@ -80,7 +83,14 @@ func (ws *WebServer) Start() {
 	router = httprouter.New()
 
 	mid := middleware.NewStack()
-	mid.Use(ws.reqResponseTime.Handle)
+
+	if ws.config.Metrics.Enable {
+		mid.Use(ws.reqResponseTime.Handle)
+	}
+
+	if ws.config.Security.Enable {
+		mid.Use(ws.jwt.Handle)
+	}
 
 	router.GET("/", ws.home.Serve)
 	router.POST("/transactions", mid.Wrap(ws.ctrl.Process))

@@ -5,6 +5,7 @@ import (
 	"github.com/challenge/payment-processor/internal/pkg/commom/logging"
 	"github.com/challenge/payment-processor/internal/pkg/infra/http"
 	"github.com/challenge/payment-processor/internal/pkg/infra/redis"
+	"github.com/challenge/payment-processor/internal/pkg/infra/security"
 	"github.com/challenge/payment-processor/internal/pkg/instrumentation/info"
 	"github.com/challenge/payment-processor/internal/pkg/instrumentation/metrics"
 	"github.com/challenge/payment-processor/internal/pkg/processor"
@@ -19,6 +20,7 @@ var AppSet = wire.NewSet(
 	logging.PkgSet,
 	http.PkgSet,
 	redis.PkgSet,
+	security.PkgSet,
 	info.PkgSet,
 	metrics.PkgSet,
 	processor.PkgSet,

@@ -35,6 +35,11 @@ type LoggerRedisDB struct {
 	l.Logger
 }
 
+// LoggerJWTFilter para logar infra.security.jwt
+type LoggerJWTFilter struct {
+	l.Logger
+}
+
 //LoggerWebConfigHTTPExporter para logar web.config.httpexporter
 type LoggerWebConfigHTTPExporter struct {
 	l.Logger
@@ -98,6 +103,12 @@ func NewLoggerHTTP(configLevels config.LoggingLevels) (log LoggerHTTP) {
 // NewRedisDB cria Logger "infra.redis.db"
 func NewRedisDB(configLevels config.LoggingLevels) (log LoggerRedisDB) {
 	log = LoggerRedisDB{l.NewLogger("infra.redis.db", configLevels)}
+	return
+}
+
+// NewLoggerJWTFilter cria Logger "infra.security.jwt"
+func NewLoggerJWTFilter(configLevels config.LoggingLevels) (log LoggerJWTFilter) {
+	log = LoggerJWTFilter{l.NewLogger("infra.security.jwt", configLevels)}
 	return
 }
 

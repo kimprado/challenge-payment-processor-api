@@ -35,6 +35,9 @@ const configTemplate = `
         "URL": "http://host-IT-test:8092/cielo",
         "ConcurrentWorkers": 25
     },
+    "Security": {
+        "JWTKey": "challenge"
+    },
     "logging": {
         "level": {
             "ROOT": "INFO"

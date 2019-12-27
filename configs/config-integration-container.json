@@ -17,6 +17,9 @@
         "URL": "http://acquirers:8092/cielo",
         "ConcurrentWorkers": 10
     },
+    "Security": {
+        "JWTKey": "challenge"
+    },
     "logging": {
         "level": {
             "ROOT": "INFO",
