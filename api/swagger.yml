@@ -80,6 +80,15 @@ definitions:
           wrapped: true
         items:
           $ref: "#/definitions/TransactionItem"
+      id:
+        type: string
+        example: 60.849.406/0001-75
+      address:
+        type: string
+        example: Avenida Das Américas, 5150, Barra da Tijuca, Rio de Janeiro - RJ
+      zipcode:
+        type: string
+        example: 22640-102
     xml:
       name: "transaction"
   TransactionItem:
