@@ -610,24 +610,6 @@
           "hide": false,
           "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "Golang - {{goversion}}",
-          "refId": "D"
-        },
-        {
-          "expr": "challenge_payment_processor_api_build_info",
-          "format": "heatmap",
-          "hide": false,
-          "interval": "",
-          "intervalFactor": 1,
-          "legendFormat": "Branch - {{branch}}",
-          "refId": "E"
-        },
-        {
-          "expr": "challenge_payment_processor_api_build_info",
-          "format": "heatmap",
-          "hide": false,
-          "interval": "",
-          "intervalFactor": 1,
           "legendFormat": "Version - {{version}}",
           "refId": "A"
         },
@@ -639,11 +621,29 @@
           "intervalFactor": 1,
           "legendFormat": "Revision - {{revision}}",
           "refId": "B"
+        },
+        {
+          "expr": "challenge_payment_processor_api_build_info",
+          "format": "heatmap",
+          "hide": false,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "Golang - {{goversion}}",
+          "refId": "D"
+        },
+        {
+          "expr": "challenge_payment_processor_api_build_info",
+          "format": "heatmap",
+          "hide": false,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "Branch - {{branch}}",
+          "refId": "E"
         }
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Versão da Aplicação",
+      "title": "Versão da aplicação",
       "transform": "timeseries_aggregations",
       "type": "table"
     },
