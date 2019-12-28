@@ -7,14 +7,14 @@ import (
 	"github.com/challenge/payment-processor/internal/pkg/infra/http"
 )
 
-// AcquirerProcessor representa adquirente capaz de processar
+// AcquirerProcessor representa Adquirente capaz de processar
 // transação com cartão.
 type AcquirerProcessor interface {
 	Process(r *AuthorizationRequest)
 }
 
 // AcquirerTransactionMapper representa comportamento capaz de fazer de-para,
-// e transformar dados para formato que adquirente espera.
+// e transformar dados para formato que Adquirente espera.
 type AcquirerTransactionMapper interface {
 	mapTransaction(et *ExternalTransactionDTO) (t *AcquirerTransactionDTO, err error)
 }

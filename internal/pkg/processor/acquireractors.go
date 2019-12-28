@@ -21,7 +21,7 @@ func NewActorsMap() (m ActorsMap) {
 	return
 }
 
-// AcquirerActors representa lista de atores de adquirentes disponíveis
+// AcquirerActors representa lista de atores de Adquirentes disponíveis
 type AcquirerActors struct {
 	actors ActorsMap
 }
@@ -34,7 +34,7 @@ func NewAcquirerActors(m ActorsMap) (a *AcquirerActors) {
 }
 
 // Send implementa AcquirerActorsSender.
-// Envia requisição para canal do ator do Adquirente.
+// Envia requisição para canal do ator da Adquirente.
 func (a *AcquirerActors) Send(aid AcquirerID, r *AuthorizationRequest) (err error) {
 	actor, ok := a.actors[aid]
 	if !ok {

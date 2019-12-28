@@ -118,7 +118,7 @@ func TestProcessAuthorizationRequestCases(t *testing.T) {
 			&CardNotFoundError{},
 		},
 		{
-			"Transação negada pelo Adquirente",
+			"Transação negada pela Adquirente",
 			"htttp://localhost/acquirer/stone",
 			newAuthorizationRequest("xpto121a", "João", 1000, 1),
 			newCardRepositoryFinderCaseMock(func(token string, chp chan string) (c *Card, err error) {
@@ -138,7 +138,7 @@ func TestProcessAuthorizationRequestCases(t *testing.T) {
 			&AcquirerValidationError{},
 		},
 		{
-			"Transação com erro interno no Adquirente",
+			"Transação com erro interno na Adquirente",
 			"htttp://localhost/acquirer/stone",
 			newAuthorizationRequest("xpto121a", "João", 1000, 1),
 			newCardRepositoryFinderCaseMock(func(token string, chp chan string) (c *Card, err error) {

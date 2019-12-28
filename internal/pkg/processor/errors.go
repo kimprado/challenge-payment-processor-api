@@ -142,7 +142,7 @@ func (e *CardNotFoundError) Is(target error) bool {
 	}
 }
 
-// AcquirerValidationError representa erro de validação no adquirente
+// AcquirerValidationError representa erro de validação na Adquirente
 type AcquirerValidationError struct {
 	*errors.ParametersError
 }
@@ -151,7 +151,7 @@ type AcquirerValidationError struct {
 func NewAcquirerValidationError(message string) (e *AcquirerValidationError) {
 	e = new(AcquirerValidationError)
 	e.ParametersError = errors.NewParametersError()
-	e.ParametersError.Title = "Validação do Adquirente ao Processar Transação"
+	e.ParametersError.Title = "Validação da Adquirente ao Processar Transação"
 	e.ParametersError.Detail = message
 	return
 }
@@ -175,7 +175,7 @@ func (e *AcquirerValidationError) Is(target error) bool {
 	}
 }
 
-// AcquirerProcessingError representa erro no processamento do adquirente
+// AcquirerProcessingError representa erro no processamento da Adquirente
 type AcquirerProcessingError struct {
 	*errors.GenericError
 }
@@ -184,7 +184,7 @@ type AcquirerProcessingError struct {
 func NewAcquirerProcessingError() (e *AcquirerProcessingError) {
 	e = new(AcquirerProcessingError)
 	e.GenericError = &errors.GenericError{}
-	e.GenericError.Title = "Falha no Adquirente ao Processar Transação"
+	e.GenericError.Title = "Falha na Adquirente ao Processar Transação"
 	return
 }
 
@@ -207,7 +207,7 @@ func (e *AcquirerProcessingError) Is(target error) bool {
 	}
 }
 
-// AcquirerConnectivityError representa erro de conectividade com adquirente
+// AcquirerConnectivityError representa erro de conectividade com Adquirente
 type AcquirerConnectivityError struct {
 	*errors.GenericError
 }
@@ -216,7 +216,7 @@ type AcquirerConnectivityError struct {
 func NewAcquirerConnectivityError(message string, err error) (e *AcquirerConnectivityError) {
 	e = new(AcquirerConnectivityError)
 	e.GenericError = &errors.GenericError{}
-	e.GenericError.Title = "Falha no Adquirente ao Processar Transação"
+	e.GenericError.Title = "Falha na Adquirente ao Processar Transação"
 	e.GenericError.Detail = message
 	e.GenericError.Err = err
 	return

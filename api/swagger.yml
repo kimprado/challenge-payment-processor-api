@@ -22,7 +22,7 @@ paths:
       parameters:
       - in: "header"
         name: "X-Acquirer-ID"
-        description: Identificador do Adquirente
+        description: Identificador da Adquirente
         required: true
         type: string
         x-example: Stone
@@ -55,13 +55,13 @@ responses:
   BadRequest:
     description: |
       Um ou mais parâmetros informados são inválidos. Pode ser gerado pela própria API ou proveniente
-      do Adquirente.
+      da Adquirente.
 
       Erros possíveis da *API*:
         * Um ou Mais parâmetros não são válidos
       
-      Erros possíveis do *Adquirente*:
-        * Validação do Adquirente ao Processar Transação
+      Erros possíveis da *Adquirente*:
+        * Validação da Adquirente ao Processar Transação
 
     schema:
       $ref: "#/definitions/ParametersError"
@@ -85,7 +85,7 @@ responses:
     description: |
       Serviço temporariamente indisponível. Tente novamente mais tarde
       Erros possíveis:
-        * Falha no Adquirente ao Processar Transação.
+        * Falha na Adquirente ao Processar Transação.
         * Erro de conexão com Adquirente. 
     schema:
       $ref: "#/definitions/Error"

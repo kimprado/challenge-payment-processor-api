@@ -124,7 +124,7 @@ func TestProcessTransaction(t *testing.T) {
 				return
 			}),
 			http.StatusBadRequest,
-			`{"title":"Validação do Adquirente ao Processar Transação"}`,
+			`{"title":"Validação da Adquirente ao Processar Transação"}`,
 			nil,
 		},
 		{
@@ -137,7 +137,7 @@ func TestProcessTransaction(t *testing.T) {
 				return
 			}),
 			http.StatusServiceUnavailable,
-			`{"title":"Falha no Adquirente ao Processar Transação"}`,
+			`{"title":"Falha na Adquirente ao Processar Transação"}`,
 			nil,
 		},
 		{
@@ -150,7 +150,7 @@ func TestProcessTransaction(t *testing.T) {
 				return
 			}),
 			http.StatusServiceUnavailable,
-			`{"title":"Falha no Adquirente ao Processar Transação"}`,
+			`{"title":"Falha na Adquirente ao Processar Transação"}`,
 			nil,
 		},
 		{
