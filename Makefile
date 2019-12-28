@@ -80,27 +80,27 @@ test-integration-container:
 test-all-container:
 	@docker-compose up --build test-all
 
-## test-load-ab-local		: Executa testes de carga com ApacheBench localmente. Use comando test-load-ab-container em caso de erro.
-test-load-ab-local:
-	@third_party/wait-for-it.sh localhost:3000 -s -t 30 -- ./test/load-test-apachebench.sh
-
 ## test-load-ab-container		: Executa testes de carga com ApacheBench e API containerizada.
 test-load-ab-container:
 	@docker-compose up -d --build  acquirers api redisdb test-load-ab
 	@docker-compose logs --tail="100" -f test-load-ab &
 
+## test-load-ab-local		: Executa testes de carga com ApacheBench localmente. Alternativa a test-load-ab-container.
+test-load-ab-local:
+	@third_party/wait-for-it.sh localhost:3000 -s -t 30 -- ./test/load-test-apachebench.sh
+
 ## test-load-ab-stop		: Interrompe containers de testes ApacheBench.
 test-load-ab-stop:
 	@docker-compose rm -fsv test-load-ab api-load
-
-## test-load-jmeter-local		: Executa testes de carga localmente com Jmeter. Ex: modo gráfico 'make test-load-jmeter-local gui=s'
-test-load-jmeter-local:
-	@./test/load-test-jmeter.sh $(gui)
 
 ## test-load-jmeter-container	: Executa testes de carga com Jmeter e API containerizada.
 test-load-jmeter-container:
 	@docker-compose up -d --build  acquirers api redisdb test-load-jmeter
 	@docker-compose logs --tail="100" -f test-load-jmeter &
+
+## test-load-jmeter-local		: Executa testes de carga localmente com Jmeter. Ex: modo gráfico 'make test-load-jmeter-local gui=s'
+test-load-jmeter-local:
+	@./test/load-test-jmeter.sh $(gui)
 
 ## infra-start			: Inicia serviços de dependência containerizados.
 infra-start:
