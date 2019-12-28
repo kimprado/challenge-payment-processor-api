@@ -33,7 +33,7 @@ paths:
         schema:
           $ref: "#/definitions/Transaction"
       security:
-        - APIKeyAuthorizationBearer: []
+        - JWTAuthorizationBearerToken: []
       responses:
         200:
           description: "Sucesso. Transação autorizada."
@@ -203,7 +203,39 @@ definitions:
     xml:
       name: "ParameterError"
 securityDefinitions:
-   APIKeyAuthorizationBearer:
+   JWTAuthorizationBearerToken:
      type: apiKey
      in: header
      name: Authorization
+     description: |
+      Autorização da API é feita com [JWT](http://jwt.io/) token.
+      Deve ser enviado header HTTP Authorization como a seguir
+        ```yaml
+          Authorization: Bearer <jwt_token>
+        ```
+      No campo abaixo para testes use o ***Exemplo:***
+        ```
+        Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwiYXVkIjoicGF5bWVudC1wcm9jZXNzb3ItYXBpIn0.uw-8pECPeJbme82nptMI-bsP8f4GvCx9x6b_GzM5wws
+        ```
+      A chave JWT '***challenge***' usada nos testes e em desenvolvimento é parametrizada via 
+      variáveis de ambiente. 
+      Nos testes o Container Docker recebe variáveis de ambiente definidas no arquivo
+      de configuração config.env.
+        ```
+          PROCESSOR_SECURITY_JWTKEY=challenge
+        ```
+
+      Para criar um token válido é preciso informar o atributo ***aud** = payment-processor-api*.
+      ```json
+      {
+        "sub": "1234567890",
+        "aud": "payment-processor-api"
+      }
+      ```
+
+      Para verificar o token acima use a chave 'challenge' no [link](https://jwt.io/#debugger-io?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwiYXVkIjoicGF5bWVudC1wcm9jZXNzb3ItYXBpIn0.uw-8pECPeJbme82nptMI-bsP8f4GvCx9x6b_GzM5wws).
+      
+
+
+
+
