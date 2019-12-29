@@ -6,7 +6,7 @@ CLI_MODE="-n"
 GUI_MODE=""
 MODE=""
 
-PATH_TEST_PLAN="./jmeter-load-test-plan.jmx"
+TEST_PLAN_PATH="./jmeter-load-test-plan.jmx"
 TEST_CASES_PATH="./jmeter-requests-config.csv"
 
 if [ -z "$1" ]
@@ -20,8 +20,8 @@ else
     export JMETER_EXIT_ON_ERROR=false
 fi
 
-if  [ ! -e $PATH_TEST_PLAN ]; then
-    PATH_TEST_PLAN="./test/jmeter-load-test-plan.jmx"
+if  [ ! -e $TEST_PLAN_PATH ]; then
+    TEST_PLAN_PATH="./test/jmeter-load-test-plan.jmx"
 fi
 
 if  [ ! -e $TEST_CASES_PATH ]; then
@@ -35,7 +35,7 @@ export JMETER_TEST_CASES_PATH=$TEST_CASES_PATH
 
 export HEAP="-Xms3g -Xmx4g -XX:MaxMetaspaceSize=3g -Xmn2g"
 
-jmeter $MODE -t $PATH_TEST_PLAN
+jmeter $MODE -t $TEST_PLAN_PATH
 
 # Verificar status do encerramento do Teste Jmeter, com "$?"
 if [ $? -eq 0 ]
