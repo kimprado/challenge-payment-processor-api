@@ -843,7 +843,7 @@
           "refId": "A"
         },
         {
-          "expr": "rate(challenge_payment_processor_api_http_req_processed_total[1m])",
+          "expr": "sum(rate(challenge_payment_processor_api_http_req_processed_total[1m])) by (instance,code,url)",
           "format": "time_series",
           "hide": false,
           "interval": "15s",
