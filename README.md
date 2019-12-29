@@ -11,8 +11,8 @@ Descrição da solução para o desafio do Processador de Pagamentos em Golang([
 - [Serviço Adquirentes](#Serviço-Adquirentes)
 - [Instalação e Execução](#Instalação-e-Execução)
 - [Ambiente Desenvolvimento](#Ambiente-Desenvolvimento)
-    - [Primeira Execução](#Primeira-Execução)
-        - [Instalação das Dependências](#Instalação-das-Dependências)
+    - [Instalação das Dependências](#Instalação-das-Dependências)
+    - [Configurações](#Configurações)
     - [Execução](#Execução)
     - [Infra Desenvolvimento](#Infra-Desenvolvimento)
     - [Infra Testes](#Infra-Testes)
@@ -270,9 +270,7 @@ http://localhost:9090
 
 Segue como instalar e configurar o ambiente e ferramentas de desenvolvimento do projeto.
 
-### Primeira Execução
-
-#### Instalação das Dependências
+### Instalação das Dependências
 
 Execute script [`configure`](configure) presente na raiz do repositório para fazer download e instalação das dependências. O script também cria, caso necessário, a configuração da IDE e de execução da aplicação.
 
@@ -296,6 +294,30 @@ Os seguintes arquivos são criados, caso necessário.
 - configs/config.env - Configurações injetadas como Variáveis de Ambiente no deploy com [Docker Compose](#Execução).
 - configs/config-dev.env - Configurações padão de desenvolvimento.
 - configs/config-dev.json - Configuração opcional da aplicação em tempo de desenvolvimento.
+
+### Configurações
+
+Para execução containerizada as Variáveis de Ambiente da aplicação devem ser declaradas no arquivo [`config.env`](configs/config.env), criado no passo anterior.
+
+```INI
+PROCESSOR_ENVIRONMENT_NAME="local"
+PROCESSOR_SERVER_PORT="3000"
+
+PROCESSOR_REDISDB_HOST="redisdb"
+PROCESSOR_REDISDB_PORT=6379
+
+PROCESSOR_STONEACQUIRER_URL="http://acquirers:8092/stone"
+PROCESSOR_STONEACQUIRER_CONCURRENTWORKERS=200
+
+PROCESSOR_CIELOACQUIRER_URL="http://acquirers:8092/cielo"
+PROCESSOR_CIELOACQUIRER_CONCURRENTWORKERS=200
+
+# PROCESSOR_SECURITY_ENABLE=false
+PROCESSOR_SECURITY_JWTKEY=challenge
+
+PROCESSOR_LOGGING_LEVEL={ROOT: INFO, infra.redis.db: INFO, webserver: INFO}
+
+```
 
 ### Execução
 
