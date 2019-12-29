@@ -206,7 +206,7 @@ ACQUIRERS_DELAY=100
 ACQUIRERS_LOGGING=DEBUG
 ```
 
-Transaçoes Autorizadas retornam HTTP Status Code *200*, e Negadas *400*, usados pelo [Processador](#Back-end).
+Transações Autorizadas retornam HTTP Status Code *200*, e Negadas *400*, usados pelo [Processador](#Back-end).
 
  - Todas as transações são autorizadas, exceto os casos descritos a seguir.
 
