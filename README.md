@@ -38,7 +38,7 @@ Foi implementada solução que permite fazer processamento de solicitação de a
 
 Processador foi implementado como API Rest que recebe requisições em um endpoint, enriquece requisição com dados sensíveis de cartão armazenados em banco de dados Redis, e depois encaminha requisição para serviço Rest da Adquirente.
 
-A seguir temos exemplos de utilização da API. Para uma documentação mais completa verifique o tópico [swagger](#Documentação-API).
+A seguir temos exemplo de utilização da API. Para uma documentação mais completa verifique o tópico [swagger](#Documentação-API).
 
  - Solicitação de Autorização
  
@@ -79,7 +79,7 @@ Uma chamada HTTP típica ao endpoint /transactions para Autorização segue este
 
 - `PaymentProcessorService` do negócio, colabora com `AcquirerActors` para enviar a transação para os Workers do Adquirente correto(Fan-in).
 
-- Na sequência algum Worker `Acquirer` recebe a transação(Fan-out), a enriquece com informações sensíveis armazenadas no Redis, e depois envia esses dados para o Serviço da Adquirente por meio de outra chamada HTTTP.
+- Na sequência algum Worker `Acquirer` recebe a transação(Fan-out), a enriquece com informações sensíveis armazenadas no Redis, e depois envia esses dados para o Serviço da Adquirente por meio de outra chamada HTTP.
 
 - Por último a resposta da Adquirente de Autorizada ou Negada é devolvida pela API. O Status Code do HTTP é 
 usado como indicativo de Autorizada(200) ou Negada(400).

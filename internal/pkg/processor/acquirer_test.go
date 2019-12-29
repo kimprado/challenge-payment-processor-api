@@ -21,7 +21,7 @@ func TestProcessAuthorizationRequest(t *testing.T) {
 	var repo *CardRepositoryFinderMock
 	var ar *AuthorizationRequest
 
-	url := "htttp://localhost/acquirer/stone"
+	url := "http://localhost/acquirer/stone"
 	s = newHTTPRequestSenderMock()
 	repo = newCardRepositoryFinderMock()
 	p = NewAcquirerParameter(repo, s)
@@ -77,7 +77,7 @@ func TestProcessAuthorizationRequestCases(t *testing.T) {
 	}{
 		{
 			"Requisição Válida",
-			"htttp://localhost/acquirer/stone",
+			"http://localhost/acquirer/stone",
 			newAuthorizationRequest("xpto121a", "João", 1000, 1),
 			newCardRepositoryFinderCaseMock(func(token string, chp chan string) (c *Card, err error) {
 				chp <- token
@@ -93,7 +93,7 @@ func TestProcessAuthorizationRequestCases(t *testing.T) {
 		},
 		{
 			"Erro Infra Repositório",
-			"htttp://localhost/acquirer/stone",
+			"http://localhost/acquirer/stone",
 			newAuthorizationRequest("xpto121a", "João", 1000, 1),
 			newCardRepositoryFinderCaseMock(func(token string, chp chan string) (c *Card, err error) {
 				chp <- token
@@ -106,7 +106,7 @@ func TestProcessAuthorizationRequestCases(t *testing.T) {
 		},
 		{
 			"Erro Cartão não encontrado",
-			"htttp://localhost/acquirer/stone",
+			"http://localhost/acquirer/stone",
 			newAuthorizationRequest("xpto121a", "João", 1000, 1),
 			newCardRepositoryFinderCaseMock(func(token string, chp chan string) (c *Card, err error) {
 				chp <- token
@@ -119,7 +119,7 @@ func TestProcessAuthorizationRequestCases(t *testing.T) {
 		},
 		{
 			"Transação negada pela Adquirente",
-			"htttp://localhost/acquirer/stone",
+			"http://localhost/acquirer/stone",
 			newAuthorizationRequest("xpto121a", "João", 1000, 1),
 			newCardRepositoryFinderCaseMock(func(token string, chp chan string) (c *Card, err error) {
 				chp <- token
@@ -130,7 +130,7 @@ func TestProcessAuthorizationRequestCases(t *testing.T) {
 				chp <- p
 				err = &http.StatusBadRequestError{
 					Message: "HTTP Bad Request",
-					Err:     &http.Error{URL: "htttp://localhost/acquirer/stone", Message: "Valor muito alto", Code: 400},
+					Err:     &http.Error{URL: "http://localhost/acquirer/stone", Message: "Valor muito alto", Code: 400},
 				}
 				return
 			}),
@@ -139,7 +139,7 @@ func TestProcessAuthorizationRequestCases(t *testing.T) {
 		},
 		{
 			"Transação com erro interno na Adquirente",
-			"htttp://localhost/acquirer/stone",
+			"http://localhost/acquirer/stone",
 			newAuthorizationRequest("xpto121a", "João", 1000, 1),
 			newCardRepositoryFinderCaseMock(func(token string, chp chan string) (c *Card, err error) {
 				chp <- token
@@ -150,7 +150,7 @@ func TestProcessAuthorizationRequestCases(t *testing.T) {
 				chp <- p
 				err = &http.ServerError{
 					Message: "Server Error",
-					Err:     &http.Error{URL: "htttp://localhost/acquirer/stone", Message: "Conexão DB", Code: 503},
+					Err:     &http.Error{URL: "http://localhost/acquirer/stone", Message: "Conexão DB", Code: 503},
 				}
 				return
 			}),
@@ -159,7 +159,7 @@ func TestProcessAuthorizationRequestCases(t *testing.T) {
 		},
 		{
 			"Requisição com erro HTTP não mapeado",
-			"htttp://localhost/acquirer/stone",
+			"http://localhost/acquirer/stone",
 			newAuthorizationRequest("xpto121a", "João", 1000, 1),
 			newCardRepositoryFinderCaseMock(func(token string, chp chan string) (c *Card, err error) {
 				chp <- token
@@ -170,7 +170,7 @@ func TestProcessAuthorizationRequestCases(t *testing.T) {
 				chp <- p
 				err = &http.Error{
 					Message: "Redirect",
-					Err:     &http.Error{URL: "htttp://localhost/acquirer/stone", Message: "Novo servidor", Code: 300},
+					Err:     &http.Error{URL: "http://localhost/acquirer/stone", Message: "Novo servidor", Code: 300},
 				}
 				return
 			}),
@@ -248,7 +248,7 @@ func TestCreateStoneWorker(t *testing.T) {
 
 	r = &AcquirerActorsMock{}
 
-	c.StoneAcquirer.URL = "htttp://localhost/acquirer/stone"
+	c.StoneAcquirer.URL = "http://localhost/acquirer/stone"
 	c.StoneAcquirer.ConcurrentWorkers = 10
 	s = newHTTPRequestSenderMock()
 	repo = newCardRepositoryFinderMock()
@@ -302,7 +302,7 @@ func TestCieloStoneWorker(t *testing.T) {
 
 	r = &AcquirerActorsMock{}
 
-	c.CieloAcquirer.URL = "htttp://localhost/acquirer/cielo"
+	c.CieloAcquirer.URL = "http://localhost/acquirer/cielo"
 	c.CieloAcquirer.ConcurrentWorkers = 10
 	s = newHTTPRequestSenderMock()
 	repo = newCardRepositoryFinderMock()
