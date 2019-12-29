@@ -87,8 +87,6 @@ A seguir é representado as interações entre as interfaces que os componentes 
 
 ![Diagrama de Sequência do Processamento de uma Transação](docs/ProcessTransaction.png "Processar Transação")
 
-
-
 Segue descrição dos principais pacotes e arquivos da solução.
 
  ```sh
