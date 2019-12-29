@@ -442,6 +442,7 @@ Para configurar um arquivo como Integration Test:
 - Build Tag - *integration*
     - Ex: // +build test integration
     - Ex: arquivo [api_it_test.go](internal/pkg/processor/api/api_it_test.go)
+    - Ex: arquivo [repository_it_test.go](internal/pkg/processor/repository_it_test.go)
 
 #### Unitários e Integração
 
