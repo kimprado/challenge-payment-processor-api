@@ -35,10 +35,6 @@ export JMETER_TEST_CASES_PATH=$TEST_CASES_PATH
 
 export HEAP="-Xms3g -Xmx4g -XX:MaxMetaspaceSize=3g -Xmn2g"
 
-echo "Aguardando Target..."
-# Esperar startup
-echo "'Aguardo' encerrado"
-
 jmeter $MODE -t $PATH_TEST_PLAN
 
 # Verificar status do encerramento do Teste Jmeter, com "$?"

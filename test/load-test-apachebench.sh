@@ -2,8 +2,6 @@
 
 set -e
 
-echo "Executando teste de carga"
-
 REQUEST_BODY_FILE="./apachebench-POST_Transaction.json"
 if  [ ! -e $REQUEST_BODY_FILE ]; then
     REQUEST_BODY_FILE="./test/apachebench-POST_Transaction.json"
