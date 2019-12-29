@@ -43,6 +43,7 @@
             "env": {
                 "ACQUIRERS_PORT": 8092,
                 "ACQUIRERS_DELAY": 100,
+                "ACQUIRERS_LOGGING": DEBUG,
             },
             "args": [],
             "showLog": true
