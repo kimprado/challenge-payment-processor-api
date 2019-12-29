@@ -8,6 +8,7 @@ Descrição da solução para o desafio do Processador de Pagamentos em Golang([
         - [Boilerplate Code](#Boilerplate-Code)
 - [Documentação API](#Documentação-API)
     - [Segurança](#Segurança)
+- [Serviço Adquirentes](#Serviço-Adquirentes)
 - [Instalação e Execução](#Instalação-e-Execução)
 - [Ambiente Desenvolvimento](#Ambiente-Desenvolvimento)
     - [Primeira Execução](#Primeira-Execução)
@@ -189,6 +190,36 @@ Para criar um token válido é preciso informar o atributo ***aud** = payment-pr
 ```
 
 Para verificar o token acima use a chave 'challenge' no [link](https://jwt.io/#debugger-io?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwiYXVkIjoicGF5bWVudC1wcm9jZXNzb3ItYXBpIn0.uw-8pECPeJbme82nptMI-bsP8f4GvCx9x6b_GzM5wws).
+
+## Serviço Adquirentes
+
+Foi criado serviço para simular Adquirentes. Implementado em go([`main.go`](test/_acquirers_server_mock/main.go)), responde requisições HTTP. 
+Foram simuladas apenas Stone([`stone.go`](test/_acquirers_server_mock/stone.go)) e Cielo([`cielo.go`](test/_acquirers_server_mock/cielo.go)).
+
+Para ficar um pouco mais real foi aplicado um delay(parametrizável) de 100ms, em todas as requisições recebidas.
+
+ - Configurações
+
+```INI
+ACQUIRERS_PORT=8092
+ACQUIRERS_DELAY=100
+ACQUIRERS_LOGGING=DEBUG
+```
+
+Transaçoes Autorizadas retornam HTTP Status Code *200*, e Negadas *400*, usados pelo [Processador](#Back-end).
+
+ - Todas as transações são autorizadas, exceto os casos descritos a seguir.
+
+    Adquirente | Campo | Comp. | Valor
+    --- | ---: | :---: | :---
+    Stone | Total | > | 1000
+    Stone | Portador | == |  João Antônio
+    Stone | Parcelas | > |  12
+    Cielo | Total | > | 500
+    Cielo | Portador | == |  João Antônio
+    Cielo | Parcelas | > |  6
+
+O serviço é iniciado pelo Docker Compose juntamente com o Processador, e demais dependências.
 
 ## Instalação e Execução
 
