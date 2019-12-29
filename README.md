@@ -588,7 +588,9 @@ docker-compose up --build test-load-jmeter      # Executa container de testes co
 
 #### Jmeter
 
-Execução de testes de carga com Jmeter. Executa vários cenários de processamento de transações, sendo algumas Autorizadas e outras Negadas por diversos motivos. Executa requisições contra *http://localhost:80/api/transactions*.
+Execução de testes de carga com Jmeter. Definido com 50 threads, mantém uma taxa de aproximadamente 500 req/sec.
+
+Executa vários cenários de processamento de transações, sendo algumas Autorizadas e outras Negadas por diversos motivos. Executa requisições contra *http://localhost:80/api/transactions*.
 
 A definição do plano de testes pode ser encontrada em  [`jmeter-load-test-plan.jmx`](test/jmeter-load-test-plan.jmx). 
 
@@ -689,7 +691,9 @@ Use os seguintes comandos para executar os testes de carga.
 
 #### ApacheBench
 
-Execução de testes de carga com ApacheBench. Executa requisições com apenas um tipo de request, de sucesso de autorização contra *http://localhost:80/api/transactions*.
+Execução de testes de carga com ApacheBench. Definido com 103 threads, mantém uma taxa de aproximadamente 1000 req/sec.
+
+Executa requisições com apenas um tipo de request, de sucesso de autorização contra *http://localhost:80/api/transactions*.
 
 Segue parametrização do teste, que pode ser encontrada em  [`load-test-apachebench.sh`](test/load-test-apachebench.sh).
 
