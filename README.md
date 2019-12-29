@@ -119,7 +119,7 @@ Segue descrição dos principais pacotes e arquivos da solução.
 │       │   ├── acquirer_test.go
 │       │   ├── api                 # Package da API HTTP da aplicação
 │       │   │   ├── api.go
-│       │   │   ├── apiIT_test.go   # Testes de integração
+│       │   │   ├── api_it_test.go   # Testes de integração
 │       │   │   ├── api_test.go     # Testes de unidade
 │       │   │   ├── errors.go       # Mapeia erros de negócio para erros HTTP Status Code
 │       │   ├── card.go             # Entidade com dados sensíveis persitida no Redis
@@ -128,7 +128,7 @@ Segue descrição dos principais pacotes e arquivos da solução.
 │       │   ├── processor.go        # Ponto de entrada do negócio. Atende solicitações da API
 │       │   ├── processor_test.go   # Testes de unidade com Mock Objects
 │       │   ├── repository.go       # Meio de Persitência com Redis
-│       │   ├── repositoryIT_test.go
+│       │   ├── repository_it_test.go
 │       └── webserver
 │           ├── home.go             # Gera HTML de página símples com links úteis
 │           ├── webserver.go        # Implementa servidor HTTP que expões API de negócio
@@ -343,7 +343,7 @@ Neste exemplo o pacote *config* possui os seguintes arquivos de teste:
     // ...
     ```
 
-- [configEnvVarsIT_test.go](internal/pkg/commom/config/configEnvVarsIT_test.go)
+- [config_envvars_it_test.go](internal/pkg/commom/config/config_envvars_it_test.go)
 
     ```go
     // +build test integration
@@ -352,7 +352,7 @@ Neste exemplo o pacote *config* possui os seguintes arquivos de teste:
     // ...
     ```
 
-- [configIT_test.go](internal/pkg/commom/config/configIT_test.go)
+- [config_it_test.go](internal/pkg/commom/config/config_it_test.go)
 
     ```go
     // +build test integration
@@ -438,10 +438,10 @@ go tool cover -func=coverage.out | tail -n 1
 
 Para configurar um arquivo como Integration Test:
 
-- Sufixo - *IT_test.go
+- Sufixo - *_it_test.go
 - Build Tag - *integration*
     - Ex: // +build test integration
-    - Ex: arquivo [apiIT_test.go](internal/pkg/processor/api/apiIT_test.go)
+    - Ex: arquivo [api_it_test.go](internal/pkg/processor/api/api_it_test.go)
 
 #### Unitários e Integração
 
