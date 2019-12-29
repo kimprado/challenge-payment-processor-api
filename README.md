@@ -370,7 +370,7 @@ go test ./internal/pkg/commom/config -tags="unit"
 
 Neste exemplo o pacote *config* possui os seguintes arquivos de teste:
 
-- [config_test.go](internal/pkg/commom/config/config_test.go)
+- [`config_test.go`](internal/pkg/commom/config/config_test.go)
 
     ```go
     // +build test unit
@@ -379,7 +379,7 @@ Neste exemplo o pacote *config* possui os seguintes arquivos de teste:
     // ...
     ```
 
-- [config_envvars_it_test.go](internal/pkg/commom/config/config_envvars_it_test.go)
+- [`config_envvars_it_test.go`](internal/pkg/commom/config/config_envvars_it_test.go)
 
     ```go
     // +build test integration
@@ -388,7 +388,7 @@ Neste exemplo o pacote *config* possui os seguintes arquivos de teste:
     // ...
     ```
 
-- [config_it_test.go](internal/pkg/commom/config/config_it_test.go)
+- [`config_it_test.go`](internal/pkg/commom/config/config_it_test.go)
 
     ```go
     // +build test integration
@@ -397,7 +397,7 @@ Neste exemplo o pacote *config* possui os seguintes arquivos de teste:
     // ...
     ```
 
-Apenas os testes do arquivo [config_test.go](internal/pkg/commom/config/config_test.go), com a build tag *"// +build test **unit**"*, serão executados pois no comando informamos *-tags="**unit**"*.
+Apenas os testes do arquivo [`config_test.go`](internal/pkg/commom/config/config_test.go), com a build tag *"// +build test **unit**"*, serão executados pois no comando informamos *-tags="**unit**"*.
 
 #### Unitários
 
@@ -417,7 +417,7 @@ Use os seguintes comandos para executar os testes unitários.
     make test-unit
     ```
 
-Estes comandos são atalho para a execução do script [test.sh](scripts/test.sh) com parâmetro *unit*, que resulta em:
+Estes comandos são atalho para a execução do script [`test.sh`](scripts/test.sh) com parâmetro *unit*, que resulta em:
 
 ```sh
 go test ./... -tags="unit" -cover -coverprofile=coverage.out
@@ -429,8 +429,8 @@ Para configurar um arquivo como Unit Test:
 - Sufixo - *_test.go
 - Build Tag - *unit*
     - Ex: // +build test unit
-    - Ex: arquivo [config_test.go](internal/pkg/commom/config/config_test.go)
-    - Ex: arquivo [processor_test.go](internal/pkg/processor/processor_test.go)
+    - Ex: arquivo [`config_test.go`](internal/pkg/commom/config/config_test.go)
+    - Ex: arquivo [`processor_test.go`](internal/pkg/processor/processor_test.go)
 
 #### Integração
 
@@ -465,7 +465,7 @@ Use os seguintes comandos para executar os testes de integração.
     make test-integration
     ```
 
-Estes comandos são atalho para a execução do script [test.sh](scripts/test.sh) com parâmetro *integration*, que resulta em:
+Estes comandos são atalho para a execução do script [`test.sh`](scripts/test.sh) com parâmetro *integration*, que resulta em:
 
 ```sh
 go test -parallel 10 -timeout 1m30s ./... -tags="integration" -cover -coverprofile=coverage.out
@@ -477,8 +477,8 @@ Para configurar um arquivo como Integration Test:
 - Sufixo - *_it_test.go
 - Build Tag - *integration*
     - Ex: // +build test integration
-    - Ex: arquivo [api_it_test.go](internal/pkg/processor/api/api_it_test.go)
-    - Ex: arquivo [repository_it_test.go](internal/pkg/processor/repository_it_test.go)
+    - Ex: arquivo [`api_it_test.go`](internal/pkg/processor/api/api_it_test.go)
+    - Ex: arquivo [`repository_it_test.go`](internal/pkg/processor/repository_it_test.go)
 
 #### Unitários e Integração
 
@@ -509,7 +509,7 @@ Use os seguintes comandos para executar os testes.
     make test-all
     ```
 
-Estes comandos são atalho para a execução do script [test.sh](scripts/test.sh) com parâmetro *all*, que resulta em:
+Estes comandos são atalho para a execução do script [`test.sh`](scripts/test.sh) com parâmetro *all*, que resulta em:
 
 ```sh
 go test -parallel 10 -timeout 1m30s ./... -tags="test" -cover -coverprofile=coverage.out
