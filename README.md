@@ -157,7 +157,10 @@ A dependência Wire gera arquivos Boilerplate Code.
 
 ## Documentação API
 
-Documentação disponibilizada no [arquivo](api/swagger.yml) implementada com swagger. Para acessar a documentação interativa execute o ambiente como descrito a seguir([Instalação e Execução](#Instalação-e-Execução)), e depois siga as instruções em [Infra Documentação](#Infra-Documentação).
+Documentação disponibilizada no arquivo [`swagger.yml`](api/swagger.yml). 
+Para acessar a documentação interativa execute o ambiente como descrito a seguir([Instalação e Execução](#Instalação-e-Execução)), e depois siga as instruções em [Infra Documentação](#Infra-Documentação).
+
+Consultas no formato Postman estão no arquivo [`ProcessTransactions.postman_collection.json`](tools/ProcessTransactions.postman_collection.json).
 
 ### Segurança
 
