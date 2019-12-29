@@ -285,6 +285,7 @@ As seguintes ferramentas serão provisionadas, caso necessário.
 - **Docker** - Ferramenta usada para containerização.
 - **Docker Compose** - Ferramenta usada para orquestração em ambiende de dev.
 - **Go** - Linguagem de programação.
+- **Wire** - Framework de Injeção de Dependências.
 - **Jmeter** - Ferramenta usada para testes de carga. Testes podem ser executados a partir de containers, e também localmente.
 
 Os seguintes arquivos são criados, caso necessário.
