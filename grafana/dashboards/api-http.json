@@ -189,15 +189,6 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(challenge_payment_processor_api_http_req_processed_total) by (instance,code,url)\n",
-          "format": "time_series",
-          "hide": true,
-          "interval": "15s",
-          "intervalFactor": 1,
-          "legendFormat": "Geral {{instance}} {{code}} {{url}}",
-          "refId": "A"
-        },
-        {
           "expr": "rate(challenge_payment_processor_api_http_req_processed_total{url=~\"/transactions.*\"}[1m])",
           "format": "time_series",
           "hide": false,
@@ -205,15 +196,6 @@
           "intervalFactor": 1,
           "legendFormat": "{{instance}} {{code}}  {{url}}  {{acquirer}}",
           "refId": "B"
-        },
-        {
-          "expr": "challenge_payment_processor_api_http_req_processed_total",
-          "format": "time_series",
-          "hide": true,
-          "interval": "15s",
-          "intervalFactor": 1,
-          "legendFormat": "Geral {{instance}} {{code}} {{url}}",
-          "refId": "C"
         }
       ],
       "thresholds": [],
@@ -834,15 +816,6 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(challenge_payment_processor_api_http_req_processed_total) by (instance,code,url)\n",
-          "format": "time_series",
-          "hide": true,
-          "interval": "15s",
-          "intervalFactor": 1,
-          "legendFormat": "Geral {{instance}} {{code}} {{url}}",
-          "refId": "A"
-        },
-        {
           "expr": "sum(rate(challenge_payment_processor_api_http_req_processed_total[1m])) by (instance,code,url)",
           "format": "time_series",
           "hide": false,
@@ -850,15 +823,6 @@
           "intervalFactor": 1,
           "legendFormat": "{{instance}} {{code}}  {{url}}",
           "refId": "B"
-        },
-        {
-          "expr": "challenge_payment_processor_api_http_req_processed_total",
-          "format": "time_series",
-          "hide": true,
-          "interval": "15s",
-          "intervalFactor": 1,
-          "legendFormat": "Geral {{instance}} {{code}} {{url}}",
-          "refId": "C"
         }
       ],
       "thresholds": [],
