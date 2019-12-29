@@ -245,7 +245,7 @@ Ao final o comando printa no console as URLs para acesso aos serviços.
 - http://localhost:3001/d/kKd-m3qiz (grafana)    - URL do Grafana
 - http://localhost:9090             (prometheus) - URL do Prometheus
 
-Ex:
+Exemplo:
 
 ```sh
 make run
