@@ -358,9 +358,11 @@ Os seguintes arquivos são criados, caso necessário.
 
 ## Testes
 
+Foram implementados diversos tipos de testes, divididos em Feedback rápido e Carga.
+
 ### Feedback rápido
 
-Fizemos separação dos testes em dois grupos principais, *[Unitários](#Unitários)* e *[Integração](#Integração)*. Os grupos de testes são separados em arquivos de testes diferentes. Usei o conceito de [Build Constraints ou Build Tag](http://golang.org/pkg/go/build/#hdr-Build_Constraints) para selecionar quais testes queremos executar.
+Estão dividos em *[Unitários](#Unitários)* e *[Integração](#Integração)*. Os grupos de testes são separados em arquivos de testes diferentes. Usei o conceito de [Build Constraints ou Build Tag](http://golang.org/pkg/go/build/#hdr-Build_Constraints) para selecionar quais testes queremos executar.
 
 Para especificar um grupo de teste executamos o comando *go test* com o parâmetro *-tags*.
 
