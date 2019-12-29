@@ -149,7 +149,7 @@ func cleanResources(tmpFile *os.File, tempDir string) {
 
 func createTmpFile() (tmpFile *os.File, tempDir string, err error) {
 
-	tempDir, err = ioutil.TempDir("", "challenge-exchange-api")
+	tempDir, err = ioutil.TempDir("", "challenge-payment-processor-api")
 	if err != nil {
 		return
 	}

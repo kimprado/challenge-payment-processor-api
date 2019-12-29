@@ -19,7 +19,7 @@ func initializeAppender(configuration config.Configuration) (appender logging.Fi
 	panic(wire.Build(app.AppSet))
 }
 
-// initializeApp inicializa ExchangeApp
+// initializeApp inicializa PaymentProcessorApp
 func initializeApp(configuration config.Configuration) (a *app.PaymentProcessorApp, err error) {
 	panic(wire.Build(app.AppSet))
 }
