@@ -636,6 +636,17 @@ e depois acesse http://localhost:80/.
 
 ### Grafana
 
+Exibe informações e métricas da aplicação coletadas por meio do Prometheus. 
+
+- Métricas expostas pela aplicação.
+
+    - Informações de Build e versão
+    - Informações de nome e versões das dependências no go.mod
+    - Tempo de Resposta das Requisições
+    - Total de requisições
+    - Total de falhas graves(panic)
+
+
 
 ## Empacotamento
 
