@@ -720,7 +720,7 @@ Use os seguintes comandos para executar os testes de carga.
 
 ## Instrumentação
 
-Aplicação possui divesos endpoints com informações e exibição de métricas.
+Aplicação possui diversos endpoints com informações e exibição de métricas.
 
 ### Links Úteis
 
