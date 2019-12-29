@@ -390,7 +390,7 @@ Foram implementados diversos tipos de testes, divididos em Feedback rápido e Ca
 
 Estão dividos em *[Unitários](#Unitários)* e *[Integração](#Integração)*. Os grupos de testes são separados em arquivos de testes diferentes. Usei o conceito de [Build Constraints ou Build Tag](http://golang.org/pkg/go/build/#hdr-Build_Constraints) para selecionar quais testes queremos executar.
 
-Para especificar um grupo de teste executamos o comando *go test* com o parâmetro *-tags*.
+Para especificar um grupo de teste executamos o comando `go test` com o parâmetro `-tags`.
 
 ```sh
 go test ./internal/pkg/commom/config -tags="unit"
