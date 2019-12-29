@@ -24,6 +24,9 @@ Descrição da solução para o desafio do Processador de Pagamentos em Golang([
         - [Jmeter](#Jmeter)
         - [ApacheBench](#ApacheBench)
 - [Empacotamento](#Empacotamento)
+- [Instrumentação](#Instrumentação)
+    - [Links Úteis](#Links-Úteis)
+    - [Grafana](#Grafana)
 - [Comandos Make](#comandos-make)
 - [Melhorias](#Melhorias)
 
@@ -616,6 +619,23 @@ Use os seguintes comandos para executar os testes de carga.
     ```sh
     make test-load-ab-local
     ```
+
+## Instrumentação
+
+Aplicação possui divesos endpoints com informações e exibição de métricas.
+
+### Links Úteis
+
+Página Web na raiz da API com diversos links para endpoints com informações de versão, documentação, build e configurações carregadas.
+
+Execute
+```sh
+make run
+```
+e depois acesse http://localhost:80/.
+
+### Grafana
+
 
 ## Empacotamento
 
