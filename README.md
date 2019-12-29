@@ -223,14 +223,21 @@ O serviço é iniciado pelo Docker Compose juntamente com o Processador, e demai
 
 ## Instalação e Execução
 
-Para fazer deploy e execução do projeto rode os seguintes comandos:
+Para fazer deploy e execução do projeto rode os seguintes comandos.
 
 ```sh
 ./configure
+```
+
+Após executar feche e abra outro terminal. Alguns comandos talvez ainda precisem ser executados com sudo, ou reinicie o computador.
+
+Execute aplicaçao com comando
+
+```sh
 make run
 ```
 
-Ao final na execução o comando printa no console as URLs para acesso aos serviço.
+Ao final o comando printa no console as URLs para acesso aos serviços.
 
 - http://localhost:80/              (nginx)      - Página web com links úteis
 - http://0.0.0.0:3000/              (API)        - URL da API
