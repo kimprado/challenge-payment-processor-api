@@ -81,7 +81,7 @@ test-all-container:
 	@docker-compose up --build test-all
 
 ## test-load-ab-container		: Executa testes de carga com ApacheBench e API containerizada.
-test-load-ab-container:
+test-load-ab-container: infra-monitoring-start
 	@docker-compose up -d --build  acquirers api redisdb test-load-ab
 	@docker-compose logs --tail="100" -f test-load-ab &
 
@@ -94,7 +94,7 @@ test-load-ab-stop:
 	@docker-compose rm -fsv test-load-ab api-load
 
 ## test-load-jmeter-container	: Executa testes de carga com Jmeter e API containerizada.
-test-load-jmeter-container:
+test-load-jmeter-container: infra-monitoring-start
 	@docker-compose up -d --build  acquirers api redisdb test-load-jmeter
 	@docker-compose logs --tail="100" -f test-load-jmeter &
 
