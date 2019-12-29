@@ -491,6 +491,104 @@ docker-compose up --build test-load-jmeter      # Executa container de testes co
 
 #### Jmeter
 
+Execução de testes de carga com Jmeter. Executa vários cenários de processamento de transações, sendo algumas Autorizadas e outras Negadas por diversos motivos. Executa requisições contra *http://localhost:80/api/transactions*.
+
+A definição do plano de testes pode ser encontrada em  [`jmeter-load-test-plan.jmx`](test/jmeter-load-test-plan.jmx). 
+
+![Screenshot do template de Requisição Jmeter](docs/jmeter-request.png "Template de Requisição")
+
+A execução do teste é realizda com o script [`load-test-jmeter.sh`](test/load-test-jmeter.sh).
+
+As configurações do plano de testes são carregadas dinamicamente por meio de Variáveis de Ambiente.
+
+- Configuração com Variáveis de Ambiente
+
+    ```sh
+    export JMETER_API_HOST=localhost    # Host do target 
+    export JMETER_API_PORT=80           # Porta do target 
+    export JMETER_API_CONTEXT=/api      # Contexto do target 
+    export JMETER_TEST_CASES_PATH=./jmeter-requests-config.csv # Arquivo com definição de cenários
+    export JMETER_EXIT_ON_ERROR=true    # Força saída do programa com código 1 (Indicativo de erro)
+    ```
+
+- Cenários de teste
+
+    São definidos no arquivo [`jmeter-requests-config.csv`](test/jmeter-requests-config.csv), e descrevem parâmetros e respostas esperadas para cada requisição.
+    Segue exemplo da definição de um cenário.
+
+    ```csv
+    testCaseName;requestBody;requestHeaderAcquirerID;responseStatusCode;responseBody
+    Stone - Valid - dados básicos;{"token":"xpto121a","holder":"João","total":1000,"installments":1};Stone;200;{"message":"Transação autorizada"}
+    ```
+
+    testCaseName | requestBody | requestHeaderAcquirerID | responseStatusCode | responseBody
+    --- | --- | --- | --- | --- 
+    Stone - Valid - dados básicos | {"token":"xpto121a","holder":"João","total":1000,"installments":1} | Stone | 200 | {"message":"Transação autorizada"}
+    Stone - Invalid - Parâmetros vazios | {"token":"xpto121a"} | Stone | 400 | {"title":"Validação da Adquirente ao Processar Transação","detail":"Valor inválido"}
+    Cielo - Valid - dados básicos | {"token":"xpto121a","holder":"João","total":500,"installments":1} | Cielo | 200 | {"message":"Transação autorizada"}
+    Rede - Invalid - Adquirente não cadastrada | {"token":"xpto121a","holder":"João","total":500,"installments":1} | Rede | 404 | {"title":"Falha ao enviar requisição para Adquirente","detail":"Adquirente \"Rede\" inexistente"}
+
+- Validação dos Cenários
+
+    É usado programação Groovy para aplicar assertions dos cenários. 
+    Caso alguma condição falhe é printado na tela e o processo encerrado com status 1, que indica falha na validação de algum cenário.
+    Segue script Groovy extraído da [configuração do Jmeter](test/jmeter-load-test-plan.jmx).
+
+    ```groovy
+    def responseStatusCode = vars.get("responseStatusCode"); // Obtém assertion vinda do CSV
+    def responseBody = vars.get("responseBody"); // Obtém assertion vinda do CSV
+    def failureMessage = "";
+
+    if(!responseStatusCode.equals(prev.getResponseCode())){
+        failureMessage += "Expected <status code> ["+ responseStatusCode +"] but we got instead [" + prev.getResponseCode() + "]\n" ;
+    }
+
+    if (!prev.getResponseDataAsString().startsWith(responseBody)) {
+        failureMessage += "Expected <response body> ["+ responseBody + "]. Response body is:[" + prev.getResponseDataAsString() + "]\n";
+    }
+
+    if (failureMessage.trim()) {
+        // code ...
+        AssertionResult.setFailureMessage(failureMessage);
+        AssertionResult.setFailure(true);
+        println "Erro ao executar teste\n"
+        println failureMessage;
+
+        if (vars.get("exit-on-error").toBoolean()) { // Encerra com erro caso exit-on-error=true
+            System.exit(1);
+        }
+    }
+    ```
+
+    Ao final da execução containerizada é mostrado no console '*exited with code **0***', que indica que todos os testes passaram com sucesso,
+    ou '*exited with code **1***', em casso de falha.
+
+    ```sh
+    payment-processor_test-load-jmeter_1 exited with code 0 # Sucesso
+    payment-processor_test-load-jmeter_1 exited with code 1 # Falha
+    ```
+
+Use os seguintes comandos para executar os testes de carga.
+
+- Ambiente Containerizado(Headless CLI mode).
+
+    ```sh
+    make test-load-jmeter-container
+    ```
+
+- Ambiente Local(Headless CLI mode).
+
+    ```sh
+    make test-load-jmeter-local
+    ```
+
+- Ambiente Local em modo gráfico(GUI mode).
+
+    Inicializa o Jmeter em modo gráfico para edição do script .jmx.
+
+    ```sh
+    make test-load-jmeter-local gui=s
+    ```
 
 #### ApacheBench
 
