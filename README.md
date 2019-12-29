@@ -7,6 +7,7 @@ Descrição da solução para o desafio do Processador de Pagamentos em Golang([
     - [Dependências](#Dependências)
         - [Boilerplate Code](#Boilerplate-Code)
 - [Documentação API](#Documentação-API)
+    - [Segurança](#Segurança)
 - [Instalação e Execução](#Instalação-e-Execução)
 - [Ambiente Desenvolvimento](#Ambiente-Desenvolvimento)
     - [Primeira Execução](#Primeira-Execução)
@@ -152,16 +153,44 @@ Segue descrição dos principais pacotes e arquivos da solução.
 
 A dependência Wire gera arquivos Boilerplate Code.
 
-
 - `wire_gen.go`
 - `wire_gen_test.go` (renomeados por script)
-
-
 
 ## Documentação API
 
 Documentação disponibilizada no [arquivo](api/swagger.yml) implementada com swagger. Para acessar a documentação interativa execute o ambiente como descrito a seguir([Instalação e Execução](#Instalação-e-Execução)), e depois siga as instruções em [Infra Documentação](#Infra-Documentação).
 
+### Segurança
+
+Autorização da API é feita com [JWT](http://jwt.io/) token.
+Deve ser enviado Header HTTP Authorization como a seguir.
+```yaml
+Authorization: Bearer <jwt_token>
+```
+
+Exemplo.
+
+```
+Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwiYXVkIjoicGF5bWVudC1wcm9jZXNzb3ItYXBpIn0.uw-8pECPeJbme82nptMI-bsP8f4GvCx9x6b_GzM5wws
+```
+
+A chave JWT '***challenge***' usada nos testes e em desenvolvimento é parametrizada via 
+variável de ambiente. 
+Nos testes o Container Docker recebe variáveis de ambiente definidas no arquivo
+de configuração config.env.
+```INI
+PROCESSOR_SECURITY_JWTKEY=challenge
+```
+
+Para criar um token válido é preciso informar o atributo ***aud** = payment-processor-api*.
+```json
+{
+"sub": "1234567890",
+"aud": "payment-processor-api"
+}
+```
+
+Para verificar o token acima use a chave 'challenge' no [link](https://jwt.io/#debugger-io?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwiYXVkIjoicGF5bWVudC1wcm9jZXNzb3ItYXBpIn0.uw-8pECPeJbme82nptMI-bsP8f4GvCx9x6b_GzM5wws).
 
 ## Instalação e Execução
 
