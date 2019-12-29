@@ -234,7 +234,7 @@ Ao final na execução o comando printa no console as URLs para acesso aos servi
 
 - http://localhost:80/              (nginx)      - Página web com links úteis
 - http://0.0.0.0:3000/              (API)        - URL da API
-- http://localhost:80/docs          (swagger)    - DOcumentação interativa
+- http://localhost:80/docs          (swagger)    - Documentação interativa
 - http://localhost:3001/d/kKd-m3qiz (grafana)    - URL do Grafana
 - http://localhost:9090             (prometheus) - URL do Prometheus
 
