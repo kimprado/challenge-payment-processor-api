@@ -494,13 +494,30 @@ docker-compose up --build test-load-jmeter      # Executa container de testes co
 
 #### ApacheBench
 
-- Execução de testes de carga.
+Execução de testes de carga com ApacheBench. Executa requisições com apenas um tipo de request, de sucesso de autorização contra *http://localhost:80/api/transactions*.
 
-Executa requisições contra *http://localhost:80/api/transactions*.
+Segue parametrização do teste, que pode ser encontrada em  [`load-test-apachebench.sh`](test/load-test-apachebench.sh).
 
 ```sh
-make test-load-ab-container
+ab -n 610000 -c 103 -p $REQUEST_BODY_FILE -T application/json \
+    -H 'X-ACQUIRER-ID: Stone' \
+    -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwiYXVkIjoicGF5bWVudC1wcm9jZXNzb3ItYXBpIn0.uw-8pECPeJbme82nptMI-bsP8f4GvCx9x6b_GzM5wws' \
+    -m POST http://localhost:80/api/transactions
 ```
+
+Use os seguintes comandos para executar os testes de carga.
+
+- Ambiente Containerizado.
+
+    ```sh
+    make test-load-ab-container
+    ```
+
+- Ambiente Local.
+
+    ```sh
+    make test-load-ab-local
+    ```
 
 ## Empacotamento
 
