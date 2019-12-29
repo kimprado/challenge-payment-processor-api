@@ -636,7 +636,7 @@ e depois acesse http://localhost:80/.
 
 ### Grafana
 
-Exibe informações e métricas da aplicação coletadas por meio do Prometheus. 
+Exibe informações e métricas da aplicação coletadas por meio do Prometheus. Use o [link](http://localhost:3001/d/kKd-m3qiz/requisicoes-http-payment-processor-api?orgId=1&kiosk=tv).
 
 - Métricas expostas pela aplicação.
 
@@ -645,6 +645,27 @@ Exibe informações e métricas da aplicação coletadas por meio do Prometheus.
     - Tempo de Resposta das Requisições
     - Total de requisições
     - Total de falhas graves(panic)
+
+Com as métricas os seguintes gráficos e informações podem ser exibidos.
+
+![Screenshot de Monitoração com Grafana](docs/grafana-monitoracao.png "Monitoração com Grafana")
+
+No print acima é possível observar o comportamento ao executar o teste de carga Jmeter,
+e logo depois também iniciar o teste com ApacheBench. 
+
+Vemos que os recursos da máquina local ficaram limitados e algumas indisponibilidades ocorreram(Respostas com Status Code 503).
+
+Outras informaçoes podem ser verificadas.
+
+- Versão da plicação na tag **v0.0.1**.
+- Revião(commit) da plicação **c901452**.
+- Aplicação compilada com **go1.13.4**.
+- Dependência indireta **github.com/prometheus/procfs** está na versão **v0.0.5**.
+- Não há errors graves, sendo **0**.
+- No gráfico 'Pedidos de Autorização por segundo - status/endpoint/adquirente' a **Stone** recebeu muitas requisições, chegando a fazer quase **900 autorizações de sucesso** por segundo(linha vermelha no gráfico que representa Status 200 para Stone).
+- Também é possível ver que **Rede** não é adquirente válida(Status 404), e Stone teve 20 indisponibilidades/segundo(Status 503).
+- **524** foi a média de requisições/segundo dos últimos 5 minutos.
+- **1%** das requisições começaram a levar mais de 400ms, e atrasando cada vez mais. As médias também ficaram pouco piores.
 
 
 
