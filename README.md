@@ -346,7 +346,7 @@ Neste exemplo o pacote *config* possui os seguintes arquivos de teste:
 - [configEnvVarsIT_test.go](internal/pkg/commom/config/configEnvVarsIT_test.go)
 
     ```go
-    // +build testenvvars
+    // +build test integration
 
     package config
     // ...
